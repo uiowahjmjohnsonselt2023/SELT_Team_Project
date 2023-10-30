@@ -7,7 +7,7 @@ RUN apt-get update && \
     build-essential \
     nodejs
 
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile* ./
 
 RUN gem install bundler --no-document -v 1.17.3 && \
     bundle install --jobs 4
