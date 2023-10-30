@@ -10,4 +10,8 @@ To spool down the containers run: ```docker-compose down```
 
 To restart containers run: 
 ```docker restart \<container name>```. You can view container names by running docker ps
+
+To go into the docker's container:
+```docker exec -it selt-team-project-ruby-1 bash```
+
 # test
