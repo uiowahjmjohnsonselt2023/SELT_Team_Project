@@ -1,17 +1,20 @@
 FROM ruby:2.6.6
 
-WORKDIR /app
-
+# update image and install dependencies
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
     nodejs
 
-COPY Gemfile* ./
+# install bundler to the specified version
+RUN gem install bundler --no-document -v 1.17.3
 
-RUN gem install bundler --no-document -v 1.17.3 && \
-    bundle install --jobs 4
+# create app directory
+WORKDIR /app
 
-COPY . .
+# copy Gemfile and install gems
+ADD ./Gemfile* ./
+RUN bundle install
 
-EXPOSE 3000
+# copy the rest of the app
+COPY . . 
