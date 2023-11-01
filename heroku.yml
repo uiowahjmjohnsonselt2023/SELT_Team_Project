@@ -4,4 +4,4 @@ build:
   docker: 
     web: Dockerfile
 run: 
-  web: bundle exec rails s -p ${PORT:-3000}
+  web: bundle exec puma -C config/puma.rb

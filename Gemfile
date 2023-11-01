@@ -9,6 +9,7 @@ gem 'uglifier', '>= 2.7.1'
 gem 'jquery-rails'
 
 gem 'nokogiri', '~> 1.13.1'
+gem 'puma'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
