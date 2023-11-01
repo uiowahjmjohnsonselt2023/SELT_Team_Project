@@ -4,4 +4,4 @@ build:
   docker: 
     web: Dockerfile
 run: 
-  web: bundle exec rails s -p $PORT
+  web: bundle exec rails s -p ${PORT:-3000}
