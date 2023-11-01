@@ -3,13 +3,22 @@ version: "3.8"
 name: "selt-team-project"
 
 services: 
-  ruby:
-    platform: linux/x86_64
+  app:
+    platform: linux/x86_64 
+    container_name: app
     build: ./
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bundle exec puma -C config/puma.rb
     working_dir: /app
     volumes: 
       - .:/app
     ports: 
       - "3000:3000"
-
+  #   depends_on:
+  #     - prod_db
+  # prod_db: 
+  #   container_name: pg
+  #   image: postgres:13.1-alpine
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
