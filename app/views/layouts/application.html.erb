@@ -1,14 +1,33 @@
+<%# Our "base" layout should be a valid HTML document. %>
 <!DOCTYPE html>
 <html>
-<head>
-  <title>App</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>Ebay2!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <%= stylesheet_link_tag 'application', 'media' => 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
 
-<%= yield %>
+    <div class="navbar navbar-expand-lg bg-primary text-white mb-3">
+      <div class="topnav-wrapper">
+         <%= link_to "Ebay2", root_path %>   
+        <%= form_tag :search_products, :method => "get", :class => "search_form" do  %>
+          <%= text_field_tag :search, params[:search] %>
+        <%end%>
+        <%= link_to 'Cart', '/cart'%>   
+        <%= link_to 'Profile', '/profile' %>
+        <%= link_to 'About', "/about" %>
+        </div>
+    </div>
 
-</body>
+    <div class="container">
+      <%# Render "flash" messages in our application. This loads _flash.erb %>
+      <%= render 'layouts/flash' %>
+      <main id="main">
+        <%= yield %>
+      </main>
+    </div>
+  </body>
 </html>
