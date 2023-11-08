@@ -2,19 +2,43 @@
   <h2>Profile</h2>
   <div class = "user-info">
     <% @user[0] do |user|%>
-      <h4><% user.name %></h4>
+      <h4><%= user.name %></h4>
       <h4>Placeholder Address</h4>
       <h4>Placeholder email</h4>
       <h4>Placeholder phone</h4>
       <h4>Placeholder payment</h4>
-    <% end %> %>
-
+    <% end %>
   </div>
 </div>
 
+<% #For now, this displays the first product in the database to get a feel for the functionality %>
+<div class = "recent-order-wrapper">
+  <h3>Recent Orders</h3>
+  <% @products[0] do |product| %>
+    <div class="recent-roder">
+      <h4><%= product.name %></h4>
+      <p><%= product.descripton %></p>
+      <p>$<%= product.price %></p>
+      <%= link_to "More info" %>
+    </div>
+</div>
+<% #Currently this just displays the second product listed in the db, mostly so we can visualize what it looks like %>
+<div class = "current-postings-wrapper">
+  <% @products[1] do |product| %>
+    <div class="product">
+      <h4><%= product.name %></h4>
+      <p><%= product.descripton %></p>
+      <p>$<%= product.price %></p>
+      <%= link_to "More info" %>
+      <% end %>
+    </div>
+</div>
+
+<% # A cart wrapper, just to test the current functionality. No clue if this will stick around %>
 <div class = "cart-wrapper">
   <h3>Current Cart</h3>
   <div class = current-cart>
     <%= link_to "See Cart",view_cart_path %>
+    <% end %>
   </div>
 </div>
