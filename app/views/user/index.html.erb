@@ -1,8 +1,14 @@
 <div class = "user-info-wrapper">
   <h2>Profile</h2>
   <div class = "user-info">
-    <p>Placeholder for username</p>
-    <p>Placeholder </p>
+    <% @user[0] do |user|%>
+      <h4><% user.name %></h4>
+      <h4>Placeholder Address</h4>
+      <h4>Placeholder email</h4>
+      <h4>Placeholder phone</h4>
+      <h4>Placeholder payment</h4>
+    <% end %> %>
+
   </div>
 </div>
 
