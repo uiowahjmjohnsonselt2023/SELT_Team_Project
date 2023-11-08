@@ -17,5 +17,5 @@ Rails.application.routes.draw do
 
   # post 'users' => 'user#flash_test', as: 'flash_test'
 
-  post 'flash_test' => 'user#flash_test', as: 'users'
+  post 'users' => 'user#flash_test', as: 'users'
 end
