@@ -5,8 +5,17 @@
 
 <div class="product-list-wrapper">
     <h3>Products</h3>
-
-    <% # Will contain the code to display the list of products%>    
+    <div class="product-list">
+        <% @products.each do |product| %>
+            <div class="product">
+                <h4><%= product.name %></h4>
+                <p><%= product.descripton %></p>
+                <p>$<%= product.price %></p>
+                <%= link_to "Add to Cart", add_to_cart_path(product.id), method: :post %>
+                <%= link_to "More info" %>
+            </div>
+        <% end %>
+    </div>
 </div>
 
 <div class="footer-wrapper">

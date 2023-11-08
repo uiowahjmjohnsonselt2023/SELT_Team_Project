@@ -16,8 +16,8 @@
         <%= form_tag :search_products, :method => "get", :class => "search_form" do  %>
           <%= text_field_tag :search, params[:search] %>
         <%end%>
-        <%= link_to 'Cart', '/cart'%>   
-        <%= link_to 'Profile', '/profile' %>
+        <%= link_to 'Cart', view_cart_path%>
+        <%= link_to 'Profile', users_path  %>
         <%= link_to 'About', "/about" %>
         </div>
     </div>
