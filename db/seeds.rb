@@ -12,3 +12,7 @@ Product.create(name: "Orange", descripton: "A delicious orange", price: 2.99, qu
 Product.create(name: "Pineapple", descripton: "A delicious pineapple", price: 3.99, quantity: 100)
 Product.create(name: "Grape", descripton: "A delicious grape", price: 4.99, quantity: 100)
 Product.create(name: "Strawberry", descripton: "A delicious strawberry", price: 5.99, quantity: 100)
+
+# A test user, only meant for testing purposes is listed below.
+
+User.create(name: "testUser", email: "fakeEmail@fake.com", password_digest: "fakeField")
