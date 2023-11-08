@@ -15,4 +15,9 @@ class UserController < ApplicationController
       render 'new'
     end
   end
+
+  def flash_test
+    flash[:notice] = "Test Flash, for dev purposes only."
+  end
+
 end
