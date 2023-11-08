@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20231106232218) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user", force: :cascade do |t|
+    t.string  "name"
+    t.string  "password_digest"
+    t.string  "email"
+    t.string  "phone_number"
+    t.boolean "verified_seller"
+    t.integer "rating"
+    t.string  "profile_picture"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
