@@ -17,6 +17,7 @@ class UserController < ApplicationController
   end
 
   def flash_test
+    redirect_to :action => :index
     flash[:notice] = "Test Flash, for dev purposes only."
   end
 
