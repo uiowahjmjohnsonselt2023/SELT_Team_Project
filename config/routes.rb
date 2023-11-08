@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root :to => redirect('/index')
 
-  resources :products, :users
+  resources :products, :user
 
   get 'index' => 'main#index'
 
