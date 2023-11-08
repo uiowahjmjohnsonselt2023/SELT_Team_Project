@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root :to => redirect('/index')
 
-  resources :products, :user
+  resources :products, :users
 
   get 'index' => 'main#index'
 
@@ -17,5 +17,5 @@ Rails.application.routes.draw do
 
   # post 'users' => 'user#flash_test', as: 'flash_test'
 
-  get '/users' => 'user#flash_test', as: 'users'
+  get '/users' => 'user#index', as: 'users'
 end
