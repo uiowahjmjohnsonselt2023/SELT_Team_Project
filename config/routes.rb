@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   # a test route to see if I can get the users page to flash a message
   # This is just for testing purposes. This route should be commented out or removed before pushing to main
 
-  post 'users' => 'user#flash_test', as: 'flash_test'
 
+  # post 'users' => 'user#flash_test', as: 'flash_test'
+
+  post 'flash_test' => 'user#flash_test', as: 'user'
 end
