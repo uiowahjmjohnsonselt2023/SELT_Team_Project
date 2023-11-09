@@ -1,36 +1,34 @@
 <div class = "user-info-wrapper">
   <h2>Profile</h2>
   <div class = "user-info">
-    <% @user[0] do |user|%>
-      <h4><%= user.name %></h4>
+    <% testUser = @user[0] %>
+      <h4><%= testUser.name %></h4>
       <h4>Placeholder Address</h4>
       <h4>Placeholder email</h4>
       <h4>Placeholder phone</h4>
       <h4>Placeholder payment</h4>
-    <% end %>
   </div>
 </div>
 
 <% #For now, this displays the first product in the database to get a feel for the functionality %>
 <div class = "recent-order-wrapper">
   <h3>Recent Orders</h3>
-  <% @products[0] do |product| %>
+  <% prod = @products[0] %>
     <div class="recent-roder">
-      <h4><%= product.name %></h4>
-      <p><%= product.descripton %></p>
-      <p>$<%= product.price %></p>
+      <h4><%= prod.name %></h4>
+      <p><%= prod.descripton %></p>
+      <p>$<%= prod.price %></p>
       <%= link_to "More info" %>
     </div>
 </div>
 <% #Currently this just displays the second product listed in the db, mostly so we can visualize what it looks like %>
 <div class = "current-postings-wrapper">
-  <% @products[1] do |product| %>
+  <% prod_two = @products[1] %>
     <div class="product">
-      <h4><%= product.name %></h4>
-      <p><%= product.descripton %></p>
-      <p>$<%= product.price %></p>
+      <h4><%= prod_two.name %></h4>
+      <p><%= prod_two.descripton %></p>
+      <p>$<%= prod_two.price %></p>
       <%= link_to "More info" %>
-      <% end %>
     </div>
 </div>
 
@@ -39,6 +37,5 @@
   <h3>Current Cart</h3>
   <div class = current-cart>
     <%= link_to "See Cart",view_cart_path %>
-    <% end %>
   </div>
 </div>
