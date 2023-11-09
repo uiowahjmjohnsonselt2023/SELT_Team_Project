@@ -23,6 +23,7 @@ class ProductController < ApplicationController
             @match = Product.where("name LIKE ?", "%#{@input}%")
             if @match.empty?
                 @match = Product.all
+                flash[:notice] = 'No products found.'
             end
         end
         render 'show'
