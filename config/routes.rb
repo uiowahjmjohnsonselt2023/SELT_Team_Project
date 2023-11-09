@@ -14,4 +14,8 @@ Rails.application.routes.draw do
   #this is the route to go to the users page. It's really hacked together, but it does work right now.
 
   get '/users' => 'user#index', as: 'users'
+
+  get '/users/edit' => 'user#edit', as:'edit'
+
+  #post '/users/edit' => 'user#edit', as: 'edit'
 end

@@ -19,7 +19,7 @@ class UserController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+
   end
 
   # A deprecated test function that never got finished. Do not use - will be removed at a later date.
