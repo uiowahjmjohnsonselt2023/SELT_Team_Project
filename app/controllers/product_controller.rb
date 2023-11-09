@@ -16,9 +16,15 @@ class ProductController < ApplicationController
     end
 
     def search
-        #@product = Product.all.where("lower(name) LIKE :search", search: "%#{params[:search].downcase}%")
-        @input = params[:search]
-        @match = Product.where("name LIKE ?", "%#{@input}%")
+        if params[:search].blank?
+            @match = Product.all
+        else
+            @input = params[:search]
+            @match = Product.where("name LIKE ?", "%#{@input}%")
+            if @match.empty?
+                @match = Product.all
+            end
+        end
         render 'show'
     end 
 end
