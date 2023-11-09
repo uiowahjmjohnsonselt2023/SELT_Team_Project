@@ -1,11 +1,10 @@
 # SELT_Team_Project
 
-To run this application, you can either set this up locally in your own environment, or more preferably have a docker engine installed for even easier setup. 
-Clone the repo, and ensure you're terminal is located within its directory. You can edit this as any normal rails application. 
-
+This application is the SELT final project where we are tasked at creating a marketplace application for the customer. They want their clients to be able to buy, and sell various products and take a cut of the profits as their buisness model. If the customer decides to log in they should be able to see all products sold, and a see a table of their profits, and even adjust the payscale to see potential future profits. 
 
 ## Cloning notes
-This application is the SELT final project where we are tasked at creating a marketplace application for the customer. They want their clients to be able to buy, and sell various products and take a cut of the profits as their buisness model. If the customer decides to log in they should be able to see all products sold, and a see a table of their profits, and even adjust the payscale to see potential future profits. 
+To run this application, you can either set this up locally in your own environment, or more preferably have a docker engine installed for even easier setup. 
+Clone the repo, and ensure you're terminal is located within its directory. You can edit this as any normal rails application. 
 
 ## Docker Notes
 Steps to setup initial docker compose development. 
