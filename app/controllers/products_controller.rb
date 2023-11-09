@@ -1,4 +1,4 @@
-class ProductController < ApplicationController
+class ProductsController < ApplicationController
     def index 
         @products = Product.all
     end
@@ -17,8 +17,10 @@ class ProductController < ApplicationController
     def create 
         @product = Product.new(product_params)
         if @product.save
-            redirect_to @product
+            flash[:success] = "Product created"
+            redirect_to product_path(@product)
         else
+            flash[:warn] = "Product not created. Try again."
             render 'new'
         end
     end

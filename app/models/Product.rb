@@ -1,7 +1,9 @@
 class Product < ActiveRecord::Base
     validates :name, presence: true
     validates :price, presence: true
-
+    validates :quantity, presence: true
+    validates :description, presence: true
+    
     # belongs_to :user    #these tables havent been created yet, so the associations are commented out
     # has_many :reviews
 

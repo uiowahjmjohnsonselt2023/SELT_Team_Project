@@ -12,7 +12,7 @@
                 <p> <%= product.description %></p>
                 <p>$<%= product.price %></p>
                 <%= link_to "Add to Cart", {controller: "cart", action: "add", id: product.id}, method: :post %>
-                <%= link_to "More info", {controller: "product", action: "show", id: product.id}, method: :get%>
+                <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
             </div>
         <% end %>
     </div>
