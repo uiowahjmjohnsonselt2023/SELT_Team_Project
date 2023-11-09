@@ -13,7 +13,7 @@
 <% #For now, this displays the first product in the database to get a feel for the functionality %>
 <div class = "recent-order-wrapper">
   <h3>Recent Orders</h3>
-  <% prod = @products.first %>
+  <% prod = @products.find_by(id: 1) %>
   <div class="recent-roder">
     <h4><%= prod.name %></h4>
     <p><%= prod.descripton %></p>
