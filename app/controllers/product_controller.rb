@@ -20,10 +20,10 @@ class ProductController < ApplicationController
             @match = Product.all
         else
             @input = params[:search]
-            @match = Product.where("name LIKE ?", "%#{@input}%")
+            @match = Product.where("name LIKE ? OR descripton LIKE ?", "%#{@input}%", "%#{@input}%")
             if @match.empty?
                 @match = Product.all
-                flash[:notice] = 'No products found.'
+                flash.now.notice = ("No products found.")       # Makes sure message would disappear after another search
             end
         end
         render 'show'

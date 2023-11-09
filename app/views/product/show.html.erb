@@ -1,9 +1,13 @@
-<h1>Search Results</h1>
-
-  <% @match.each do |product| %>
-    <div>
-      <p><%= product.name %></p>
-    </div>
+<h3>Search Results</h3>
+<div class="product-list">
+        <% @match.each do |product| %>
+            <div class="product">
+              <h4><%= link_to product.name %></h4>
+              <p><%= product.descripton %></p>
+              <p>$<%= product.price %></p>
+              <%= link_to "Add to Cart", add_to_cart_path(product.id), method: :post %>
+              <%= link_to "More info" %>
+        </div>
   <% end %>
-
+</div>
 
