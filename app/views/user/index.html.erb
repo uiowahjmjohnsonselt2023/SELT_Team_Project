@@ -13,23 +13,23 @@
 <% #For now, this displays the first product in the database to get a feel for the functionality %>
 <div class = "recent-order-wrapper">
   <h3>Recent Orders</h3>
-  <% prod = @products.find(params[:id]) %>
-    <div class="recent-roder">
-      <h4><%= prod.name %></h4>
-      <p><%= prod.descripton %></p>
-      <p>$<%= prod.price %></p>
-      <%= link_to "More info" %>
-    </div>
+  <% prod = @products.first %>
+  <div class="recent-roder">
+    <h4><%= prod.name %></h4>
+    <p><%= prod.descripton %></p>
+    <p>$<%= prod.price %></p>
+    <%= link_to "More info" %>
+  </div>
 </div>
 <% #Currently this just displays the second product listed in the db, mostly so we can visualize what it looks like %>
 <div class = "current-postings-wrapper">
   <% prod_two = @products.first %>
-    <div class="product">
-      <h4><%= prod_two.name %></h4>
-      <p><%= prod_two.descripton %></p>
-      <p>$<%= prod_two.price %></p>
-      <%= link_to "More info" %>
-    </div>
+  <div class="product">
+    <h4><%= prod_two.name %></h4>
+    <p><%= prod_two.descripton %></p>
+    <p>$<%= prod_two.price %></p>
+    <%= link_to "More info" %>
+  </div>
 </div>
 
 <% # A cart wrapper, just to test the current functionality. No clue if this will stick around %>
