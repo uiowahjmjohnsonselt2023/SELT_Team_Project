@@ -16,5 +16,10 @@ Rails.application.routes.draw do
   get 'products/:id' => 'products#show', as: :show_product
 
   post 'product/search' => 'products#search'
+
+  # User routes
+  resources :signup, only: %i[new create]
+  get 'signup' => 'signup#new'
+  get 'signup_succes', to: 'pages#signup_success', as: :signup_success
   
 end
