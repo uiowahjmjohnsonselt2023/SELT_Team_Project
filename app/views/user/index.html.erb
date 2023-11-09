@@ -4,7 +4,7 @@
     <% testUser = @user.first %>
       <h4><%= testUser.name %></h4>
       <h4>Placeholder Address</h4>
-      <h4>Placeholder email</h4>
+      <h4><%= testUser.email %></h4>
       <h4>Placeholder phone</h4>
       <h4>Placeholder payment</h4>
   </div>
@@ -14,28 +14,21 @@
 <div class = "recent-order-wrapper">
   <h3>Recent Orders</h3>
   <% prod = Product.first %>
-  <div class="recent-order">
+  <div class="product">
     <h4><%= prod.name %></h4>
-    <p>Placeholder Description</p>
+    <p><%= prod.descripton %></p>
     <p>$<%= prod.price %></p>
     <%= link_to "More info" %>
   </div>
 </div>
 <% #Currently this just displays the second product listed in the db, mostly so we can visualize what it looks like %>
 <div class = "current-postings-wrapper">
+  <h3>Current Postings</h3>
   <% prod_two = Product.first %>
   <div class="product">
     <h4><%= prod_two.name %></h4>
-    <p>Placeholder Description</p>
+    <p><%= prod.descripton %></p>
     <p>$<%= prod_two.price %></p>
     <%= link_to "More info" %>
-  </div>
-</div>
-
-<% # A cart wrapper, just to test the current functionality. No clue if this will stick around %>
-<div class = "cart-wrapper">
-  <h3>Current Cart</h3>
-  <div class = current-cart>
-    <%= link_to "See Cart",view_cart_path %>
   </div>
 </div>
