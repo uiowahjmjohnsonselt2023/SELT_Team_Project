@@ -16,7 +16,7 @@
   <% prod = Product.first %>
   <div class="product">
     <h4><%= prod.name %></h4>
-    <p>Placeholder Description</p>
+    <p><%= prod.descripton %></p>
     <p>$<%= prod.price %></p>
     <%= link_to "More info" %>
   </div>
@@ -27,7 +27,7 @@
   <% prod_two = Product.first %>
   <div class="product">
     <h4><%= prod_two.name %></h4>
-    <p>Placeholder Description</p>
+    <p><%= prod.descripton %></p>
     <p>$<%= prod_two.price %></p>
     <%= link_to "More info" %>
   </div>
