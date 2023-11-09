@@ -1,13 +1,20 @@
 Rails.application.routes.draw do
-  root :to => redirect('/index')
+  root :to => redirect('/product')
 
   resources :products, :users
 
-  get 'index' => 'main#index'
+  # cart routes
+  get 'cart' => 'cart#show'
+  post 'cart/add/:id' => 'cart#add', as: :add_to_cart
+  post 'cart/remove' => 'cart#remove'
+  post 'cart/clear'
 
-  get 'search/products' => 'product#search', as: 'search_products'
+  # product routes
+  get 'product' => 'product#index'
+  get 'product/new' => 'product#new'
+  post 'product/create' => 'product#create'
+  get 'product/:id' => 'product#show', as: :show_product
 
-  post 'add_to_cart/:id' => 'main#add_to_cart', as: 'add_to_cart'
-
-  get 'view_cart' => 'main#view_cart', as: 'view_cart'
+  post 'product/search' => 'product#search'
+  
 end

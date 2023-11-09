@@ -1,0 +1,23 @@
+<div class="for-you-wrapper"> 
+    <h3>For You</h3>
+    <% # Will contain the code to display current hot items, etc%>
+</div>
+
+<div class="product-list-wrapper">
+    <h3>Products</h3>
+    <div class="product-list">
+        <% @products.each do |product| %>
+            <div class="product">
+                <h4><%= product.name %></h4>
+                <p> <%= product.description %></p>
+                <p>$<%= product.price %></p>
+                <%= link_to "Add to Cart", {controller: "cart", action: "add", id: product.id}, method: :post %>
+                <%= link_to "More info", {controller: "product", action: "show", id: product.id}, method: :get%>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<div class="footer-wrapper">
+    <% # Will contain the code to display the footer%>
+</div>

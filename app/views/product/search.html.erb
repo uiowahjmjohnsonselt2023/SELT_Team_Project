@@ -1,0 +1,21 @@
+<!-- FILEPATH: app/views/product/search.html.erb -->
+
+<h1> Search Results
+<% if @products.empty? %>
+    <p>No products found for search: <%= params[:search]%>
+<% end %>
+
+
+<%
+=begin %>
+<% @products.each do |product| %>
+    <div class="product">
+        <h4><%= product.name %>
+        <p> <%= product.description %>
+        <p>$<%= product.price %>
+        <%= link_to "Add to Cart", :add_to_cart, :id => product.id, method: :post %>
+        <%= link_to "More info" %>
+    </div>
+<% end %>
+<%
+=end %>

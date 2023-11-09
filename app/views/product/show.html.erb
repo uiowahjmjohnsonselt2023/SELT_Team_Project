@@ -1,4 +1,9 @@
-<!-- FILEPATH: /Users/kailindholm/Documents/Fall 2023/SELT/SELT_Team_Project/app/views/product/show.html.erb -->
-<%= params[:search] %>
 
+
+<h1><%= @product.name %></h1>
+<p><%= @product.description %></p>
+<p>Price: <%= number_to_currency(@product.price) %></p>
+<p>Quantity: <%= @product.quantity %></p>
+
+<%= link_to "Back to main page", root_path %>
 

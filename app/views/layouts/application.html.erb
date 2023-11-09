@@ -9,16 +9,15 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-
     <div class="navbar navbar-expand-lg bg-primary text-white mb-3">
       <div class="topnav-wrapper">
          <%= link_to "Ebay2", root_path %>   
-        <%= form_tag :search_products, :method => "get", :class => "search_form" do  %>
+        <%= form_tag product_search_path, :method => "post", :class => "search_form" do  %>
           <%= text_field_tag :search, params[:search] %>
         <%end%>
-        <%= link_to 'Cart', view_cart_path%>
-        <%= link_to 'Profile', users_path  %>
-        <%= link_to 'About', "/about" %>
+        <%= link_to 'Cart', cart_path %>
+        <%= link_to 'Profile', root_path %> 
+        <%= link_to 'About', root_path %>
         </div>
     </div>
 
