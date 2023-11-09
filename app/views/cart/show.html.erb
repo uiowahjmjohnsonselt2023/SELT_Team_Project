@@ -1,0 +1,23 @@
+
+<h1 id="cart__title">Cart</h1>
+
+<table id="cart">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cart.each do |product, quantity|%>
+      <tr id="cart__item">
+        <td id="cart__item-name"><%= product.name %></td>
+        <td id="cart__item-price"><%= product.price %></td>        
+        <td><%= quantity %></td>
+        <td><%= button_to "Delete", {controller: "cart", action: "remove", id: product.id}, method: :delete %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
