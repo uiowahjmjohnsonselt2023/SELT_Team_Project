@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
       user = User.new(
         name: 'testName',
         email: 'testEmail@email.com',
-        password: "testPass"
+        password_digest: "testPass"
       )
       expect(user).to be_valid
     end
