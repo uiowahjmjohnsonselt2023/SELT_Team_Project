@@ -1,9 +1,8 @@
 class ProductController < ApplicationController
-    def index 
-
+    def index
     end
 
-    def show 
+    def show
         @product = Product.find(params[:id])
     end
 
@@ -16,8 +15,11 @@ class ProductController < ApplicationController
         end
     end
 
-    def search 
-        render :show # temporary
+    def search
+        #@product = Product.all.where("lower(name) LIKE :search", search: "%#{params[:search].downcase}%")
+        @input = params[:search]
+        @match = Product.where("name LIKE ?", "%#{@input}%")
+        render 'show'
     end 
 end
 
