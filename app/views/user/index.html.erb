@@ -13,7 +13,7 @@
 <% #For now, this displays the first product in the database to get a feel for the functionality %>
 <div class = "recent-order-wrapper">
   <h3>Recent Orders</h3>
-  <% prod = @products.first %>
+  <% @products.each do |prod| %>
   <div class="recent-order">
     <h4><%= prod.name %></h4>
     <p><%= prod.description %></p>
