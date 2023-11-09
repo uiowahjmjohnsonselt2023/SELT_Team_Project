@@ -1,20 +1,22 @@
-<h3>Search Results</h3>
-<div class="price-range">
-  <label for="min_price">Minimum Price</label>
-  <input type="number" name="min_price" id="min_price" class="price-range" step="0.01" value="">
-  <label for="max_price">Maximum Price</label>
-  <input type="number" name="max_price" id="max_price" class="price-range" step="0.01" value="">
-  <input type="submit" value="Search">
-</div>
+<%= form_tag search_products_path, method: "get", class: "search-price" do %>
+  <h3>Search Results</h3>
+  <div class="price-range">
+    <label for="min_price">Minimum Price</label>
+    <input type="number" name="min_price" id="min_price" class="price-range" step="0.01" value="">
+    <label for="max_price">Maximum Price</label>
+    <input type="number" name="max_price" id="max_price" class="price-range" step="0.01" value="">
+    <input type="submit" value="Search">
+  </div>
+<% end %>
 <div class="product-list">
-        <% @match.each do |product| %>
-            <div class="product">
-              <h4><%= link_to product.name %></h4>
-              <p><%= product.descripton %></p>
-              <p>$<%= product.price %></p>
-              <%= link_to "Add to Cart", add_to_cart_path(product.id), method: :post %>
-              <%= link_to "More info" %>
-        </div>
+  <% @match.each do |product| %>
+    <div class="product">
+      <h4><%= link_to product.name %></h4>
+      <p><%= product.descripton %></p>
+      <p>$<%= product.price %></p>
+      <%= link_to "Add to Cart", add_to_cart_path(product.id), method: :post %>
+      <%= link_to "More info" %>
+    </div>
   <% end %>
 </div>
 
