@@ -1,0 +1,14 @@
+<!-- FILEPATH: /Users/kailindholm/Documents/Fall 2023/SELT/SELT_Team_Project/app/views/carts/show.html.erb -->
+
+<h1>Cart Items</h1>
+
+<% @cart.cart_items.each do |item| %>
+  <div>
+    <% product = item.product %>
+    <h3><%= product.name %></h3>
+    <p><%=  product.description %></p>
+    <p><%=  number_to_currency(product.price) %></p>
+    <p><%=  product.quantity %></p>
+  </div>
+<% end %>
+<p> Total: <%=  number_to_currency(@cart.total_price) %></p>

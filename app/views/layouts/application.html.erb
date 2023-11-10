@@ -16,15 +16,15 @@
         <%= form_tag product_search_path, :method => "post", :class => "search_form" do  %>
           <%= text_field_tag :search, params[:search] %>
         <%end%>
-        <%= link_to 'Cart', cart_path %>
+        <%= link_to 'Cart', cart_path(session[:user_id] || session[:session_id]) %>
         <%= link_to 'Profile', root_path %> 
         <%= link_to 'About', root_path %>
         <%= link_to 'SignUp', signup_path %>
         <% if current_user.present? %>
-        <%= link_to 'LogOut', logout_path %> <%= "Welcome, #{current_user.name}!" %>
+          <%= link_to 'LogOut', logout_path %> <%= "Welcome, #{current_user.name}!\nSession: #{session[:session_id]}" %>
         <% else %>
-        <%= link_to 'LogOut', logout_path %>
-      <% end %>
+          <%= link_to 'LogOut', logout_path %>
+        <% end %>
         </div>
     </div>
 

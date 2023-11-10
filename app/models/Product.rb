@@ -1,12 +1,14 @@
 class Product < ActiveRecord::Base
+    has_many :cart_items
+    has_many :carts, through: :cart_items
+    belongs_to :user   
+    has_many :reviews
+
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}
     validates :quantity, presence: true
     validates :description, presence: true
-    validates :user_id, presence: true, uniqueness: true
     
-    belongs_to :user   
-    has_many :reviews
 
     before_save :default_quantity
     before_save :default_description
@@ -33,7 +35,6 @@ class Product < ActiveRecord::Base
     end
 
     def price_format # format price to 2 decimal places
-        puts "Price is #{price} before rounding -> #{'%.2f' % price}"
         self.price = price.round(2)
     end
 end
