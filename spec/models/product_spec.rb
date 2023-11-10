@@ -5,7 +5,9 @@ RSpec.describe Product, type: :model do
     it 'is valid with a name, and description' do
       product = Product.new(
         name: 'Test Product',
-        price: 10.99
+        price: 10.99,
+        quantity: 1,
+        description: 'This is a test product'
       )
       expect(product).to be_valid
     end
@@ -19,7 +21,7 @@ RSpec.describe Product, type: :model do
     it 'is invalid without a price' do
       product = Product.new(price: nil)
       product.valid?
-      expect(product.errors[:price]).to include("can't be blank")
+      expect(product.errors[:price]).to include("is not a number")
     end
   end
 

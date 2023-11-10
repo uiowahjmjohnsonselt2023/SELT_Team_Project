@@ -10,7 +10,7 @@
             <div class="product">
                 <h4><%= product.name %></h4>
                 <p> <%= product.description %></p>
-                <p>$<%= product.price %></p>
+                <p> <%= number_to_currency(product.price) %></p>
                 <%= link_to "Add to Cart", {controller: "cart", action: "add", id: product.id}, method: :post %>
                 <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
             </div>

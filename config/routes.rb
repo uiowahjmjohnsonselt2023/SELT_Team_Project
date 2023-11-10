@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :products, :users
 
-  # # cart routes
+  # cart routes
   get 'cart' => 'cart#show'
   post 'cart/add/:id' => 'cart#add', as: :add_to_cart
   post 'cart/remove' => 'cart#remove'

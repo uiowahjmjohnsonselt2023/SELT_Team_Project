@@ -16,12 +16,13 @@ class ProductsController < ApplicationController
 
     def create 
         @product = Product.new(product_params)
-        if @product.save
-            flash[:success] = "Product created"
-            redirect_to product_path(@product)
+        @product.save
+        puts "product_params: #{product_params}"
+        if @product.valid?
+            redirect_to :action=>'show', :id=>@product.id, :notice=>"Product created"
         else
-            flash[:warn] = "Product not created. Try again."
-            render 'new'
+            flash[:warning] = ("Product not created. Try again.")
+            redirect_to new_product_path , flash[:warning] => "Product not created. Try again."
         end
     end
 
@@ -33,13 +34,13 @@ class ProductsController < ApplicationController
 
     def destroy  # TODO: implement check for user_id before destroying product
         @product.destroy 
-        flash[:success] = "Product deleted"
+        flash[:notice] = "Product deleted"
     end
     
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
-        params.require(:product).permit(:name, :description, :price, :quantity)
+        params.require(:product).permit(:name, :description, :price, :quantity, :user_id)
     end
 end
 
