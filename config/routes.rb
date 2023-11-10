@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   # User routes
   resources :signup, only: %i[new create]
+  resources :sessions, only: %i[new create]
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
+  get 'logout', to: 'sessions#destroy'
   
 end
