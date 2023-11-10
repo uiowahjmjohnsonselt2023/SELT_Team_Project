@@ -13,7 +13,7 @@
     <div class="navbar navbar-expand-lg bg-primary text-white mb-3">
       <div class="topnav-wrapper">
          <%= link_to "Home", root_path %>   
-        <%= form_tag product_search_path, :method => "post", :class => "search_form" do  %>
+        <%= form_tag :product_search, :method => "post", :class => "search_form" do  %>
           <%= text_field_tag :search, params[:search] %>
         <%end%>
         <%= link_to 'Cart', cart_path(session[:user_id] || session[:session_id]) %>

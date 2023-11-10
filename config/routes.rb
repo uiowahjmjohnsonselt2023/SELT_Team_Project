@@ -8,17 +8,17 @@ Rails.application.routes.draw do
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
 
+
   # cart routes
   post 'carts/:id/add/:product_id' => 'carts#add'
   post 'carts/:id/remove/:product_id' => 'carts#remove'
-  
+
   # product routes
   get 'products' => 'products#index'
   get 'products/new' => 'products#new'
   post 'products/create' => 'products#create'
   get 'products/:id' => 'products#show', as: :show_product
-
-  post 'product/search' => 'products#search'
+  post 'products/search' => 'products#search', as: :product_search
 
   # User routes
   get 'signup' => 'signup#new'
