@@ -10,7 +10,7 @@ gem 'jquery-rails'
 
 gem 'nokogiri', '~> 1.13.1'
 gem 'puma'
-gem 'bcrypt'
+gem 'bcrypt', '~> 3.1.7'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

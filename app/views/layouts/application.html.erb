@@ -19,6 +19,12 @@
         <%= link_to 'Cart', cart_path %>
         <%= link_to 'Profile', root_path %> 
         <%= link_to 'About', root_path %>
+        <%= link_to 'SignUp', signup_path %>
+        <% if current_user.present? %>
+        <%= link_to 'LogOut', logout_path %> <%= "Welcome, #{current_user.name}!" %>
+        <% else %>
+        <%= link_to 'LogOut', logout_path %>
+      <% end %>
         </div>
     </div>
 
