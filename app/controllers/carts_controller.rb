@@ -1,13 +1,11 @@
 class CartsController < ApplicationController
     def show
         # find a cart by id, if not create one 
-        @cart = Cart.find_by(id: session[:user_id]) || Cart.create
-        session[:cart_id] = @cart.id
+        @cart = Cart.find_by(id: session[:cart_id])
 
         if @cart.cart_items.empty?
             @cart_items = []
         else
-            puts @cart.cart_items.inspect
             @cart_items = @cart.cart_items
         end
     end
@@ -28,9 +26,8 @@ class CartsController < ApplicationController
     end
 
     def remove 
-        @product = Product.find(params[:id])
-        @cart.cart_items.find_by(product_id: @product.id).destroy
-
+        @cart.cart_items.find_by(product_id: params[:product_id]).destroy
+        flash[:notice] = "Product removed from cart"
         redirect_to :back
     end
 end

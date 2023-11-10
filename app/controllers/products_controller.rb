@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
 
     def show 
         @product = Product.find(params[:id])
+        @user = User.find(@product.user_id)
     end
 
     def new 
@@ -15,9 +16,7 @@ class ProductsController < ApplicationController
     end
 
     def create 
-        @product = Product.new(product_params)
-        @product.save
-        puts "product_params: #{product_params}"
+        @product = Product.create(product_params)
         if @product.valid?
             redirect_to :action=>'show', :id=>@product.id, :notice=>"Product created"
         else

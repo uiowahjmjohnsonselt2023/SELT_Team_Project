@@ -3,14 +3,19 @@ class Cart < ActiveRecord::Base
     has_many :products, through: :cart_items
     belongs_to :user
 
+    # validates :user_id, presence: true
+    # validates :user_id, uniqueness: true
+
     def add_product(product_id)
         current_item = cart_items.find_by(product_id: product_id)
         if current_item                 # if product already exists in cart, increment quantity
             current_item.quantity += 1
         else                            # else create new cart item
-            current_item = cart_items.build(product_id: product_id)
+            current_item = cart_items.new(product_id: product_id, 
+                                            quantity: 1, 
+                                            cart_id: id)
         end
-        current_item    # return current_item
+        current_item.save
     end
 
     def total_price                 # calculate total price of all items in cart

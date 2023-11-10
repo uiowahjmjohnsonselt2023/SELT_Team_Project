@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   # cart routes
   post 'carts/:id/add/:product_id' => 'carts#add'
+  post 'carts/:id/remove/:product_id' => 'carts#remove'
+  
   # product routes
   get 'products' => 'products#index'
   get 'products/new' => 'products#new'

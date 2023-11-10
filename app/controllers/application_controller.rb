@@ -8,12 +8,11 @@ class ApplicationController < ActionController::Base
   private 
   def initialize_cart
     @cart ||= Cart.find_by(id: session[:cart_id])  # if cart exists, set @cart to cart, else create new cart
-
     if @cart.nil?
-      @cart = Cart.create
+      @cart = Cart.create(user_id: session[:session_id])
       session[:cart_id] = @cart.id    # set session cart_id to the current cart_id
     end
-  end
+  end 
 
   def ensure_signed_in!
     redirect_to root_path unless current_user
@@ -37,5 +36,4 @@ class ApplicationController < ActionController::Base
   def sign_out
     session[:user_id] = nil
   end
-
 end
