@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root :to => redirect('/products')
 
-  resources :product, :user, :carts
+  resources :products, :user, :carts
   
   resources :cart_items, only: %i[create update destroy]
 
