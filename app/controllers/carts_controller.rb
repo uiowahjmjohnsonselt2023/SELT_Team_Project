@@ -21,13 +21,16 @@ class CartsController < ApplicationController
         else 
             @cart.cart_items.create(product: @product, quantity: quantity)
         end
+        
+        flash[:notice] = "Product added to cart"
 
-        redirect_to :back
+        redirect_to :root
     end
 
     def remove 
         @cart.cart_items.find_by(product_id: params[:product_id]).destroy
         flash[:notice] = "Product removed from cart"
+
         redirect_to :back
     end
 end
