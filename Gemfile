@@ -17,6 +17,11 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
+group :test do
+  gem 'simplecov', require: false
+  gem 'factory_bot_rails'
+end
+
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'byebug'

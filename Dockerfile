@@ -20,6 +20,6 @@ RUN bundle install
 COPY . . 
 
 ENV RAILS_ENV=development
-RUN bundle exec rake db:migrate 
+RUN bundle exec rake db:migrate
 # RUN bundle exec rake db:seed -- NOTE: Cannot run as this point the rails app is not running yet
 
