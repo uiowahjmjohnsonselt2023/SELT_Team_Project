@@ -1,0 +1,10 @@
+<%= link_to "Back to main page", root_path %> <br>
+<h1><%= @product.name %></h1>
+<p><%= @product.description %></p>
+<p>Price: <%= number_to_currency(@product.price) %></p>
+<p>Quantity: <%= @product.quantity %></p>
+<p>Seller: <%= @user.name %> </p>
+
+<%= link_to "Add to Cart", {controller: "carts", action:"add", id: session[:cart_id], product_id: @product.id, quantity: 1}, method: :post %>
+<br>
+

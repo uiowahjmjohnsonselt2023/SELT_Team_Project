@@ -13,3 +13,57 @@
  *= require_tree .
  *= require_self
  */
+
+.topnav-wrapper {
+    display: flex;
+}
+.topnav-wrapper a {
+    display: block;
+    float: right;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+/* Change the color of links on hover */
+.topnav-wrapper a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav-wrapper h2 {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    padding-top: 14px;  
+    padding-right: 16px;
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+/* Style the search box inside the navigation bar */
+.topnav-wrapper input[type=text] {
+    float: center;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+ }
+ 
+ .product {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+ }
+ 
+ 
