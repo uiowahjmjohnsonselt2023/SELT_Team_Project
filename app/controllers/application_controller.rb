@@ -1,14 +1,14 @@
 class ApplicationController < ActionController::Base
   before_action :initialize_cart
-
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
   private 
   def initialize_cart
-    @cart ||= Cart.find_by(id: session[:cart_id])  # if cart exists, set @cart to cart, else create new cart
+    @cart ||= Cart.find_by(user_id: session[:session_id])  # if cart exists, set @cart to cart, else create new cart
     if @cart.nil?
+      puts "New User: cart created"
       @cart = Cart.create(user_id: session[:session_id])
       session[:cart_id] = @cart.id    # set session cart_id to the current cart_id
     end
@@ -36,4 +36,17 @@ class ApplicationController < ActionController::Base
   def sign_out
     session[:user_id] = nil
   end
+
+  def update_cart(user)
+    puts user.inspect
+    # find the cart_id that is associated with the session 
+    # if the cart exists update the user_id to the current user
+    cart = Cart.find_by(id: session[:cart_id])
+    if cart
+        cart.update(user_id: user.id)
+    else
+        cart = Cart.create(user_id: user.id)
+        session[:cart_id] = cart.id
+    end
+end 
 end

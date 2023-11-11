@@ -7,6 +7,7 @@ class SignupController < ApplicationController
       @user = User.new(user_params)
       if @user.save
         sign_in(@user)
+        update_cart(@user)
         redirect_to signup_success_path
       else
         render :new, status: :unprocessable_entity

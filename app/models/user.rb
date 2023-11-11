@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
     validates :password_confirmation, presence: true
 
     #after_save :create_session_token
-
     has_many :products
+    has_one :cart
 private 
     def create_session_token
         self.session_token = SessionRandom.urlsafe_base64
