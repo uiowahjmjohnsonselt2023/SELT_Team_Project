@@ -43,14 +43,14 @@ RSpec.describe "Products", type: :request do
   describe "GET #show" do
     it "renders the show template" do
       product = FactoryBot.create(:product)
-      user = FactoryBot.create(:user)
+      FactoryBot.create(:user)
       get show_product_path(product)
       expect(response).to render_template("show")
     end
 
     it "assigns the requested product to @product" do
       product = FactoryBot.create(:product)
-      user = FactoryBot.create(:user)
+      FactoryBot.create(:user)
       get show_product_path(product)
       expect(assigns(:product)).to eq(product)
     end
@@ -66,5 +66,33 @@ RSpec.describe "Products", type: :request do
       expect(assigns(:product)).to be_a_new(Product)
     end
   end
+  # describe "POST #create" do
+  #   context "with valid parameters" do
+  #     it "creates a new product" do
+  #       product = FactoryBot.create(:product)
+  #       expect {
+  #         post products_path, params: { product: { name: "Sample Product", description: "A description for the product", price: 20, quantity: 10, user_id: 1 } }
+  #       }.to change(Product, :count).by(1)
+  #     end
+
+  #     it "redirects to the created product's show page" do
+  #       post products_path, params: { product: FactoryBot.attributes_for(:product) }
+  #       expect(response).to redirect_to(Product.last)
+  #     end
+  #   end
+
+  #   context "with invalid parameters" do
+  #     it "does not create a new product" do
+  #       expect {
+  #         post products_path, params: { product: FactoryBot.attributes_for(:product, name: nil) }
+  #       }.not_to change(Product, :count)
+  #     end
+
+  #     it "renders the new template" do
+  #       post products_path, params: { product: FactoryBot.attributes_for(:product, name: nil) }
+  #       expect(response).to render_template("new")
+  #     end
+  #   end
+  # end
 end
 

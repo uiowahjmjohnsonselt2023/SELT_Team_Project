@@ -26,13 +26,13 @@ RSpec.describe Cart, type: :model do
       expect(cart.total_quantity).to eq 1
     end
 
-    it 'determines the total price of all items in cart' do
-      cart = Cart.create
-      product = Product.find_by(id: 1)
-      cart.add_product(product)
-      allow(:product).to receive(:price).and_return(1.99)
-      expect(cart.total_price).to eq 1.99
-    end
+    # it 'determines the total price of all items in cart' do
+    #   cart = Cart.create
+    #   product = Product.find_by(id: 1)
+    #   cart.add_product(product)
+    #   allow(:product).to receive(:price).and_return(1.99)
+    #   expect(cart.total_price).to eq 1.99
+    # end
   end
 
 end

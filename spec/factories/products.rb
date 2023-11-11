@@ -4,7 +4,7 @@ FactoryBot.define do
     description { "A description for the product" }
     price { 20.0 }
     quantity { 10 }
-    user_id{1}
+    user_id {1}
   end
   factory :user do 
     name {"james"}
