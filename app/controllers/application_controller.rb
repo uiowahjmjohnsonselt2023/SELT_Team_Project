@@ -38,7 +38,6 @@ class ApplicationController < ActionController::Base
   end
 
   def update_cart(user)
-    puts user.inspect
     # find the cart_id that is associated with the session 
     # if the cart exists update the user_id to the current user
     cart = Cart.find_by(id: session[:cart_id])
