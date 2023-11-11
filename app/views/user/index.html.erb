@@ -27,7 +27,7 @@
         <h3>Recent Orders</h3>
         <!-- Previous orders listed here -->
         <h4><%= prod.name %></h4>
-        <p><%= prod.descripton %></p>
+        <p><%= prod.description %></p>
         <p>$<%= prod.price %></p>
         <%= link_to "More info" %>
       </div>
@@ -42,7 +42,7 @@
         <div class="product">
           <!-- Current posting details -->
           <h4><%= prod_two.name %></h4>
-          <p><%= prod.descripton %></p>
+          <p><%= prod.description %></p>
           <p>$<%= prod_two.price %></p>
           <%= link_to "More info" %>
         </div>
@@ -74,7 +74,7 @@
   <% prod = Product.first %>
   <div class="product">
     <h4><%= prod.name %></h4>
-    <p><%= prod.descripton %></p>
+    <p><%= prod.description %></p>
     <p>$<%= prod.price %></p>
     <%= link_to "More info" %>
   </div>
@@ -85,7 +85,7 @@
   <% prod_two = Product.first %>
   <div class="product">
     <h4><%= prod_two.name %></h4>
-    <p><%= prod.descripton %></p>
+    <p><%= prod.description %></p>
     <p>$<%= prod_two.price %></p>
     <%= link_to "More info" %>
   </div>

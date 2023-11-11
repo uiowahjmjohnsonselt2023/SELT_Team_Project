@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root :to => redirect('/products')
 
-  resources :products, :users, :carts
+  resources :products, :user, :carts
   
   resources :cart_items, only: %i[create update destroy]
 
@@ -24,4 +24,10 @@ Rails.application.routes.draw do
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
   get 'logout', to: 'sessions#destroy'
+
+  get '/users' => 'user#index', as: 'users'
+
+  get '/users/edit' => 'user#edit', as:'edit'
+
+
 end
