@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  root :to => redirect('/products')
-
   resources :products, :user, :carts
   
   resources :cart_items, only: %i[create update destroy]
 
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
+
+  root :to => redirect('/products')
 
 
   # cart routes
