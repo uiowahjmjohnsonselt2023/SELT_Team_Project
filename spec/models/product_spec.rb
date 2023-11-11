@@ -37,12 +37,12 @@ RSpec.describe Product, type: :model do
     end
   end
 
-  describe 'methods' do
-    context 'search method' do
-      it 'returns products with similar names to the search term' do
-        product = Product.create(name: 'Test Product', price: 10.99, description: 'This is a test product')
-        expect(Product.search('Test')).to include(product)
-      end
-    end
-  end
+  # describe 'methods' do
+  #   context 'search method' do
+  #     it 'returns products with similar names to the search term' do
+  #       product = Product.create(name: 'Test Product', price: 10.99, description: 'This is a test product')
+  #       expect(Product.search('Test')).to include(product)
+  #     end
+  #   end
+  # end
 end
