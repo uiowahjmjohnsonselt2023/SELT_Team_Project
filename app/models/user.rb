@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
     has_secure_password
     #before_save {|user| user.email = user.email.downcase}
     validates :name, presence: true, length: {maximum: 25}
