@@ -18,17 +18,18 @@ group :development do
 end
 
 group :test do
+  gem 'byebug'
   gem 'simplecov', require: false
   gem 'factory_bot_rails'
+  gem 'cucumber-rails', require: false
+  gem 'rspec-rails'
 end
 
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
-  gem 'byebug'
   gem 'database_cleaner'
-  gem 'cucumber-rails', require: false
-  gem 'rspec-rails'
-
+  # gem 'database_cleaner-active_record'
+  # gem 'database_cleaner-sequel'
   gem 'pry'
   gem 'pry-byebug'
 
@@ -37,7 +38,7 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg', '~> 0.2'
+  gem 'pg'
   gem 'rails_12factor'
 end
 
