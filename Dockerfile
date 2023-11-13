@@ -10,7 +10,7 @@ FROM --platform=linux/x86_64 $BASE_IMG as base
 ENV BUNDLER_VERSION=1.17.3
 # update image and install dependencies
 RUN apt-get update && \
-    apt-get install -y apt-utils \
+    apt-get install -y apt-utils libpq-dev \
     build-essential \
     nodejs
     
@@ -22,8 +22,9 @@ FROM base AS gems
 COPY --from=gem-cache /usr/local/bundle /usr/local/bundle
 COPY Gemfile Gemfile.lock ./
 # ensure we're using the correct platform
-RUN rm -rf vendor/cache
+
 RUN bundle config force_ruby_platform true   
+RUN gem install pg 
 
 RUN if [$RAILS_ENV = "production"]; then \
     bundle install --jobs 20 --retry 5 --without development test \
