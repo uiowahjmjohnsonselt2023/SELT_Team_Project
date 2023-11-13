@@ -4,7 +4,8 @@ build:
   docker: 
     web: Dockerfile
 release: 
-  command: ./run.sh
+  command: 
+    - ./run.sh
   image: web
 run: 
   web: bundle exec puma -C config/puma.rb
