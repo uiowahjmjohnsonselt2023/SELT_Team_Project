@@ -8,7 +8,7 @@ gem 'uglifier', '>= 2.7.1'
 
 gem 'jquery-rails'
 
-gem 'nokogiri', '~> 1.13.1'
+gem 'nokogiri', '~> 1.13.10'
 gem 'puma'
 gem 'bcrypt', '~> 3.1.7'
 

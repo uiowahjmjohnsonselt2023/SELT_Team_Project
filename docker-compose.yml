@@ -4,7 +4,6 @@ name: "selt-team-project"
 
 services: 
   app:
-    platform: linux/x86_64 
     container_name: team_app
     build: ./
     command: bundle exec puma -C config/puma.rb
@@ -13,12 +12,17 @@ services:
       - .:/app
     ports: 
       - "3000:3000"
-  #   depends_on:
-  #     - prod_db
-  # prod_db: 
-  #   container_name: pg
-  #   image: postgres:13.1-alpine
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+    depends_on:
+      - pg
+  pg: 
+    container_name: prod_db
+    image: postgres:13.1-alpine
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    
