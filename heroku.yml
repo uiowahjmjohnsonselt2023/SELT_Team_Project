@@ -1,6 +1,7 @@
-build: 
+setup: 
   config: 
-    RAILS_ENV: development
+    env_file: .env
+build: 
   docker: 
     web: Dockerfile
 run: 
