@@ -1,9 +1,9 @@
 <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
   <div style="text-align: center;">
     <!-- User profile header -->
-    <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;"> <!-- Placeholder for profile photo -->
-    <h1>Garfield Abernackle</h1> <!-- Static placeholder name -->
-    <p>⭐⭐⭐⭐⭐ Verified User - 4223 Reviews</p> <!-- Static placeholder ratings -->
+    <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;">
+    <h1>Garfield Abernackle</h1>
+    <p>⭐⭐⭐⭐⭐ Verified User - 4223 Reviews</p>
   </div>
 
   <div style="display: flex; justify-content: space-between; width: 100%; padding: 0 20px;">
@@ -13,8 +13,17 @@
         <legend>User Info</legend>
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" aria-label="Name">
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" aria-label="Address">
+
+        <!-- Address Fields Grouped with Buttons -->
+        <div>
+          <div id="address-fields">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" aria-label="Address">
+          </div>
+          <button type="button" onclick="addAddress()">Add Address</button>
+          <button type="button" onclick="removeAddress()">Remove Address</button>
+        </div>
+
         <label for="phone">Phone:</label>
         <input type="tel" id="phone" name="phone" aria-label="Phone">
         <label for="email">Email:</label>
@@ -28,20 +37,82 @@
         <legend>Payment Info</legend>
         <label for="card-number">Card Number:</label>
         <input type="text" id="card-number" name="card-number" aria-label="Card Number" maxlength="16">
+
         <label for="street-address">Street Address:</label>
         <input type="text" id="street-address" name="street-address" aria-label="Street Address">
+
         <label for="apt">Apt, suite, unit, etc (optional):</label>
         <input type="text" id="apt" name="apt" aria-label="Apartment or Suite">
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" aria-label="City">
-        <label for="state">State:</label>
-        <select id="state" name="state" aria-label="State">
-          <!-- Populate with state options -->
-        </select>
-        <label for="zip">Zip Code:</label>
-        <input type="text" id="zip" name="zip" aria-label="Zip Code" maxlength="5">
+
+        <div>
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" aria-label="City">
+        </div>
+
+        <div>
+          <label for="state">State:</label>
+          <select id="state" name="state" aria-label="State">
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="zip">Zip Code:</label>
+          <input type="text" id="zip" name="zip" aria-label="Zip Code" maxlength="5">
+        </div>
+
         <label for="expiry">MM/YY:</label>
         <input type="text" id="expiry" name="expiry" placeholder="MM/YY" aria-label="Expiry Date">
+
         <label for="cvc">CVC:</label>
         <input type="text" id="cvc" name="cvc" aria-label="CVC" maxlength="3">
       </fieldset>
@@ -52,3 +123,26 @@
     <button class="button" type="submit" style="margin-top: 20px;">Update</button>
   </div>
 </div>
+
+<script>
+    var addressCount = 1; // Initial count is 1 because there's already one address field
+
+    function addAddress() {
+        if (addressCount < 3) {
+            var newAddress = document.createElement('input');
+            newAddress.setAttribute('type', 'text');
+            newAddress.setAttribute('name', 'address' + (addressCount + 1));
+            newAddress.setAttribute('aria-label', 'Address ' + (addressCount + 1));
+            document.getElementById('address-fields').appendChild(newAddress);
+            addressCount++;
+        }
+    }
+
+    function removeAddress() {
+        if (addressCount > 1) {
+            var addressFields = document.getElementById('address-fields');
+            addressFields.removeChild(addressFields.lastChild);
+            addressCount--;
+        }
+    }
+</script>
