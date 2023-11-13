@@ -5,11 +5,12 @@ ARG GEM_CACHE=${BASE_IMG}
 FROM $GEM_CACHE as gem-cache 
 RUN mkdir -p /usr/local/bundle 
 
+# plaform linux/x86_64 is required by heroku
 FROM --platform=linux/x86_64 $BASE_IMG as base
 ENV BUNDLER_VERSION=1.17.3
 # update image and install dependencies
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y apt-utils \
     build-essential \
     nodejs
     
@@ -23,7 +24,12 @@ COPY Gemfile Gemfile.lock ./
 # ensure we're using the correct platform
 RUN rm -rf vendor/cache
 RUN bundle config force_ruby_platform true   
-RUN bundle install
+
+RUN if [$RAILS_ENV = "production"]; then \
+    bundle install --jobs 20 --retry 5 --without development test \
+; else \
+    bundle install --jobs 20 --retry 5 \
+; fi 
 
 # Copy the app and migrate the database
 FROM base AS deploy
