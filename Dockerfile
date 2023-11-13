@@ -15,7 +15,8 @@ WORKDIR /app
 # copy Gemfile and install gems
 ADD ./Gemfile* ./
 RUN rm -rf vendor/cache
-RUN bundle config force_ruby_platform true
+# ensure we're using the correct platform
+RUN bundle config force_ruby_platform true   
 RUN bundle install
 
 # copy the rest of the app

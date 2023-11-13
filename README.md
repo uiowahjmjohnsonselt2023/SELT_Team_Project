@@ -29,3 +29,24 @@ To restart a container run:
 ```docker restart <container name>```. You can view container names by running docker ps
 
 ## Important: <br/>If any dockerfiles change during development to see those changes the container must be removed and built again. 
+
+
+## Deployment 
+We are using the heroku deployment via container registry. So to deploy our most up to date changes follow the steps given on the heroku deployment page:
+
+    - $ heroku login 
+    - $ heroku container:login 
+    - $ IMPORTANT: commit the most recent changes. `git commit ... git push heroku main`
+    - $ heroku container:push web
+        - This creates a new image that is placed into the registry 
+        - Gem install times can be very slow. You will get stuck on nokogiri for a while.  
+            - TODO: Create a gem cache image that is pushed to the regisry then use docker multistage build to install gems from cache
+    - $ heroku container:release web 
+        - THis release the most up to date image in the container registry 
+
+
+## Squash commits 
+One way of squashing pushed commits 
+
+    - $ git reset --soft HEAD~X
+        - X is the number of commits you want to go back. Install a git visualizer like GitLen if you are using VS Code to help visualize your commit history. 
