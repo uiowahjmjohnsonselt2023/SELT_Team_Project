@@ -3,5 +3,8 @@ build:
     RAILS_ENV: development
   docker: 
     web: Dockerfile
+release: 
+  command: ./run.sh
+  image: web
 run: 
   web: bundle exec puma -C config/puma.rb

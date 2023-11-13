@@ -19,7 +19,6 @@ RUN bundle install
 # copy the rest of the app
 COPY . . 
 
-ENV RAILS_ENV=development
-RUN bundle exec rake db:migrate 
-# RUN bundle exec rake db:seed -- NOTE: Cannot run as this point the rails app is not running yet
+EXPOSE 3000 
 
+RUN chmod +x ./run.sh
