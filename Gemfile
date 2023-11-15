@@ -8,12 +8,18 @@ gem 'uglifier', '>= 2.7.1'
 
 gem 'jquery-rails'
 
-gem 'nokogiri', '~> 1.13.1'
+gem 'nokogiri', '~> 1.13.10'
 gem 'puma'
+gem 'bcrypt', '~> 3.1.7'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+end
+
+group :test do
+  gem 'simplecov', require: false
+  gem 'factory_bot_rails'
 end
 
 # for Heroku deployment - as described in Ap. A of ELLS book
@@ -35,4 +41,3 @@ group :production do
   gem 'rails_12factor'
 end
 
-gem "bcrypt", "~> 3.1"

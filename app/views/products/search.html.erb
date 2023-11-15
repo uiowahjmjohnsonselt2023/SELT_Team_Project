@@ -1,0 +1,21 @@
+<%= form_tag :product_search, method: "get", class: "search-price" do %>
+  <h3>Search Results</h3>
+  <div class="price-range">
+    <label for="min_price">Minimum Price</label>
+    <input type="number" name="min_price" id="min_price" class="price-range" step="0.01" value="">
+    <label for="max_price">Maximum Price</label>
+    <input type="number" name="max_price" id="max_price" class="price-range" step="0.01" value="">
+    <input type="submit" value="Search">
+  </div>
+<% end %>
+<div class="product-list">
+  <% @match.each do |product| %>
+    <div class="product">
+      <h4><%= link_to product.name %></h4>
+      <p><%= product.description %></p>
+      <p>$<%= product.price %></p>
+      <%= link_to "Add to Cart", {controller: "carts", action:"add", id: session[:cart_id], product_id: product.id, quantity: 1}, method: :post %>
+      <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
+    </div>
+  <% end %>
+</div>

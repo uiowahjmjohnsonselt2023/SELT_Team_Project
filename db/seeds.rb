@@ -5,14 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-
-Product.create(name: "Apple", descripton: "A delicious apple", price: 0.99, quantity: 100)
-Product.create(name: "Banana", descripton: "A delicious banana", price: 1.99, quantity: 100)
-Product.create(name: "Orange", descripton: "A delicious orange", price: 2.99, quantity: 100)
-Product.create(name: "Pineapple", descripton: "A delicious pineapple", price: 3.99, quantity: 100)
-Product.create(name: "Grape", descripton: "A delicious grape", price: 4.99, quantity: 100)
-Product.create(name: "Strawberry", descripton: "A delicious strawberry", price: 5.99, quantity: 100)
-
-# A test user, only meant for testing purposes is listed below.
-
-User.create(name: "testUser", email: "fakeEmail@fake.com", password_digest: "fakeField")
+User.create(name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
+Product.create(name: "Apple", description: "A delicious apple", price: 0.99, quantity: 100, user_id: 1)
+Product.create(name: "Banana", description: "A delicious banana", price: 1.99, quantity: 100, user_id: 1)
+Product.create(name: "Orange", description: "A delicious orange", price: 2.99, quantity: 100, user_id: 1)
+Product.create(name: "Pineapple", description: "A delicious pineapple", price: 3.99, quantity: 100, user_id: 1)
+Product.create(name: "Grape", description: "A delicious grape", price: 4.99, quantity: 100, user_id: 1)
+Product.create(name: "Strawberry", description: "A delicious strawberry", price: 5.99, quantity: 100, user_id: 1)

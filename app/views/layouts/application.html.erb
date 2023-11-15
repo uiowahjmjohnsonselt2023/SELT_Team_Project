@@ -7,18 +7,24 @@
     <%= stylesheet_link_tag 'application', 'media' => 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
   <body>
-
     <div class="navbar navbar-expand-lg bg-primary text-white mb-3">
       <div class="topnav-wrapper">
-         <%= link_to "Ebay2", root_path %>   
-        <%= form_tag :search_products, :method => "get", :class => "search_form" do  %>
+         <%= link_to "Home", root_path %>   
+        <%= form_tag :product_search, :method => "post", :class => "search_form" do  %>
           <%= text_field_tag :search, params[:search] %>
         <%end%>
-        <%= link_to 'Cart', view_cart_path%>
-        <%= link_to 'Profile', users_path  %>
-        <%= link_to 'About', "/about" %>
+        <%= link_to 'Cart', cart_path(session[:cart_id] || session[:session_id]) %>
+        <%= link_to 'Profile', users_path %>
+        <%= link_to 'About', root_path %>
+        <%= link_to 'SignUp', signup_path %>
+        <% if current_user.present? %>
+          <%= link_to 'LogOut', logout_path %> <%= "Welcome, #{current_user.name}!\nSession: #{session[:session_id]}\n #{current_user.id}" %>
+        <% else %>
+          <%= link_to 'LogOut', logout_path %>
+        <% end %>
         </div>
     </div>
 
