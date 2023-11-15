@@ -32,6 +32,15 @@ class ProductsController < ApplicationController
     end
 
     def search
+        @match = Product.search(params[:search])
+        if @match.empty?
+            @match = Product.all
+            flash.now[:notice] = "No products found."
+        end
+    end
+
+=begin
+    def search
         if params[:search].blank?
             @match = Product.all
         else
@@ -54,10 +63,8 @@ class ProductsController < ApplicationController
             end
             #@match = @match.where("price >= ? AND price <= ?", min_price, max_price)
         end
-
     end
 
-    # From https://stackoverflow.com/questions/16323571/measure-the-distance-between-two-strings-with-ruby
     def levenshtein_distance(s, t)
         m = s.length
         n = t.length
@@ -81,6 +88,9 @@ class ProductsController < ApplicationController
         end
         d[m][n]
     end
+=end
+
+
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
