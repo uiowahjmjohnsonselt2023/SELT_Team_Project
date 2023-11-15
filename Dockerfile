@@ -25,11 +25,7 @@ COPY Gemfile Gemfile.lock ./
 
 RUN bundle config force_ruby_platform true   
 
-RUN if [$RAILS_ENV = "production"]; then \
-    bundle install --jobs 20 --retry 5 --without development test \
-; else \
-    bundle install --jobs 20 --retry 5 \
-; fi 
+RUN bundle install --jobs 20 --retry 5
 
 # Copy the app and migrate the database
 FROM base AS deploy
