@@ -1,0 +1,6 @@
+
+grading.json 
+*.md
+*.rdoc 
+.gitignore
+heroku.yml

@@ -50,3 +50,18 @@ One way of squashing pushed commits
 
     - $ git reset --soft HEAD~X
         - X is the number of commits you want to go back. Install a git visualizer like GitLen if you are using VS Code to help visualize your commit history. 
+
+## Multistage Docker Build 
+To reduce time when building our docker image. We employ multistage docker build by breaking up the build process into small separate chucks
+This Dockerfile, now can accept a --build-arg of a tagged image cache that contains previously install gems.
+In your first time building we need to tag the corresponding cache to be used in the future
+
+    - $ docker buildx build --tag rails:gem-cache --target gems
+        this tags the build as rails:gem-cache, and only runs until the end of the gems stage
+
+In future builds 
+
+    - $ docker build --build-arg=GEM_CACHE=rails:gem-cache . 
+        - This will build with the newly tagged cache. 
+
+After the image is built a docker compose up -d will 

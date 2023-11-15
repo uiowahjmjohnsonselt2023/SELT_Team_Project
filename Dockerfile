@@ -1,31 +1,38 @@
-FROM --platform=linux/x86_64 ruby:2.6.6 as base
+ARG BASE_IMG=ruby:2.6.6
+ARG GEM_CACHE=${BASE_IMG}
 
+# if a gem-cache image is specified, copy the gems from it
+FROM $GEM_CACHE as gem-cache 
+RUN mkdir -p /usr/local/bundle 
+
+# plaform linux/x86_64 is required by heroku
+FROM --platform=linux/x86_64 $BASE_IMG as base
+ENV BUNDLER_VERSION=1.17.3
 # update image and install dependencies
 RUN apt-get update && \
-    apt-get install -y pkg-config libxml2-dev libxslt-dev \
+    apt-get install -y apt-utils libpq-dev \
     build-essential \
     nodejs
+    
+RUN gem install bundler --no-document -v ${BUNDLER_VERSION}
+WORKDIR /usr/src/app
 
-# install bundler to the specified version
-RUN gem install bundler --no-document -v 1.17.3
-
-# create app directory
-WORKDIR /app
-
-# copy Gemfile and install gems
-ADD ./Gemfile* ./
-RUN rm -rf vendor/cache
+# Copy gems from a gem-cache build stage if specified, otherwise install them
+FROM base AS gems
+COPY --from=gem-cache /usr/local/bundle /usr/local/bundle
+COPY Gemfile Gemfile.lock ./
 # ensure we're using the correct platform
+
 RUN bundle config force_ruby_platform true   
-RUN bundle install
 
-# copy the rest of the app
-COPY . . 
+RUN bundle install --jobs 20 --retry 5
 
-RUN bundle exec rake db:migrate
+# Copy the app and migrate the database
+FROM base AS deploy
+COPY --from=gems /usr/local/bundle /usr/local/bundle
+COPY . .
 
-RUN useradd --home-dir /app app
-USER app
+RUN bundle exec rake assets:precompile
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
