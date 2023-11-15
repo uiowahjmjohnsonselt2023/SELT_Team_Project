@@ -24,7 +24,6 @@ COPY Gemfile Gemfile.lock ./
 # ensure we're using the correct platform
 
 RUN bundle config force_ruby_platform true   
-RUN gem install pg 
 
 RUN if [$RAILS_ENV = "production"]; then \
     bundle install --jobs 20 --retry 5 --without development test \
@@ -37,12 +36,7 @@ FROM base AS deploy
 COPY --from=gems /usr/local/bundle /usr/local/bundle
 COPY . .
 
-# Migrate the database
-# RUN bundle exec rake db:migrate
-
-# Run the app as a non-root user
-RUN useradd --home-dir /app app
-USER app
+RUN bundle exec rake assets:precompile
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
