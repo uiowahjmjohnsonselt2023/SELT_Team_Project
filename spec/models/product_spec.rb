@@ -40,9 +40,9 @@ RSpec.describe Product, type: :model do
   # Testing search feature
   describe 'search' do
     before do
-        Product.create(name: 'Apple', price: 0.99)
-        Product.create(name: 'Pineapple', price: 2.44)
-        Product.create(name: 'Guava', price: 3.88)
+      FactoryBot.create(:product, name: 'Apple', price: 0.99)
+      FactoryBot.create(:product, name: 'Pineapple', price: 2.44)
+      FactoryBot.create(:product, name: 'Guava', price: 3.88)
     end
 
     it 'returns products using lowercase for search term' do

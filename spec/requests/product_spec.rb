@@ -66,33 +66,58 @@ RSpec.describe "Products", type: :request do
       expect(assigns(:product)).to be_a_new(Product)
     end
   end
-  # describe "POST #create" do
-  #   context "with valid parameters" do
-  #     it "creates a new product" do
-  #       product = FactoryBot.create(:product)
-  #       expect {
-  #         post products_path, params: { product: { name: "Sample Product", description: "A description for the product", price: 20, quantity: 10, user_id: 1 } }
-  #       }.to change(Product, :count).by(1)
-  #     end
+  describe "POST #create" do
+    context "with valid parameters" do
+      it "creates a new product" do
+        product = FactoryBot.create(:product)
+        expect {
+          post products_path, product: {name: "Sample Product", description: "A description for the product", price: 20, quantity: 10, user_id: 1}
+        }.to change(Product, :count).by(1)
+      end
+    end
 
-  #     it "redirects to the created product's show page" do
-  #       post products_path, params: { product: FactoryBot.attributes_for(:product) }
-  #       expect(response).to redirect_to(Product.last)
-  #     end
-  #   end
+    context "with invalid parameters" do
+      it "does not create a new product" do
+        expect {
+          post products_path, product: FactoryBot.attributes_for(:product, name: nil) 
+        }.not_to change(Product, :count)
+      end
 
-  #   context "with invalid parameters" do
-  #     it "does not create a new product" do
-  #       expect {
-  #         post products_path, params: { product: FactoryBot.attributes_for(:product, name: nil) }
-  #       }.not_to change(Product, :count)
-  #     end
+      it "renders the new template" do
+        post products_path, product: FactoryBot.attributes_for(:product, name: nil)
+        expect(response).to redirect_to(new_product_path)
+      end
+    end
+  end
 
-  #     it "renders the new template" do
-  #       post products_path, params: { product: FactoryBot.attributes_for(:product, name: nil) }
-  #       expect(response).to render_template("new")
-  #     end
-  #   end
-  # end
+  describe "DELETE #destroy" do
+    it "destroys the product" do
+      product = FactoryBot.create(:product)# Ensure the product is created before the test
+      puts product.inspect
+      expect {
+        delete product_path(product.id)
+      }.to change(Product, :count).by(-1)
+
+      expect(flash[:notice]).to eq("Product deleted")
+      expect(response).to redirect_to(root_path)
+    end
+  end
+  describe "GET #search" do
+  it "returns products matching the search term" do
+    product = FactoryBot.create(:product, name: 'Product Name')
+
+    post product_search_path, search: 'Product Name'
+    expect(assigns(:match)).to include(product)
+    expect(response).to render_template("search")
+  end
+
+  it "returns all products when no match is found" do
+    post product_search_path, search: 'Nonexistent Product'
+
+    expect(assigns(:match)).to match_array(Product.all)
+    expect(flash.now[:notice]).to eq("No products found.")
+    expect(response).to render_template("search")
+  end
+end
 end
 
