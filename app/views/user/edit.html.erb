@@ -1,5 +1,5 @@
-<% testUser = @user.first %>
-<%= form_tag(user_path(testUser), method: :put, local: true) do %>
+
+<%= form_tag(user_path(@user), method: :put, local: true) do %>
   <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
     <div style="text-align: center;">
       <!-- User profile header -->
@@ -14,7 +14,7 @@
         <fieldset>
           <legend>User Info</legend>
           <%= label_tag :name %>
-          <%= text_field_tag :name, testUser.name, aria: { label: "Name" } %>
+          <%= text_field_tag :name, @user.name, aria: { label: "Name" } %>
 
           <div>
             <div id="address-fields">
@@ -28,7 +28,7 @@
           <%= label_tag :phone %>
           <%= telephone_field_tag :phone, nil, placeholder: "555-1234", aria: { label: "Phone" } %>
           <%= label_tag :email %>
-          <%= email_field_tag :email, testUser.email, aria: { label: "Email" } %>
+          <%= email_field_tag :email, @user.email, aria: { label: "Email" } %>
         </fieldset>
       </div>
 

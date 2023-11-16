@@ -24,9 +24,6 @@ COPY . .
 
 RUN bundle exec rake db:migrate
 
-RUN useradd --home-dir /app app
-USER app
-
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 EXPOSE 3000

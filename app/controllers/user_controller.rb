@@ -1,7 +1,8 @@
 class UserController < ApplicationController
 
+  before_action :ensure_signed_in!, only: [:show, :edit, :update]
   def index
-    @user = User.all
+    @user = User.find(params[:id])
   end
 
 
@@ -19,8 +20,7 @@ class UserController < ApplicationController
   end
 
   def edit
-    @user = User.all
-    #@user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def update
