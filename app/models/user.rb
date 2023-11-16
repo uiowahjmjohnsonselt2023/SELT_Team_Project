@@ -10,8 +10,8 @@ class User < ApplicationRecord
     #after_save :create_session_token
     has_many :products
     has_one :cart
-private 
-    def create_session_token
-        self.session_token = SessionRandom.urlsafe_base64
-    end
+# private 
+#     def create_session_token
+#         self.session_token = SessionRandom.urlsafe_base64
+#     end
 end
