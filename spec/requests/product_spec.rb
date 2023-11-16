@@ -13,17 +13,6 @@ RSpec.describe "Products", type: :request do
       expect(response).to render_template(:new)
     end
   end
-  # describe 'POST /create' do
-  #   it 'creates a new valid product' do
-  #     fake_product = double('product')
-  #     allow(fake_product).to receive(:save).and_return(true)
-  #     allow(fake_product).to receive(:id).and_return(1)
-  #     allow(Product).to receive(:new).and_return(fake_product)
-  #     allow(response).to receive(:redirect_to).with(show_product_path(fake_product.id))
-  #     post '/products/create', params: { :product => fake_product }
-  #     expect(response).to redirect_to(show_product_path(fake_product.id))
-  #   end
-  # end
   it "should get index" do
     get products_path
     expect(response).to have_http_status(200)
@@ -92,8 +81,7 @@ RSpec.describe "Products", type: :request do
 
   describe "DELETE #destroy" do
     it "destroys the product" do
-      product = FactoryBot.create(:product)# Ensure the product is created before the test
-      puts product.inspect
+      product = FactoryBot.create(:product)
       expect {
         delete product_path(product.id)
       }.to change(Product, :count).by(-1)
