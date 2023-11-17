@@ -32,9 +32,13 @@ class ProductsController < ApplicationController
     end
 
     def search
+        # Store the previous search term if there is any
+        session[:search_term] = params[:search] if params[:search].present?
+
+        search_term = session[:search_term]
         min_price = params[:min_price]
         max_price = params[:max_price]
-        @match = Product.search(params[:search], min_price: min_price, max_price: max_price)
+        @match = Product.search(search_term, min_price: min_price, max_price: max_price)
         @categories = Category.all
         if @match.empty?
             @match = Product.all
