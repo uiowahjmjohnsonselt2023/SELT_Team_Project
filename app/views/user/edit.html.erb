@@ -1,94 +1,78 @@
-
-<%= form_tag(user_path(@user), method: :put, local: true) do %>
-  <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
-    <div style="text-align: center;">
-      <!-- User profile header -->
-      <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;">
-      <h1>Garfield Abernackle</h1>
-      <p>⭐⭐⭐⭐⭐ Verified User - 4223 Reviews</p>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; width: 100%; padding: 0 20px;">
-      <!-- Left column for user info -->
-      <div style="width: 50%;">
-        <fieldset>
-          <legend>User Info</legend>
-          <%= label_tag :name %>
-          <%= text_field_tag :name, @user.name, aria: { label: "Name" } %>
-
-          <div>
-            <div id="address-fields">
-              <%= label_tag :address %>
-              <%= text_field_tag :address, nil, placeholder: "123 Main St", aria: { label: "Address" } %>
-            </div>
-            <button type="button" onclick="addAddress()">Add Address</button>
-            <button type="button" onclick="removeAddress()">Remove Address</button>
-          </div>
-
-          <%= label_tag :phone %>
-          <%= telephone_field_tag :phone, nil, placeholder: "555-1234", aria: { label: "Phone" } %>
-          <%= label_tag :email %>
-          <%= email_field_tag :email, @user.email, aria: { label: "Email" } %>
-        </fieldset>
-      </div>
-
-      <!-- Right column for payment info -->
-      <div style="width: 50%;">
-        <fieldset>
-          <legend>Payment Info</legend>
-          <%= label_tag :card_number %>
-          <%= text_field_tag :card_number, nil, placeholder: "1234 5678 9123 4567", aria: { label: "Card Number" }, maxlength: 16 %>
-
-          <%= label_tag :street_address %>
-          <%= text_field_tag :street_address, nil, placeholder: "123 Main St", aria: { label: "Street Address" } %>
-
-          <%= label_tag :apt %>
-          <%= text_field_tag :apt, nil, placeholder: "Apartment 1A", aria: { label: "Apartment or Suite" } %>
-
-          <div>
-            <%= label_tag :city %>
-            <%= text_field_tag :city, nil, placeholder: "Anytown", aria: { label: "City" } %>
-          </div>
-
-          <div>
-            <%= label_tag :state %>
-            <%= select_tag :state, options_for_select([
-                                                        ["Alabama", "AL"], ["Alaska", "AK"], ["Arizona", "AZ"], ["Arkansas", "AR"],
-                                                        ["California", "CA"], ["Colorado", "CO"], ["Connecticut", "CT"], ["Delaware", "DE"],
-                                                        ["Florida", "FL"], ["Georgia", "GA"], ["Hawaii", "HI"], ["Idaho", "ID"],
-                                                        ["Illinois", "IL"], ["Indiana", "IN"], ["Iowa", "IA"], ["Kansas", "KS"],
-                                                        ["Kentucky", "KY"], ["Louisiana", "LA"], ["Maine", "ME"], ["Maryland", "MD"],
-                                                        ["Massachusetts", "MA"], ["Michigan", "MI"], ["Minnesota", "MN"], ["Mississippi", "MS"],
-                                                        ["Missouri", "MO"], ["Montana", "MT"], ["Nebraska", "NE"], ["Nevada", "NV"],
-                                                        ["New Hampshire", "NH"], ["New Jersey", "NJ"], ["New Mexico", "NM"], ["New York", "NY"],
-                                                        ["North Carolina", "NC"], ["North Dakota", "ND"], ["Ohio", "OH"], ["Oklahoma", "OK"],
-                                                        ["Oregon", "OR"], ["Pennsylvania", "PA"], ["Rhode Island", "RI"], ["South Carolina", "SC"],
-                                                        ["South Dakota", "SD"], ["Tennessee", "TN"], ["Texas", "TX"], ["Utah", "UT"],
-                                                        ["Vermont", "VT"], ["Virginia", "VA"], ["Washington", "WA"], ["West Virginia", "WV"],
-                                                        ["Wisconsin", "WI"], ["Wyoming", "WY"]
-                                                      ]), aria: { label: "State" } %>
-          </div>
-
-          <div>
-            <%= label_tag :zip %>
-            <%= text_field_tag :zip, nil, placeholder: "12345", aria: { label: "Zip Code" }, maxlength: 5 %>
-          </div>
-
-          <%= label_tag :expiry, "MM/YY" %>
-          <%= text_field_tag :expiry, nil, placeholder: "MM/YY", aria: { label: "Expiry Date" } %>
-
-          <%= label_tag :cvc %>
-          <%= text_field_tag :cvc, nil, placeholder: "123", aria: { label: "CVC" }, maxlength: 3 %>
-        </fieldset>
-      </div>
-    </div>
-
-    <div style="text-align: center; width: 100%;">
-      <%= submit_tag "Update", class: "button", style: "margin-top: 20px;" %>
-    </div>
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
 
+<%= form_for(@user, url: user_path(@user), html: { method: :put }) do |form| %>
+  <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+    <div style="text-align: center;">
+      <!-- User profile header -->
+      <h1><%= @user.name %></h1>
+    </div>
+
+    <!-- User Info Section -->
+    <div style="width: 50%;">
+      <fieldset>
+        <legend>User Info</legend>
+        <%= form.label :name %>
+        <%= form.text_field :name, aria: { label: "Name" } %>
+
+        <%= form.label :email %>
+        <%= form.email_field :email, aria: { label: "Email" } %>
+
+        <!-- Placeholder for phone number -->
+        <%= label_tag :placeholder_phone, 'Phone number' %>
+        <%= text_field_tag :placeholder_phone, '123-456-7890', disabled: true, aria: { label: "Phone number" } %>
+      </fieldset>
+    </div>
+
+    <!-- Addresses Section - Placeholders for now -->
+    <div style="width: 50%;">
+      <fieldset>
+        <legend>Address Info</legend>
+        <%= label_tag :placeholder_street, 'Street address' %>
+        <%= text_field_tag :placeholder_street, 'Street address', disabled: true, aria: { label: "Street address" } %>
+
+        <%= label_tag :placeholder_city, 'City' %>
+        <%= text_field_tag :placeholder_city, 'City', disabled: true, aria: { label: "City" } %>
+
+        <%= label_tag :placeholder_state, 'State' %>
+        <%= text_field_tag :placeholder_state, 'State', disabled: true, aria: { label: "State" } %>
+
+        <%= label_tag :placeholder_zip, 'ZIP code' %>
+        <%= text_field_tag :placeholder_zip, 'ZIP Code', disabled: true, aria: { label: "ZIP code" } %>
+
+        <%= label_tag :placeholder_country, 'Country' %>
+        <%= text_field_tag :placeholder_country, 'Country', disabled: true, aria: { label: "Country" } %>
+      </fieldset>
+    </div>
+
+    <!-- Payments Section - Placeholders for now -->
+    <div style="width: 50%;">
+      <fieldset>
+        <legend>Payment Info</legend>
+        <%= label_tag :placeholder_cc_number, 'Credit card number' %>
+        <%= text_field_tag :placeholder_cc_number, 'Credit card number', disabled: true, aria: { label: "Credit card number" } %>
+
+        <%= label_tag :placeholder_cc_expr, 'Expiration date (MM/YY)' %>
+        <%= text_field_tag :placeholder_cc_expr, 'MM/YY', disabled: true, aria: { label: "Expiration date" } %>
+
+        <%= label_tag :placeholder_cc_name_on_card, 'Name on card' %>
+        <%= text_field_tag :placeholder_cc_name_on_card, 'Name on card', disabled: true, aria: { label: "Name on card" } %>
+      </fieldset>
+    </div>
+
+    <div style="text-align: center; width: 100%;">
+      <%= form.submit "Update", class: "button", style: "margin-top: 20px;" %>
+    </div>
+  </div>
+<% end %>
 
 <script>
     var addressCount = 1; // Initial count is 1 because there's already one address field
