@@ -32,7 +32,9 @@ class ProductsController < ApplicationController
     end
 
     def search
-        @match = Product.search(params[:search])
+        min_price = params[:min_price]
+        max_price = params[:max_price]
+        @match = Product.search(params[:search], min_price: min_price, max_price: max_price)
         @categories = Category.all
         if @match.empty?
             @match = Product.all

@@ -52,8 +52,9 @@ class Product < ApplicationRecord
                           product.description.include?(search_term)
                     end
                 end
-        match = match.select { |product| product.price >= min_price } if min_price.present?
-        match = match.select { |product| product.price <= max_price } if max_price.present?
+
+        match = match.select { |product| product.price >= min_price.to_f } if min_price.present?
+        match = match.select { |product| product.price <= max_price.to_f } if max_price.present?
         match
     end
 
