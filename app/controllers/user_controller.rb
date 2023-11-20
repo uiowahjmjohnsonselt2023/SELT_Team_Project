@@ -1,5 +1,7 @@
 class UserController < ApplicationController
 
+
+  before_action :ensure_signed_in!, only: [:show, :edit, :update]
   def index
     @user = User.all
   end
@@ -19,15 +21,18 @@ class UserController < ApplicationController
   end
 
   def edit
-
+    @user = User.find(params[:id])
   end
 
   def update
     @user = User.find(params[:id])
 
-    if @user.update(user_params)
+    # Select only the parameters that are not blank
+    updated_params = user_params.select { |key, value| value.present? }
+
+    if @user.update(updated_params)
       # Redirect to a success page
-      render :user
+      redirect_to @user
     else
       # Render the form again with error messages
       render :edit
@@ -37,7 +42,11 @@ class UserController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :address, :phone, :email, :card_number, :street_address, :apt, :city, :state, :zip, :expiry, :cvc)
+    params.fetch(:user, {}).permit(
+      :name, :email, :password, :password_confirmation, :phone_number,
+      addresses_attributes: [:id, :address, :street, :zip, :state, :city, :country, :_destroy],
+      payments_attributes: [:id, :type, :cc_number, :cc_expr, :cc_name_on_card, :_destroy]
+    )
   end
 
   # A deprecated test function that never got finished. Do not use - will be removed at a later date.

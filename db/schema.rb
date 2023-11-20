@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20231110045317) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin"
+    t.string   "phone_number"
   end
 
 end
