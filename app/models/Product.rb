@@ -48,8 +48,8 @@ class Product < ApplicationRecord
                 else
                     all.select do |product|
                         levenshtein_distance(product.name.downcase, search_term.downcase) <= 3 ||
-                          product.name.downcase.include?(search_term) ||
-                          product.description.include?(search_term)
+                          product.name.downcase.include?(search_term.downcase) ||
+                          product.description.include?(search_term.downcase)
                     end
                 end
 
