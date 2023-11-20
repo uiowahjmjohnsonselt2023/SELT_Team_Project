@@ -23,6 +23,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'cucumber-rails', require: false
   gem 'rspec-rails'
+  gem 'devise'
 end
 
 # for Heroku deployment - as described in Ap. A of ELLS book

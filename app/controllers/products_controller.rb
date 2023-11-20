@@ -46,17 +46,26 @@ class ProductsController < ApplicationController
             redirect_to user_path(@product.user_id), :notice=>"Product created"
         else
             flash[:warning] = "Product not created. Try again."
-            flash[:errors] = @product.errors.full_messages
-            redirect_to new_product_path
+            redirect_to new_product_path 
         end
     end
 
-    def destroy
+    def destroy  # TODO: implement check for user_id before destroying product
+        @product = Product.find_by(id: params[:id])
         @product.destroy 
         flash[:notice] = "Product deleted"
-        redirect_to user_path(current_user)
+        redirect_to root_path
     end
 
+    def search
+        @match = Product.search(params[:search])
+        if @match.empty?
+            @match = Product.all
+            flash.now[:notice] = "No products found."
+        end
+    end
+
+=begin
     def search
         if params[:search].blank?
             @match = Product.all
@@ -80,10 +89,8 @@ class ProductsController < ApplicationController
             end
             #@match = @match.where("price >= ? AND price <= ?", min_price, max_price)
         end
-
     end
 
-    # From https://stackoverflow.com/questions/16323571/measure-the-distance-between-two-strings-with-ruby
     def levenshtein_distance(s, t)
         m = s.length
         n = t.length
@@ -107,6 +114,8 @@ class ProductsController < ApplicationController
         end
         d[m][n]
     end
+=end
+
 
     private
     def product_params # TODO: add user_id to product params
