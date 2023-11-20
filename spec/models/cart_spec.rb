@@ -19,23 +19,19 @@ RSpec.describe Cart, type: :model do
   end
 
   describe 'instance methods' do
-    before(:all) do 
-      10.times do 
-          FactoryBot.create(:product, name: Faker::Commerce.product_name, 
-                                      description: Faker::Lorem.paragraph, 
-                                      price: Faker::Commerce.price, 
-                                      quantity: Faker::Number.number(digits: 2), 
-                                      user_id: 1)
-      end
+    before(:all) do
+      @products = FactoryBot.create_list(:product, 10)
     end
+    
     before(:each) do
-      @cart = create(:cart)
-      @products = Product.all
+      @user = FactoryBot.create(:user)
+      @cart = @user.cart
     end
+
     it 'adds a product to the cart' do
       # add 5 products to the cart
       @products[0..4].each do |product|
-        @cart.add_product(product.id)
+        @cart.add_product(product.id, 1)
       end
 
       expect(@cart.products.count).to eq 5  

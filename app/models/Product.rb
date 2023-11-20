@@ -16,7 +16,8 @@ class Product < ApplicationRecord
 
     def total_quantity
         quantity
-
+    end 
+    
     # From https://stackoverflow.com/questions/16323571/measure-the-distance-between-two-strings-with-ruby
     def self.levenshtein_distance(s, t)
         m = s.length

@@ -14,17 +14,13 @@ class CartsController < ApplicationController
     end
 
     def add
-        @product = Product.find(params[:product_id])
-        @cart = Cart.find_by(id: session[:cart_id])
+        product = Product.find(params[:product_id])
+        cart = Cart.find_by(id: session[:cart_id])
         
         quantity = params[:quantity].to_i
-        current_item = @cart.cart_items.find_by(product_id: @product.id)
-      
-        if not current_item
-            current_item = @cart.cart_items.new(product: @product, quantity: quantity)
-        else 
-            current_item.quantity += quantity   
-        end
+
+        puts "quantity: #{quantity}"
+        current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
 
         if current_item.valid?
             flash[:notice] = "Product added to cart"
@@ -34,7 +30,7 @@ class CartsController < ApplicationController
         end
       
         redirect_to :back
-      end
+    end
 
     def destroy 
         @cart = Cart.find_by(id: session[:cart_id])
