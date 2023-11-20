@@ -42,7 +42,8 @@ class Product < ApplicationRecord
         d[m][n]
     end
 
-    def self.search(search_term, min_price: nil, max_price: nil)
+    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil)
+        puts category_id
         match = if search_term.blank?
                     all
                 else
@@ -53,6 +54,7 @@ class Product < ApplicationRecord
                     end
                 end
 
+        match = match.select { |product| product.category_id == category_id.to_i } if category_id.present?
         match = match.select { |product| product.price >= min_price.to_f } if min_price.present?
         match = match.select { |product| product.price <= max_price.to_f } if max_price.present?
         match
