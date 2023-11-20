@@ -36,4 +36,32 @@ RSpec.describe Product, type: :model do
       expect(association.macro).to eq :belongs_to
     end
   end
+
+  describe 'search' do
+    before(:all) do
+      @user = FactoryBot.create(:user)
+      FactoryBot.create(:product, name: 'Apple', user: @user)
+      FactoryBot.create(:product, name: 'Pineapple', user: @user)
+      FactoryBot.create(:product, name: 'Guava', user: @user)
+      FactoryBot.create(:product, name: 'Mango', user: @user)
+    end
+
+    it 'returns products using lowercase for search term' do
+        expect(Product.search('apple')).to include(Product.find_by(name: 'Apple'))
+    end
+
+    it 'returns related products' do
+        expect(Product.search('apple')).to include(Product.find_by(name: 'Apple'))
+        expect(Product.search('apple')).to include(Product.find_by(name: 'Pineapple'))
+        expect(Product.search('apple')).to_not include(Product.find_by(name: 'Guava'))
+    end
+
+    it 'returns the similar product when there is typo' do
+        expect(Product.search('appels')).to include(Product.find_by(name: 'Apple'))
+    end
+
+    it 'returns all products when search term empty' do
+        expect(Product.search('')).to match_array(Product.all)
+    end
+  end
 end

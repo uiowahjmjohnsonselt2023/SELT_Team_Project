@@ -179,7 +179,7 @@ RSpec.describe "Products", type: :request do
     end
   end 
 
-  describe "put #update" do
+  describe "PUT #update" do
     context "when the user is not logged in" do
       it "redirects to root path" do
         product = FactoryBot.create(:product)
@@ -233,6 +233,66 @@ RSpec.describe "Products", type: :request do
 
           put product_path(product), { product: { name: nil } }
           expect(response).to redirect_to(edit_product_path(product))
+        end
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    context "when the user is not logged in" do
+      it "redirects to root path" do
+        product = FactoryBot.create(:product)
+        delete product_path(product)
+
+        expect(response).to redirect_to(root_path)
+      end
+
+      it "flashes a warning" do
+        product = FactoryBot.create(:product)
+        delete product_path(product)
+
+        expect(flash[:warning]).to eq("You need to sign in before accessing this page.")
+      end
+    end
+
+    context "when the user is logged in" do
+      before(:all) do
+        @user = FactoryBot.create(:user)
+        post sessions_path, email: @user.email, password: 'password'
+      end
+
+      context "when the user owns the product" do
+        before(:each) do 
+          @product = FactoryBot.create(:product)
+          @user.products << @product
+        end 
+        
+        it "deletes the product" do
+          expect {
+            delete product_path(@product)
+          }.to change(Product, :count).by(-1)
+        end
+
+        it "redirects to the user\'s show page" do
+          delete product_path(@product)
+          expect(response).to redirect_to(user_path(@user))
+        end
+      end
+
+      context "when the user does not own the product" do
+        before(:each) do
+          @product = FactoryBot.create(:product)
+        end
+
+        it "does not delete the product" do
+          expect {
+            delete product_path(@product)
+          }.not_to change(Product, :count)
+        end
+
+        it "redirects to the user\'s path" do
+          delete product_path(@product)
+          expect(response).to redirect_to(user_path(@user))
         end
       end
     end
