@@ -3,23 +3,27 @@
 <%= link_to "Back", root_path %>
 
 <%= form_for @product, url: products_create_path do |f| %>
-    <div>
+    <div class="newP_sec">
         <%= f.label :name %>
         <%= f.text_field :name %>
     </div>
-    <div>
+    <div class="newP_sec">
         <%= f.label :price %>
         <%= f.number_field :price, step: 0.01, min: 0 %>
     </div>
-    <div>
+    <div class="newP_sec">
         <%= f.label :description %>
         <%= f.text_area :description %>
     </div>
-    <div>
+    <div class="newP_sec">
         <%= f.label :quantity %>
         <%= f.number_field :quantity, min: 0 %>
     </div>
-    <div>
+    <div class="newP_sec">
+        <%= f.label :category_id %>
+        <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true %>
+    </div>
+    <div class="newP_sec">
         <%= f.label :image %>
         <%= f.file_field :image %>
     </div>
