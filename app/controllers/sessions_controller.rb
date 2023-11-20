@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
             redirect_to signup_success_path
         else 
             flash[:signin] = "Invalid email or password"
-            render :new, satus: :unprocessable_entity
+            render :new, status: :unprocessable_entity
         end
     end
 

@@ -3,6 +3,8 @@
 <%= link_to "Back", root_path %>
 
 <%= form_for @product, url: products_create_path do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+
     <div>
         <%= f.label :name %>
         <%= f.text_field :name %>
@@ -23,6 +25,5 @@
         <%= f.label :image %>
         <%= f.file_field :image %>
     </div>
-
     <%= f.submit %>
 <% end %>

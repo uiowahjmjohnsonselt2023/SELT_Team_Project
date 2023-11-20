@@ -28,6 +28,7 @@ end
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'database_cleaner'
+  gem 'faker'
   # gem 'database_cleaner-active_record'
   # gem 'database_cleaner-sequel'
   gem 'pry'

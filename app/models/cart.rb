@@ -3,8 +3,7 @@ class Cart < ApplicationRecord
     has_many :products, through: :cart_items
     belongs_to :user
 
-    # validates :user_id, presence: true
-    # validates :user_id, uniqueness: true
+    validates :user_id, uniqueness: true
 
     def add_product(product_id)
         current_item = cart_items.find_by(product_id: product_id)
@@ -15,6 +14,7 @@ class Cart < ApplicationRecord
                                             quantity: 1, 
                                             cart_id: id)
         end
+
         current_item.save
     end
 

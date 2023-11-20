@@ -1,12 +1,30 @@
 class ProductsController < ApplicationController
+    before_action :ensure_signed_in!, only: [:new, :create, :edit, :destroy, :update]
+    before_action :ensure_correct_user, only: [:edit, :destroy, :update]
+    
     def index 
         @products = Product.all
     end
 
     def show 
-        # check if params[:id] is number   
+        @product = Product.find_by(id: params[:id])
+        if @product 
+            @user = User.find(@product.user_id)
+        else 
+            flash['warning'] = "Product not found #{params[:id]}"
+            redirect_to root_path
+        end
+    end
+
+    def update
         @product = Product.find(params[:id])
-        @user = User.find(@product.user_id)
+        if @product.update(product_params)
+            redirect_to user_path(@product.user_id), :notice=>"Product updated"
+        else
+            flash[:warning] = "Product not updated. Try again."
+            flash[:errors] = @product.errors.full_messages
+            redirect_to edit_product_path
+        end
     end
 
     def new 
@@ -14,21 +32,29 @@ class ProductsController < ApplicationController
     end
 
     def edit
+        # check if product is of the current user, and that it exists 
+        @product = Product.find_by(id: params[:id])
+        if @product.nil?
+            flash[:warning] = "Product not found"
+            redirect_to user_path(current_user.id)
+        end
     end
 
     def create 
         @product = Product.create(product_params)
         if @product.valid?
-            redirect_to :action=>'show', :id=>@product.id, :notice=>"Product created"
+            redirect_to user_path(@product.user_id), :notice=>"Product created"
         else
-            flash[:warning] = ("Product not created. Try again.")
-            redirect_to new_product_path , flash[:warning] = "Product not created. Try again."
+            flash[:warning] = "Product not created. Try again."
+            flash[:errors] = @product.errors.full_messages
+            redirect_to new_product_path
         end
     end
 
-    def destroy  # TODO: implement check for user_id before destroying product
+    def destroy
         @product.destroy 
         flash[:notice] = "Product deleted"
+        redirect_to user_path(current_user)
     end
 
     def search
@@ -81,10 +107,24 @@ class ProductsController < ApplicationController
         end
         d[m][n]
     end
+
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
         params.require(:product).permit(:name, :description, :price, :quantity, :user_id)
+    end
+
+    def ensure_correct_user
+        @product = Product.find_by(id: params[:id])
+        if @product && current_user
+            if current_user.id != @product.user_id
+                flash[:warning] = "You do not have permission to edit this product."
+                redirect_to user_path(current_user.id)   # TODO: either redirect to current users path, or redirect to root path
+            end
+        else 
+            flash[:warning] = "Product not found"
+
+        end
     end
 end
 

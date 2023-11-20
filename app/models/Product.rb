@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-    has_many :cart_items
+    has_many :cart_items, dependent: :destroy
     has_many :carts, through: :cart_items
     belongs_to :user   
     has_many :reviews
@@ -7,15 +7,15 @@ class Product < ApplicationRecord
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}
     validates :quantity, presence: true
-    validates :description, presence: true
+    validates :description, presence: true, length: {minimum: 10, maximum: 300}
     
-
     before_save :default_quantity
     before_save :default_description
     before_save :price_format
     before_save :name_format
 
-    def self.search(search_term)
+    def total_quantity
+        quantity
     end
     
     private

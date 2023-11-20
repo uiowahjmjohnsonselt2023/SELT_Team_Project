@@ -7,10 +7,11 @@
     <% product = item.product %>
     <h3><%= product.name %></h3>
     <p> <%= product.description %></p>
-    <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+    <p>Unit Price: <%=  number_to_currency(product.price) %></p> 
     <p>Quantity:   <%=  item.quantity %></p>
     <p>Total Item Price:<%=  number_to_currency(item.total_price) %></p>
-    <%= link_to "Remove", {controller: "carts", action:"remove", id: @cart.id, product_id: product.id, quantity: 1}, method: :post%> 
+    <%= link_to "Remove", cart_path(cart_id: @cart.id, product_id: product.id, quantity: 1), method: :delete%> 
+
   </div>
 <% end %>
 <p> Cart Total: <%=  number_to_currency(@cart.total_price) %></p>
