@@ -74,25 +74,3 @@
   </div>
 <% end %>
 
-<script>
-    var addressCount = 1; // Initial count is 1 because there's already one address field
-
-    function addAddress() {
-        if (addressCount < 3) {
-            var newAddress = document.createElement('input');
-            newAddress.setAttribute('type', 'text');
-            newAddress.setAttribute('name', 'address' + (addressCount + 1));
-            newAddress.setAttribute('aria-label', 'Address ' + (addressCount + 1));
-            document.getElementById('address-fields').appendChild(newAddress);
-            addressCount++;
-        }
-    }
-
-    function removeAddress() {
-        if (addressCount > 1) {
-            var addressFields = document.getElementById('address-fields');
-            addressFields.removeChild(addressFields.lastChild);
-            addressCount--;
-        }
-    }
-</script>

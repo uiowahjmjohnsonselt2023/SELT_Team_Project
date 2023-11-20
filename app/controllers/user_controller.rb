@@ -23,6 +23,8 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  #New password meta, loop through all keys check if got a new value then update
+  #
   def update
     @user = User.find(params[:id])
 
@@ -42,7 +44,7 @@ class UserController < ApplicationController
 
   def user_params
     params.fetch(:user, {}).permit(
-      :name, :email, :password, :password_confirmation, :profile_pic,
+      :name, :email, :password, :password_confirmation, :phone_number,
       addresses_attributes: [:id, :address, :street, :zip, :state, :city, :country, :_destroy],
       payments_attributes: [:id, :type, :cc_number, :cc_expr, :cc_name_on_card, :_destroy]
     )
