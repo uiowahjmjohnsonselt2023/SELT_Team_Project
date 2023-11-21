@@ -22,7 +22,11 @@
             <p>No address on file.</p>
           <% end %>
           <h4><%= @user.email %></h4>
-          <p>Phone: (563) 388-9464</p> <!-- Static placeholder phone number -->
+          <% if @user.phone_number %>
+            <p>Phone: <%= @user.phone_number %></p>
+          <% else %>
+            <p>No phone number on file.</p>
+          <% end %>
           <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
         </div>
       </div>

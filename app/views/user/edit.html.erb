@@ -26,6 +26,13 @@
         <%= form.label :email %>
         <%= form.email_field :email, aria: { label: "Email" } %>
 
+        <%= form.label :password, 'New Password' %>
+        <%= form.password_field :password, aria: { label: "New Password" } %>
+
+        <%= form.label :password_confirmation, 'Confirm New Password' %>
+        <%= form.password_field :password_confirmation, aria: { label: "Confirm New Password" } %>
+
+
         <!-- Placeholder for phone number -->
         <%= label_tag :placeholder_phone, 'Phone number' %>
         <%= text_field_tag :placeholder_phone, '123-456-7890', disabled: true, aria: { label: "Phone number" } %>

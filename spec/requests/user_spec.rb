@@ -44,6 +44,8 @@ RSpec.describe "Users", type: :request do
       assign(:user, user)
       render
       expect(rendered).to include(user.name)
+      expect(rendered).to include(user.phone_number)
+      expect(rendered).to include(user.email)
       # Add more expectations to ensure all necessary info is displayed
     end
   end
@@ -94,5 +96,55 @@ RSpec.describe "Users", type: :request do
       end
     end
   end
+
+  describe "edit.html.erb" do
+    before do
+      assign(:user, user)
+      render
+    end
+
+    it "displays form with user data" do
+      expect(rendered).to have_selector("input[value='#{user.name}']")
+      expect(rendered).to have_selector("input[type='email'][value='#{user.email}']")
+      expect(rendered).to have_selector("input[type='password']", count: 2) # For password and confirmation
+    end
+  end
+
+  describe "PATCH /update" do
+    before do
+      sign_in(user)
+    end
+
+    context "with valid password" do
+      it "updates the user's password" do
+        patch :update, params: { id: user.id, user: { password: "NewPassword123", password_confirmation: "NewPassword123" } }
+        user.reload
+        expect(user.valid_password?("NewPassword123")).to be true
+      end
+    end
+
+    context "with blank password" do
+      it "does not change the user's password" do
+        old_encrypted_password = user.encrypted_password
+        patch :update, params: { id: user.id, user: { name: "New Name", password: "", password_confirmation: "" } }
+        user.reload
+        expect(user.encrypted_password).to eq(old_encrypted_password)
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    context "with invalid attributes" do
+      it "does not update the user and shows error messages" do
+        sign_in(user)
+        patch :update, params: { id: user.id, user: { email: "invalidemail", password: "short", password_confirmation: "short" } }
+        expect(response).to render_template(:edit)
+        expect(response.body).to include("Email is invalid")
+        expect(response.body).to include("Password is too short")
+      end
+    end
+  end
+
+
 
 end
