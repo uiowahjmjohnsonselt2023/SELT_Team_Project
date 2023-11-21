@@ -39,6 +39,11 @@ class UserController < ApplicationController
     # Select only the parameters that are not blank
     updated_params = user_params.select { |key, value| value.present? }
 
+    if updated_params[:password].blank? && updated_params[:password_confirmation].blank?
+      updated_params.delete(:password)
+      updated_params.delete(:password_confirmation)
+    end
+
     if @user.update(updated_params)
       # Redirect to a success page
       redirect_to @user
