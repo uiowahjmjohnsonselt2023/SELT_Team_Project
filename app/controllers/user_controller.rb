@@ -1,7 +1,10 @@
 class UserController < ApplicationController
 
 
+  #ensures users are signed in before we try to do :show, :edit, or :update and redirects them to products
   before_action :ensure_signed_in!, only: [:show, :edit, :update]
+  #
+  before_action :ensure_registration, only: [:index]
   def index
     @user = User.find(params[:id])
   end
