@@ -51,10 +51,5 @@ class UserController < ApplicationController
     )
   end
 
-  # A deprecated test function that never got finished. Do not use - will be removed at a later date.
-  def flash_test
-    redirect_to :action => :index
-    flash[:notice] = "Test Flash, for dev purposes only."
-  end
 
 end
