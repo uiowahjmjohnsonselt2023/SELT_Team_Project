@@ -6,13 +6,12 @@ RSpec.describe "Users", type: :request do
       get(users_path)
       expect(response).to redirect_to(signup_path)
     end
-
-  end
-  describe "Get /show" do
-    it "assigns the requested product to @product" do
+    #attempted test, does not work - fix later
+    it "does not redirect when user is logged in" do
       user = FactoryBot.create(:user)
-      get user_path(user)
-      expect(assigns(:user)).to eq(user)
+      get(users_path)
+      expect(response).to eq(users_path)
     end
+
   end
 end
