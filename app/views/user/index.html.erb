@@ -10,6 +10,7 @@
   <div style="display: flex; justify-content: space-between; width: 100%;">
     <!-- Left column for user info and previous orders -->
     <div style="flex: 1;">
+      <!-- This line just hides the page if the user id of the page we're on doesn't match the user id -->
       <% if @user.id == session[:user_id] %>
         <div class="user-info-wrapper">
           <h2>Profile</h2>
@@ -27,36 +28,6 @@
           </div>
         <% end %>
       </div>
-
-
-      <!--      <div class="Most-Recent-orders-wrapper">-->
-      <!--         <%# prod = Product.first %> -->
-      <!--        <h3>Recent Order</h3>-->
-      <!--        <!-- Previous orders listed here -->-->
-      <!--        <h4><%#= prod.name %></h4>-->
-      <!--        <p><%#= prod.description %></p>-->
-      <!--        <p>$<%#= prod.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--      </div>-->
-      <!--    </div>-->
-
-
-      <!--    <!-- Right column for current postings -->-->
-      <!--    <div style="flex: 1;">-->
-      <!--      <div class="current-postings-wrapper">-->
-      <!--        <h3>Current Postings</h3>-->
-      <%# prod_two = Product.first %>
-      <!--        <div class="product">-->
-      <!--          <!-- Current posting details -->-->
-      <!--          <h4><%#= prod_two.name %></h4>-->
-      <!--          <p><%#= prod.description %></p>-->
-      <!--          <p>$<%#= prod_two.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-
     </div>
   </div>
 </div>
