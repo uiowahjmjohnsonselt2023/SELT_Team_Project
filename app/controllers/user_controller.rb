@@ -3,7 +3,7 @@ class UserController < ApplicationController
 
   #ensures users are signed in before we try to do :show, :edit, or :update and redirects them to products
   before_action :ensure_signed_in!, only: [:show, :edit, :update]
-  #
+  #if users aren't logged in when trying to index, send them to the login page.
   before_action :ensure_registration, only: [:index]
   def index
     @user = User.find(params[:id])
@@ -22,10 +22,17 @@ class UserController < ApplicationController
     end
   end
 
+  #the params to be passed when going to the edit page
+  # Now redirects when an incorrect user types in the edit page's path
   def edit
     @user = User.find(params[:id])
+    if @user.id != session[:user_id]
+      redirect_to root_path
+    end
   end
 
+
+  # Function to update users after selecting the edit page
   def update
     @user = User.find(params[:id])
 
@@ -42,7 +49,7 @@ class UserController < ApplicationController
   end
 
   private
-
+  # marks the user_params
   def user_params
     params.fetch(:user, {}).permit(
       :name, :email, :password, :password_confirmation, :phone_number,
