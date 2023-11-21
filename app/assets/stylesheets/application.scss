@@ -13,6 +13,9 @@
  *= require_tree .
  *= require_self
  */
+ 
+ @import "bootstrap";
+ @import 'bootstrap/theme';
 
 .topnav-wrapper {
     display: flex;

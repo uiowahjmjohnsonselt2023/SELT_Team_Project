@@ -2,7 +2,11 @@ class Product < ApplicationRecord
     has_many :cart_items, dependent: :destroy
     has_many :carts, through: :cart_items
     belongs_to :user   
+
     has_many :reviews
+
+    has_many :images, dependent: :destroy
+    accepts_nested_attributes_for :images
 
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}
@@ -32,7 +36,18 @@ class Product < ApplicationRecord
         match = match.select { |product| product.price <= max_price } if max_price.present?
         match
     end
-
+    def add_images(images)
+        images.each do |image|
+            self.images.new(image: image, user_id: self.user_id, product_id: self.id)
+            if self.images.last.valid?
+                self.images.last.save
+            else
+                self.images.last.destroy
+                return false
+            end
+        end
+        self.save
+    end
     private
     def default_quantity # default quantity to 1
         self.quantity ||= 1

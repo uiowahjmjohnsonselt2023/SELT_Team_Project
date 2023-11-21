@@ -10,7 +10,10 @@ gem 'jquery-rails'
 
 gem 'nokogiri', '~> 1.13.10'
 gem 'puma'
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7' 
+gem 'dragonfly', '~> 1.4.0'
+gem 'bootstrap-sass'
+gem 'remotipart', '~> 1.2'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
@@ -42,5 +45,7 @@ end
 group :production do
   gem 'pg', '~> 0.15'
   gem 'rails_12factor'
-end
+  gem 'dragonfly-s3_data_store'
+  gem 'rack-cache', :require => 'rack/cache'
 
+end

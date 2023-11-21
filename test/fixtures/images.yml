@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  image_uid: MyString
+  title: MyString
+  belongs_to: 
+  belongs_to: 
+
+two:
+  image_uid: MyString
+  title: MyString
+  belongs_to: 
+  belongs_to: 

@@ -4,9 +4,17 @@
 <p>Price: <%= number_to_currency(@product.price) %></p>
 <p>Quantity: <%= @product.quantity %></p>
 <p>Seller: <%= @user.name %> </p>
-<%= form_tag add_to_cart_path(id: session[:cart_id], product_id: @product.id, quantity: :quantity), method: :post do %>
-  <%= select_tag :quantity, options_for_select((1..@product.quantity).to_a) %>
+
+<%= form_tag add_to_cart_path(id: session[:cart_id], product_id: @product.id, quantity: :quan), method: :post do %>
+  <%= select_tag :quan, options_for_select((1..@product.quantity).to_a) %>
   <%= submit_tag "Add to Cart" %>
 <% end %>
 <br>
+
+<h1>List of photos</h1>
+<% if @product.images.present? %>
+<ul class="row" id="photos-list">
+  <%= render @product.images %>
+</ul>
+<%end%>
 

@@ -10,25 +10,46 @@ class ProductsController < ApplicationController
         @product = Product.find_by(id: params[:id])
         if @product 
             @user = User.find(@product.user_id)
+            @images = @product.images
         else 
             flash['warning'] = "Product not found #{params[:id]}"
             redirect_to root_path
         end
     end
 
-    def update
-        @product = Product.find(params[:id])
-        if @product.update(product_params)
-            redirect_to user_path(@product.user_id), :notice=>"Product updated"
-        else
-            flash[:warning] = "Product not updated. Try again."
-            flash[:errors] = @product.errors.full_messages
-            redirect_to edit_product_path
-        end
-    end
-
     def new 
         @product = Product.new
+        @image = Image.new
+        @images = Image.find_by(product_id: @product.id)
+    end
+
+    def create 
+        respond_to do |format|
+            @product = Product.create(product_params)
+            if @product.valid?
+                images = params[:product][:images]
+                puts images
+                if images
+                    res = @product.add_images(images)
+                    puts res
+                    if not res
+                        flash.now[:warning] = "Product not created. Try again."
+                        format.html { redirect_to user_path(@product.user_id) }
+                        format.js
+                        return
+                    end
+                end
+                puts @product.errors.full_messages
+                flash.now[:notice] = "Product created"
+                format.html { redirect_to user_path(@product.user_id) }
+                format.js
+            else
+                puts @product.errors.full_messages
+                flash.now[:warning] = "Product not created. Try again."
+                format.html { redirect_to user_path(@product.user_id) }
+                format.js
+            end
+        end
     end
 
     def edit
@@ -40,13 +61,14 @@ class ProductsController < ApplicationController
         end
     end
 
-    def create 
-        @product = Product.create(product_params)
-        if @product.valid?
-            redirect_to user_path(@product.user_id), :notice=>"Product created"
+    def update
+        @product = Product.find(params[:id])
+        if @product.update(product_params)
+            redirect_to user_path(@product.user_id), :notice=>"Product updated"
         else
-            flash[:warning] = "Product not created. Try again."
-            redirect_to new_product_path 
+            flash[:warning] = "Product not updated. Try again."
+            flash[:errors] = @product.errors.full_messages
+            redirect_to edit_product_path
         end
     end
 
@@ -68,7 +90,7 @@ class ProductsController < ApplicationController
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
-        params.require(:product).permit(:name, :description, :price, :quantity, :user_id)
+        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :images) 
     end
 
     def ensure_correct_user

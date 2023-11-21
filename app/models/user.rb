@@ -8,9 +8,12 @@ class User < ApplicationRecord
     validates :password_confirmation, presence: true
 
     #after_save :create_session_token
-    has_many :products
+    has_many :products, dependent: :destroy
     has_one :cart
-# private 
+
+    before_save { self.cart = Cart.create(user_id: self.id) }
+
+    # private 
 #     def create_session_token
 #         self.session_token = SessionRandom.urlsafe_base64
 #     end

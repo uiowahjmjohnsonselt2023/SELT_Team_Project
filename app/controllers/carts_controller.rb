@@ -22,7 +22,7 @@ class CartsController < ApplicationController
         puts "quantity: #{quantity}"
         current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
 
-        if current_item.valid?
+        if current_item
             flash[:notice] = "Product added to cart"
             current_item.save
         else
