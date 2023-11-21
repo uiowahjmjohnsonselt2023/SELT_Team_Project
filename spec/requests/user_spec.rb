@@ -11,7 +11,7 @@ RSpec.describe "Users", type: :request do
   describe "Get /show" do
     it "assigns the requested product to @product" do
       user = FactoryBot.create(:user)
-      get show_user_path(user)
+      get user_path(user)
       expect(assigns(:user)).to eq(user)
     end
   end
