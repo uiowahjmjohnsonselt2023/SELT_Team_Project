@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
   describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+    it "redirects when users are not logged in" do
+      get(users_path)
+      expect(response).to redirect_to(signup_path)
+    end
   end
 end
