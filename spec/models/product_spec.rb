@@ -37,12 +37,13 @@ RSpec.describe Product, type: :model do
     end
   end
 
-  # Testing search feature
   describe 'search' do
-    before do
-      FactoryBot.create(:product, name: 'Apple', price: 0.99)
-      FactoryBot.create(:product, name: 'Pineapple', price: 2.44)
-      FactoryBot.create(:product, name: 'Guava', price: 3.88)
+    before(:all) do
+      @user = FactoryBot.create(:user)
+      FactoryBot.create(:product, name: 'Apple', user: @user)
+      FactoryBot.create(:product, name: 'Pineapple', user: @user)
+      FactoryBot.create(:product, name: 'Guava', user: @user)
+      FactoryBot.create(:product, name: 'Mango', user: @user)
     end
 
     it 'returns products using lowercase for search term' do
@@ -62,24 +63,5 @@ RSpec.describe Product, type: :model do
     it 'returns all products when search term empty' do
         expect(Product.search('')).to match_array(Product.all)
     end
-
-
-=begin
-    it 'return matching products that is in the price range' do
-        match = Product.search('', min_price: 1, max_price: 1.5)
-        expect(match).to include(Product.find_by(name: 'Apple'))
-        expect(match).to_not include(Product.find_by(name: 'Pineapple'))
-        expect(match).to_not include(Product.find_by(name: 'Guava'))
-    end
-=end
-
   end
-  # describe 'methods' do
-  #   context 'search method' do
-  #     it 'returns products with similar names to the search term' do
-  #       product = Product.create(name: 'Test Product', price: 10.99, description: 'This is a test product')
-  #       expect(Product.search('Test')).to include(product)
-  #     end
-  #   end
-  # end
 end

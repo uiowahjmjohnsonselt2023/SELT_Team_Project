@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-    has_many :cart_items
+    has_many :cart_items, dependent: :destroy
     has_many :carts, through: :cart_items
     belongs_to :user   
     has_many :reviews
@@ -7,39 +7,16 @@ class Product < ApplicationRecord
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}
     validates :quantity, presence: true
-    validates :description, presence: true
+    validates :description, presence: true, length: {minimum: 10, maximum: 300}
     
-
     before_save :default_quantity
     before_save :default_description
     before_save :price_format
     before_save :name_format
 
-
-    # From https://stackoverflow.com/questions/16323571/measure-the-distance-between-two-strings-with-ruby
-    def self.levenshtein_distance(s, t)
-        m = s.length
-        n = t.length
-        return m if n == 0
-        return n if m == 0
-        d = Array.new(m+1) {Array.new(n+1)}
-
-        (0..m).each {|i| d[i][0] = i}
-        (0..n).each {|j| d[0][j] = j}
-        (1..n).each do |j|
-            (1..m).each do |i|
-                d[i][j] = if s[i-1] == t[j-1]  # adjust index into string
-                              d[i-1][j-1]       # no operation required
-                          else
-                              [ d[i-1][j]+1,    # deletion
-                                d[i][j-1]+1,    # insertion
-                                d[i-1][j-1]+1,  # substitution
-                              ].min
-                          end
-            end
-        end
-        d[m][n]
-    end
+    def total_quantity
+        quantity
+    end 
 
     def self.search(search_term, min_price: nil, max_price: nil)
         match = if search_term.blank?
@@ -74,5 +51,30 @@ class Product < ApplicationRecord
 
     def price_format # format price to 2 decimal places
         self.price = price.round(2)
+    end
+    
+    # From https://stackoverflow.com/questions/16323571/measure-the-distance-between-two-strings-with-ruby
+    def self.levenshtein_distance(s, t)
+        m = s.length
+        n = t.length
+        return m if n == 0
+        return n if m == 0
+        d = Array.new(m+1) {Array.new(n+1)}
+
+        (0..m).each {|i| d[i][0] = i}
+        (0..n).each {|j| d[0][j] = j}
+        (1..n).each do |j|
+            (1..m).each do |i|
+                d[i][j] = if s[i-1] == t[j-1]  # adjust index into string
+                                d[i-1][j-1]       # no operation required
+                            else
+                                [ d[i-1][j]+1,    # deletion
+                                d[i][j-1]+1,    # insertion
+                                d[i-1][j-1]+1,  # substitution
+                                ].min
+                            end
+            end
+        end
+        d[m][n]
     end
 end

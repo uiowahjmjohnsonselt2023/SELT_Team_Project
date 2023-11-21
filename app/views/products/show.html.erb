@@ -4,7 +4,9 @@
 <p>Price: <%= number_to_currency(@product.price) %></p>
 <p>Quantity: <%= @product.quantity %></p>
 <p>Seller: <%= @user.name %> </p>
-
-<%= link_to "Add to Cart", {controller: "carts", action:"add", id: session[:cart_id], product_id: @product.id, quantity: 1}, method: :post %>
+<%= form_tag add_to_cart_path(id: session[:cart_id], product_id: @product.id, quantity: :quantity), method: :post do %>
+  <%= select_tag :quantity, options_for_select((1..@product.quantity).to_a) %>
+  <%= submit_tag "Add to Cart" %>
+<% end %>
 <br>
 

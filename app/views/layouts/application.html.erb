@@ -13,11 +13,16 @@
     <div class="navbar navbar-expand-lg bg-primary text-white mb-3">
       <div class="topnav-wrapper">
          <%= link_to "Home", root_path %>   
-        <%= form_tag :product_search, :method => "post", :class => "search_form" do  %>
-          <%= text_field_tag :search, params[:search] %>
+        <%= form_tag product_search_path, :class => "search_form" do  %>
+          <%= text_field_tag :search, params[:search], :class => "search_field", placeholder: "Search for a product" %>
         <%end%>
-        <%= link_to 'Cart', cart_path(session[:cart_id] || session[:session_id]) %>
-        <%= link_to 'Profile', users_path %>
+        <% if current_user.present? %>
+          <%= link_to 'Profile', user_path(current_user.id) %>
+          <%= link_to 'Cart', cart_path(current_user.cart.id), :method => "get"%>
+        <% else %>
+          <%= link_to 'Profile', signup_path %>
+          <%= link_to 'Cart', signup_path %>
+        <% end %>
         <%= link_to 'About', root_path %>
         <%= link_to 'SignUp', signup_path %>
         <% if current_user.present? %>

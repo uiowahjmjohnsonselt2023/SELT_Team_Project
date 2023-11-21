@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "Sessions", type: :request do
   describe "POST #create" do
-
     context "with valid credentials" do
       it "signs in the user and redirects to signup_success_path" do
-        user = FactoryBot.create(:user, email: "james21@gmail.com")
-        post sessions_path, email: user.email, password: '123456' 
+        user = FactoryBot.create(:user)
+        
+        post sessions_path, email: user.email, password: 'password' 
         expect(response).to redirect_to(signup_success_path)
       end
     end
@@ -21,10 +21,12 @@ RSpec.describe "Sessions", type: :request do
   end
 
   describe "DELETE #destroy" do
-    it "signs out the user and redirects to root_path" do
-      user = FactoryBot.create(:user)
-      allow(controller).to receive(:current_user).and_return(user)
+    before(:each) do
+      @user = FactoryBot.create(:user)
+      post sessions_path, email: @user.email, password: 'password'  # sign in the user
+    end
 
+    it "signs out the user and redirects to root_path" do
       get logout_path
       expect(response).to redirect_to(root_path)
     end
