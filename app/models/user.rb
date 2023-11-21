@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     has_secure_password
+
     #before_save {|user| user.email = user.email.downcase}
     validates :name, presence: true, length: {maximum: 25}
     VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -9,7 +10,9 @@ class User < ApplicationRecord
 
     #after_save :create_session_token
     has_many :products
-    has_one :cart
+    has_one :cart, dependent: :destroy
+
+    after_save {  self.cart = Cart.new  }
 # private 
 #     def create_session_token
 #         self.session_token = SessionRandom.urlsafe_base64
