@@ -10,20 +10,22 @@
   <div style="display: flex; justify-content: space-between; width: 100%;">
     <!-- Left column for user info and previous orders -->
     <div style="flex: 1;">
-      <div class="user-info-wrapper">
-        <h2>Profile</h2>
-        <div class="user-info">
-          <!-- User info details -->
-          <h4><%= @user.name %></h4>
-          <% if @address %>
-            <p>Street: <%= @address.street %></p>
-          <% else %>
-            <p>No address on file.</p>
-          <% end %>
-          <h4><%= @user.email %></h4>
-          <p>Phone: (563) 388-9464</p> <!-- Static placeholder phone number -->
-          <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
-        </div>
+      <% if @user.id == session[:user_id] %>
+        <div class="user-info-wrapper">
+          <h2>Profile</h2>
+          <div class="user-info">
+            <!-- User info details -->
+            <h4><%= @user.name %></h4>
+            <% if @address %>
+              <p>Street: <%= @address.street %></p>
+            <% else %>
+              <p>No address on file.</p>
+            <% end %>
+            <h4><%= @user.email %></h4>
+            <p>Phone: (563) 388-9464</p> <!-- Static placeholder phone number -->
+              <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
+          </div>
+        <% end %>
       </div>
 
 
