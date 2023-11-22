@@ -47,19 +47,25 @@ RSpec.describe "Products", type: :request do
   end
 
   describe "GET #show" do
-    it "renders the show template" do
-      product = FactoryBot.create(:product)
-
-      get show_product_path(product)
-      expect(response).to render_template("show")
+    context "when the product exists" do
+      it "renders the show template" do
+        product = FactoryBot.create(:product)
+        get product_path(product)
+        expect(response).to render_template("show")
+      end
+      it "renders all the images for the product" do
+        product = FactoryBot.create(:product)
+        get product_path(product)
+        expect(assigns(:images)).to eq(product.images)
+      end
     end
     context "when the product does not exist" do
       it "flashes a warning" do
-        get show_product_path(id: -1)
+        get product_path(id: -1)
         expect(flash[:warning]).to eq("Product not found #{-1}")
       end
       it "redirects to root path" do
-        get show_product_path(id: -1)
+        get product_path(id: -1)
         expect(response).to redirect_to(root_path)
       end
     end
@@ -67,12 +73,12 @@ RSpec.describe "Products", type: :request do
     context "when the product exists" do
       it "does not flash a warning" do
         product = FactoryBot.create(:product)
-        get show_product_path(product)
+        get product_path(product)
         expect(flash[:warning]).to be_nil
       end
       it "does not redirect to root path" do
         product = FactoryBot.create(:product)
-        get show_product_path(product)
+        get product_path(product)
         expect(response).not_to redirect_to(root_path)
       end
     end
@@ -152,15 +158,20 @@ RSpec.describe "Products", type: :request do
       end
 
       context "with valid parameters" do
+        before(:all) do 
+          @image = fixture_file_upload('files/test_image.jpg')
+          @valid_params = { name: "Sample Product", description: "A description for the product", price: 20, quantity: 10, user_id: @user.id, images: [@image]}
+        end
+
         it "creates a new product" do
           expect {
-            post products_path, { product: { name: "Sample Product", description: "A description for the product", price: 20, quantity: 10, user_id: @user.id } }
+            post products_path, { product: @valid_params}
           }.to change(Product, :count).by(1)
         end
 
-        it "redirects to the created product\'s show page" do
-          post products_path, { product: FactoryBot.attributes_for(:product) }
-          expect(response).to redirect_to(user_path(1))
+        it "redirects to the users profile page" do
+          post products_path, { product: @valid_params }
+          expect(response).to redirect_to(@user)
         end
       end
 
@@ -170,7 +181,13 @@ RSpec.describe "Products", type: :request do
             post products_path, { product: FactoryBot.attributes_for(:product, name: nil) }
           }.not_to change(Product, :count)
         end
-
+        it "does not create a new product with valid product attributes but invalid image attributes" do
+          @image = fixture_file_upload('files/incorrect_img.dat')
+          @invalid_params = { name: nil, description: "A description for the product", price: 20, quantity: 10, user_id: @user.id, images: [@image]}
+          expect {
+            post products_path, {product: @invalid_params}
+          }.not_to change(Product, :count)
+        end
         it "renders the new template" do
           post products_path, { product: FactoryBot.attributes_for(:product, name: nil) }
           expect(response).to redirect_to(new_product_path)

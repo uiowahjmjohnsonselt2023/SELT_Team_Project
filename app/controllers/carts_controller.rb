@@ -5,7 +5,8 @@ class CartsController < ApplicationController
     def show
         # find a cart by id, if not create one 
         @cart = Cart.find_by(id: session[:cart_id])
-        
+        @user = @cart.user
+
         if @cart.cart_items.empty?
             @cart_items = []
         else
@@ -19,12 +20,10 @@ class CartsController < ApplicationController
         
         quantity = params[:quantity].to_i
 
-        puts "quantity: #{quantity}"
         current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
 
         if current_item.valid?
             flash[:notice] = "Product added to cart"
-            current_item.save
         else
             flash[:warning] = "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart."
         end
@@ -40,7 +39,8 @@ class CartsController < ApplicationController
 
         if remove_quantity >= total_quantity # if the number of items to remove is greater than the total numbers of unit items. Destroy the cart item
             current_item.destroy
-            flash[:notice] = "Product removed from cart"
+            current_item.product.quantity += 1
+            flash[:notice] = "#{current_item.product.name} removed from your cart"
         else 
             current_item.quantity -= remove_quantity
             current_item.product.quantity += remove_quantity

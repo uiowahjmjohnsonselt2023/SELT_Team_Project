@@ -1,0 +1,11 @@
+<div class="card mb-3 half-width-card">
+    <div class="card-body">
+        <% item = cart_item.product %>
+        <h3 class="card-title"><%= item.name %></h3>
+        <p class="card-text"><%= item.description %></p>
+        <p class="card-text">Unit Price: <%= number_to_currency(item.price) %></p>
+        <p class="card-text">Quantity: <%= cart_item.quantity %></p>
+        <p class="card-text">Total Item Price: <%= number_to_currency(cart_item.total_price) %></p>
+        <%= link_to "Remove", cart_path(cart_id: @cart.id, product_id: item.id, quantity: 1), method: :delete, class: "btn btn-danger" %>
+    </div>
+</div>

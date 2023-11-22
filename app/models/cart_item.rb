@@ -26,12 +26,11 @@ class CartItem < ApplicationRecord
     end
 
     def update_product_quantity
-      if product.quantity > quantity
+      if product.quantity >= quantity
           product.quantity -= quantity
           product.save
       else 
           errors.add(:quantity, "can't exceed product quantity")
-          throw(:abort)
       end
     end
   end

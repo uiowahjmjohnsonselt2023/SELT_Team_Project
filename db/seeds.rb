@@ -8,9 +8,12 @@
 
 require 'factory_bot_rails'
 
+User.destroy_all
+puts "#{User.count} users in the database"
+puts "#{Product.count} products in the database"
+
+puts "Creating users..."
 admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
-admin.cart = FactoryBot.create(:cart)
-admin.save
 
 # Create some categories
 categories = Category.create([
@@ -22,9 +25,12 @@ categories = Category.create([
                                { name: 'Clothing & Accessories'},
                                { name: 'Everything else'}
                              ])
-
-
-10.times do
+                             
+5.times do
     category = categories.sample # Randomly select a category
-    FactoryBot.create(:product, name: Faker::Commerce.product_name, description: Faker::Lorem.paragraph, price: Faker::Commerce.price, quantity: Faker::Number.number(digits: 2), user_id: 1, category_id: category.id)
+    product = FactoryBot.create(:product, name: Faker::Commerce.product_name, 
+                                            description: Faker::Lorem.paragraph, 
+                                            price: Faker::Commerce.price, 
+                                            quantity: Faker::Number.number(digits: 2), 
+                                            category_id: category.id, user_id: admin.id)
 end

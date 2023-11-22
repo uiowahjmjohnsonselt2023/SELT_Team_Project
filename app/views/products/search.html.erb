@@ -21,13 +21,5 @@
 <% end %>
 
 <div class="product-list">
-  <% @match.each do |product| %>
-    <div class="product">
-      <h4><%= product.name %></h4>
-      <p><%= link_to product.description %></p>
-      <p>$<%= product.price %></p>
-      <%= link_to "Add to Cart", {controller: "carts", action:"add", id: session[:cart_id], product_id: product.id, quantity: 1}, method: :post %>
-      <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
-    </div>
-  <% end %>
+  <%= render @match %>
 </div>

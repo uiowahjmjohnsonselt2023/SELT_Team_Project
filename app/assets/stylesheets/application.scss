@@ -13,6 +13,9 @@
  *= require_tree .
  *= require_self
  */
+ 
+ @import "bootstrap";
+ @import 'bootstrap/theme';
 
 .topnav-wrapper {
     display: flex;
@@ -37,6 +40,10 @@
     color: #888;
     font-style: italic;
     font-size: 16px;
+}
+
+.search_form input[type="text"] {
+    color: black;
 }
 
 .topnav-wrapper h2 {

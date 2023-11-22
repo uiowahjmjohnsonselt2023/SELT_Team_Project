@@ -2,8 +2,12 @@ class Product < ApplicationRecord
     has_many :cart_items, dependent: :destroy
     has_many :carts, through: :cart_items
     belongs_to :user   
+
     has_many :reviews
     belongs_to :category
+
+    has_many :images, dependent: :destroy
+    accepts_nested_attributes_for :images
 
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}
@@ -20,7 +24,6 @@ class Product < ApplicationRecord
     end 
 
     def self.search(search_term, min_price: nil, max_price: nil, category_id: nil)
-        puts category_id
         match = if search_term.blank?
                     all
                 else
@@ -37,6 +40,18 @@ class Product < ApplicationRecord
         match
     end
 
+    def assign_images(images)
+        images.each do |image|
+            img = Image.new(image: image, user_id: self.user_id, product_id: self.id)
+            if img.valid?
+                self.images << img
+            else
+                return false
+            end
+        end
+        return true
+    end
+    
     private
     def default_quantity # default quantity to 1
         self.quantity ||= 1

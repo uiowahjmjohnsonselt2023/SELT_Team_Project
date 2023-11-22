@@ -25,16 +25,13 @@
 
 <div class="product-list-wrapper">
     <h3>Products</h3>
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" disabled>
+        <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
+    </div>
+    
     <div class="product-list">
-        <% @products.each do |product| %>
-            <div class="product">
-                <h4><%= product.name %></h4>
-                <p> <%= product.description %></p>
-                <p> <%= number_to_currency(product.price) %></p>
-                <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
-                <%= link_to "More info", product_path(id: product.id), method: :get%>
-            </div>
-        <% end %>
+        <%= render @products %>
     </div>
 </div>
 

@@ -1,22 +1,24 @@
 Rails.application.routes.draw do
-  resources :products, :user, :carts
-  
+  resources :products, :user
+
+  resources :carts, only: %i[show destroy update]
+  resources :images
+
   resources :cart_items, only: %i[create update destroy]
 
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
-
+  
   root :to => redirect('/products')
 
   # cart routes
   post '/cart/:product_id', to: 'carts#add', as: 'add_to_cart'
   post 'carts/:id/remove/:product_id' => 'carts#remove'
 
-  
   # product routes
   post 'products/create' => 'products#create'
-  get 'products/:id' => 'products#show', as: :show_product
   post 'products/search' => 'products#search', as: :product_search
+  get 'products/new' => 'products#new'  
 
   # User routes
   get 'signup' => 'signup#new'
