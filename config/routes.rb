@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
   get 'logout', to: 'sessions#destroy'
+
+  get 'auth/github/callback', to: 'sessions#SSO'
 end

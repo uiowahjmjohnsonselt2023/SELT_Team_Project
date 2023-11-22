@@ -11,6 +11,8 @@ gem 'jquery-rails'
 gem 'nokogiri', '~> 1.13.10'
 gem 'puma'
 gem 'bcrypt', '~> 3.1.7'
+gem 'omniauth-github', '~> 2.0.0'
+gem 'omniauth-rails_csrf_protection'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
