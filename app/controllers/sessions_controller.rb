@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
     def new 
     end
-    
+
     def SSO 
         auth_hash = request.env['omniauth.auth']
         password = auth_hash.extra.raw_info['node_id']
@@ -17,8 +17,12 @@ class SessionsController < ApplicationController
             redirect_to signup_success_path
         else
             @user = User.new(name: name, email: email, password: password, password_confirmation: password)
-            sign_in(@user)
-            redirect_to signup_success_path
+            if @user.save
+                sign_in(@user)
+                redirect_to signup_success_path
+            else
+                render :new, status: :unprocessable_entity
+            end
         end
     end
 
