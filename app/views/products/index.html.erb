@@ -1,6 +1,26 @@
-<div class="for-you-wrapper"> 
-    <h3>For You</h3>
-    <% # Will contain the code to display current hot items, etc%>
+<div class="for-you-wrapper">
+  <h3>For You</h3>
+  <% # Will contain the code to display current hot items, etc%>
+  <%= form_tag :product_search, method: "post", class: "search-price" do %>
+    <div class="search-tabs">
+      <div class="tab">
+        <label for="min_price">Min Price</label>
+        <%= number_field_tag :min_price, params[:min_price], class: "tab-input", step: "0.01" %>
+      </div>
+      <div class="tab">
+        <label for="max_price">Max Price</label>
+        <%= number_field_tag :max_price, params[:max_price], class: "tab-input", step: "0.01" %>
+      </div>
+      <div class="tab">
+        <label for="category_id">Category</label>
+        <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), include_blank: true, class: "tab-input" %>
+      </div>
+      <input type="submit" value="Search" class="search-button">
+      <div class="tab">
+        <%= submit_tag "See all", name: "see_all", class: "return-button" %>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <div class="product-list-wrapper">

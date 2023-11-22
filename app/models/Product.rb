@@ -3,6 +3,7 @@ class Product < ApplicationRecord
     has_many :carts, through: :cart_items
     belongs_to :user   
     has_many :reviews
+    belongs_to :category
 
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}
@@ -18,18 +19,21 @@ class Product < ApplicationRecord
         quantity
     end 
 
-    def self.search(search_term, min_price: nil, max_price: nil)
+    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil)
+        puts category_id
         match = if search_term.blank?
                     all
                 else
                     all.select do |product|
                         levenshtein_distance(product.name.downcase, search_term.downcase) <= 3 ||
-                          product.name.downcase.include?(search_term) ||
-                          product.description.include?(search_term)
+                          product.name.downcase.include?(search_term.downcase) ||
+                          product.description.include?(search_term.downcase)
                     end
                 end
-        match = match.select { |product| product.price >= min_price } if min_price.present?
-        match = match.select { |product| product.price <= max_price } if max_price.present?
+
+        match = match.select { |product| product.category_id == category_id.to_i } if category_id.present?
+        match = match.select { |product| product.price >= min_price.to_f } if min_price.present?
+        match = match.select { |product| product.price <= max_price.to_f } if max_price.present?
         match
     end
 

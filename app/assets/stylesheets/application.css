@@ -32,6 +32,13 @@
     color: black;
 }
 
+/* search box placeholder format */
+.search_form input[type="text"]::placeholder {
+    color: #888;
+    font-style: italic;
+    font-size: 16px;
+}
+
 .topnav-wrapper h2 {
     float: left;
     display: block;
@@ -65,5 +72,61 @@
     padding: 20px;
     text-align: center;
  }
- 
+
+.category-select select, .price-range input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-tabs {
+    display: inline-flex;
+    align-items: center;
+}
+
+.search-button {
+    margin-left: 20px; /* Increase space between the search button and the last tab */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tab {
+    margin-left: 20px; /* Increase space between tabs */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.tab label {
+    display: block;
+    font-size: 0.8em;
+    margin-bottom: 5px;
+}
+
+.tab-input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* new.html sections format */
+.newP_sec {
+    display: grid;
+    height: 40px;
+    width: 400px;
+    grid-template-columns: 1fr 2fr; /* Adjust the ratio as needed */
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
  
