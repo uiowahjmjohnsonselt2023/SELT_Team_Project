@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   # product routes
   post 'products/create' => 'products#create'
   post 'products/search' => 'products#search', as: :product_search
+  get 'products/new' => 'products#new'  
 
   # User routes
   get 'signup' => 'signup#new'

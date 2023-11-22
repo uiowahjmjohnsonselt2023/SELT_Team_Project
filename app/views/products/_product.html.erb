@@ -13,12 +13,12 @@
     <div class="product-details container-sm">
         <div class="row">
             <div class="col">
-            <%= number_to_currency(product.price) %>
+                <p> <%= number_to_currency(product.price) %>
+                <%= link_to product.user.name %> - <%= product.user.email %>
             </div>
-            <div class="col">
-            <%= product.quantity %>
-            </div>
+            
         </div>
+       
         <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
         <%= link_to "More info", product_path(id: product.id), method: :get%>
     </div>

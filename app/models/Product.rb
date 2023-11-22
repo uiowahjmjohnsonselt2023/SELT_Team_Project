@@ -36,18 +36,19 @@ class Product < ApplicationRecord
         match = match.select { |product| product.price <= max_price } if max_price.present?
         match
     end
-    def add_images(images)
+
+    def assign_images(images)
         images.each do |image|
-            self.images.new(image: image, user_id: self.user_id, product_id: self.id)
-            if self.images.last.valid?
-                self.images.last.save
+            img = Image.new(image: image, user_id: self.user_id, product_id: self.id)
+            if img.valid?
+                self.images << img
             else
-                self.images.last.destroy
                 return false
             end
         end
-        self.save
+        return true
     end
+    
     private
     def default_quantity # default quantity to 1
         self.quantity ||= 1

@@ -7,10 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'factory_bot_rails'
 
-admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
-admin.cart = FactoryBot.create(:cart)
-admin.save
+User.destroy_all
+puts "#{User.count} users in the database"
+puts "#{Product.count} products in the database"
 
-10.times do
-    FactoryBot.create(:product, name: Faker::Commerce.product_name, description: Faker::Lorem.paragraph, price: Faker::Commerce.price, quantity: Faker::Number.number(digits: 2), user_id: 1)
+puts "Creating users..."
+admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
+
+5.times do
+    product = FactoryBot.create(:product, name: Faker::Commerce.product_name, description: Faker::Lorem.paragraph, price: Faker::Commerce.price, quantity: Faker::Number.number(digits: 2), user_id: admin.id)
 end

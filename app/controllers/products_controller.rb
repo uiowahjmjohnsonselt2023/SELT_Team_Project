@@ -23,29 +23,23 @@ class ProductsController < ApplicationController
 
     def create 
         respond_to do |format|
-            @product = Product.create(product_params)
+            @product = Product.new(product_params)
             images = params[:product][:images]
-            if @product.valid? 
-                images.each do |image|
-                    i = Image.new(image: image, user_id: @product.user_id, product_id: @product.id)
-                    if i.valid?
-                        i.save
-                    else
-                        @product.destroy
-                        puts i.errors.full_messages
-                        flash.now[:warning] = "Product not created. Try again."
-                        format.html { redirect_to new_product_path }
-                        format.js  { render :new }
-                        return
-                    end
+            if @product.save and not images.nil?
+                if not @product.assign_images(images)
+                    flash.now[:warning] = "Produt not created. Images are not valid."
+                    format.html { redirect_to new_product_path }
+                    format.js 
+                    return
                 end
+
                 flash.now[:notice] = "Product created"
                 format.html { redirect_to user_path(@product.user_id) }
                 format.js 
             else
                 flash.now[:warning] = "Product not created. Try again."
                 format.html { redirect_to new_product_path }
-                format.js
+                format.js  { render :new }
             end
         end
     end
@@ -88,7 +82,7 @@ class ProductsController < ApplicationController
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
-        params.require(:product).permit(:name, :description, :price, :quantity, :user_id) 
+        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :images) 
     end
 
     def ensure_correct_user

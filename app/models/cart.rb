@@ -12,8 +12,8 @@ class Cart < ApplicationRecord
         else
             current_item = cart_items.new(product_id: product_id, quantity: quantity)
         end
-
         current_item.save
+        current_item
     end
     
     def total_price                 # calculate total price of all items in cart
