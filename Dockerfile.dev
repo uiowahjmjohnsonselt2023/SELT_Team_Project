@@ -23,9 +23,9 @@ COPY --from=gem-cache /usr/local/bundle /usr/local/bundle
 COPY Gemfile Gemfile.lock ./
 # ensure we're using the correct platform
 
-RUN bundle config force_ruby_platform true  
+RUN bundle config force_ruby_platform true   
 
-RUN bundle install --jobs 20 --retry 5 --without development test
+RUN bundle install --jobs 20 --retry 5 --without production
 
 # Copy the app and migrate the database
 FROM base AS deploy

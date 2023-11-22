@@ -19,6 +19,9 @@ gem 'remotipart', '~> 1.2'
 gem 'omniauth-github', '~> 2.0.0'
 gem 'omniauth-rails_csrf_protection'
 
+gem 'factory_bot_rails'
+gem 'faker'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
@@ -27,7 +30,6 @@ end
 group :test do
   gem 'byebug'
   gem 'simplecov', require: false
-  gem 'factory_bot_rails'
   gem 'cucumber-rails', require: false
   gem 'rspec-rails'
   gem 'devise'
@@ -36,7 +38,6 @@ end
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'database_cleaner'
-  gem 'faker'
   # gem 'database_cleaner-active_record'
   # gem 'database_cleaner-sequel'
   gem 'pry'
