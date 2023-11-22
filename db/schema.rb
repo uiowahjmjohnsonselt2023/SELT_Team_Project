@@ -30,6 +30,12 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.integer  "user_id"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string   "image_uid"
     t.integer  "user_id"
@@ -50,7 +56,10 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "user_id"
+    t.integer  "category_id"
   end
+
+  add_index "products", ["category_id"], name: "index_products_on_category_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
