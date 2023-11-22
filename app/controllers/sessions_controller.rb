@@ -1,6 +1,27 @@
 class SessionsController < ApplicationController
     def new 
     end
+    
+    def SSO 
+        auth_hash = request.env['omniauth.auth']
+        password = auth_hash.extra.raw_info['node_id']
+        email = auth_hash.info['email']
+        name = auth_hash.info['name']
+        if email.nil? || email.empty?
+            flash[:warning] = "Please make you email public on Github"
+            redirect_to root_path
+        end
+        user = User.find_by(email: email)
+        if user&.authenticate(password)
+            sign_in(user)
+            redirect_to signup_success_path
+        else
+            @user = User.new(name: name, email: email, password: password, password_confirmation: password)
+            sign_in(@user)
+            redirect_to signup_success_path
+        end
+    end
+
     def create 
         user = User.find_by(email: params[:email])
         if user&.authenticate(params[:password])

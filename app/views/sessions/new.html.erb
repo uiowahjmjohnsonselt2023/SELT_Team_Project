@@ -21,3 +21,6 @@
 
   <%= submit_tag "Login" %>
 <% end %>
+<%= form_tag('/auth/github', method: 'post', data: {turbo: false}) do %>
+  <button type='submit'>Login with Developer</button>
+<% end %>
