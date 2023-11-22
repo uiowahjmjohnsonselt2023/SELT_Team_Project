@@ -21,14 +21,16 @@ class ProductsController < ApplicationController
         if @product.valid?
             redirect_to :action=>'show', :id=>@product.id, :notice=>"Product created"
         else
-            flash[:warning] = ("Product not created. Try again.")
-            redirect_to new_product_path , flash[:warning] = "Product not created. Try again."
+            flash[:warning] = "Product not created. Try again."
+            redirect_to new_product_path 
         end
     end
 
     def destroy  # TODO: implement check for user_id before destroying product
+        @product = Product.find_by(id: params[:id])
         @product.destroy 
         flash[:notice] = "Product deleted"
+        redirect_to root_path
     end
 
     def search

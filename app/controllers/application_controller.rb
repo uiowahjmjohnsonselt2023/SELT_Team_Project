@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
   def ensure_signed_in!
     redirect_to root_path unless current_user
   end
+
+  def ensure_registration
+    redirect_to signup_path unless current_user
+  end
   
   def user_signed_in?
     current_user.present?

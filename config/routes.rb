@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
 
   # cart routes
-  post 'carts/:id/add/:product_id' => 'carts#add'
+  post '/cart/:product_id', to: 'carts#add', as: 'add_to_cart'
   post 'carts/:id/remove/:product_id' => 'carts#remove'
 
   # product routes

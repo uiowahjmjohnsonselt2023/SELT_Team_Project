@@ -17,7 +17,7 @@
           <%= text_field_tag :search, params[:search] %>
         <%end%>
         <%= link_to 'Cart', cart_path(session[:cart_id] || session[:session_id]) %>
-        <%= link_to 'Profile', users_path %>
+        <%= link_to "Profile", {controller: "user", action:"index", id: session[:user_id]}, method: :get %>
         <%= link_to 'About', root_path %>
         <%= link_to 'SignUp', signup_path %>
         <% if current_user.present? %>
