@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :products, :user
 
-  resources :carts, only: %i[show]
+  resources :carts, only: %i[show destroy update]
   resources :images
 
   resources :cart_items, only: %i[create update destroy]

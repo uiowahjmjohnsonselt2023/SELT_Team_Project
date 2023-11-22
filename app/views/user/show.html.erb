@@ -1,0 +1,16 @@
+<h1>User Information</h1>
+<%= link_to "Edit Page", edit_user_path(@user.id) %>
+<p>Name: <%= @user.name %></p>
+<p>Email: <%= @user.email %></p>
+
+<h2>Products</h2>
+<ul>
+    <% @user.products.each do |product| %>
+        <li> 
+            <div>
+                <%= link_to product.name, product_path(product.id) %> 
+                <%= link_to "Edit", edit_product_path(product.id) %>
+            </div>
+        </li>
+    <% end %>
+</ul>

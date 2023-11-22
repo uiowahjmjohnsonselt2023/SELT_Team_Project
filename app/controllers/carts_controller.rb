@@ -19,12 +19,10 @@ class CartsController < ApplicationController
         
         quantity = params[:quantity].to_i
 
-        puts "quantity: #{quantity}"
         current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
 
         if current_item
             flash[:notice] = "Product added to cart"
-            current_item.save
         else
             flash[:warning] = "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart."
         end

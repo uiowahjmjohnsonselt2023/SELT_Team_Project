@@ -24,9 +24,10 @@
 
     <div class="form-group">
         <%= f.label :images %>
-            <%= f.file_field :images, multiple: true, required: true, class: "form-control", data: { max_files: 5 } %>
-            <small class="text-muted">Maximum 5 files allowed.</small>
+            <%= f.file_field :images, multiple: true, required: true, id: "image_field", class: "form-control", data: { max_files: 5 } %>
+            <small class="text-muted" id="image_error" style="display: none;">Maximum 5 files allowed.</small>
+        <div id="image_preview">
         </div>
-
-    <%= f.submit "List Product!", class: "btn btn-primary" %>   
+    </div>
+    <%= f.submit "List It!", class: "btn btn-primary" %>   
 <% end %>
