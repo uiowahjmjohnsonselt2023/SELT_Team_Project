@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
         email = auth_hash.info['email']
         name = auth_hash.info['name']
         if email.nil? || email.empty?
-            flash[:warning] = "Please make you email public on Github"
+            flash[:warning] = "Please make your email public on Github"
             redirect_to root_path
         end
         user = User.find_by(email: email)
@@ -20,8 +20,6 @@ class SessionsController < ApplicationController
             if @user.save
                 sign_in(@user)
                 redirect_to signup_success_path
-            else
-                render :new, status: :unprocessable_entity
             end
         end
     end
