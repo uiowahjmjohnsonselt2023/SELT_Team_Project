@@ -23,11 +23,13 @@ group :test do
   gem 'factory_bot_rails'
   gem 'cucumber-rails', require: false
   gem 'rspec-rails'
+  gem 'devise'
 end
 
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'database_cleaner'
+  gem 'faker'
   # gem 'database_cleaner-active_record'
   # gem 'database_cleaner-sequel'
   gem 'pry'

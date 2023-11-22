@@ -19,20 +19,53 @@ RSpec.describe Cart, type: :model do
   end
 
   describe 'instance methods' do
-    it 'add_product' do
-      cart = Cart.create
-      product = Product.find_by(id: 1)
-      cart.add_product(product)
-      expect(cart.total_quantity).to eq 1
+    before(:all) do
+      @products = FactoryBot.create_list(:product, 10)
+    end
+    
+    before(:each) do
+      @user = FactoryBot.create(:user)
+      @cart = @user.cart
     end
 
-    # it 'determines the total price of all items in cart' do
-    #   cart = Cart.create
-    #   product = Product.find_by(id: 1)
-    #   cart.add_product(product)
-    #   allow(:product).to receive(:price).and_return(1.99)
-    #   expect(cart.total_price).to eq 1.99
-    # end
+    it 'adds a product to the cart' do
+      # add 5 products to the cart
+      @products[0..4].each do |product|
+        @cart.add_product(product.id, 1)
+      end
+
+      expect(@cart.products.count).to eq 5  
+    end 
+
+    it 'increments the quantity of a product in the cart if it already exists' do
+      product = @products[0]
+      @cart.add_product(product.id)
+      @cart.add_product(product.id)
+      
+      expect(@cart.products.count).to eq 1
+      expect(@cart.cart_items.first.quantity).to eq 2
+    end
+
+    it 'returns the total price of the cart' do
+      total_price = 0
+      @products[0..4].each do |product|
+        @cart.add_product(product.id)
+        total_price += product.price
+      end
+
+      expect(@cart.total_price).to eq total_price
+    end
+
+    it 'returns the total quantity of the cart' do
+      total_quantity = 0
+      @products[0..4].each do |product|
+        @cart.add_product(product.id)
+        total_quantity += 1
+      end
+
+      expect(@cart.total_quantity).to eq total_quantity
+    end
+
   end
 
 end

@@ -31,8 +31,8 @@
                 <h4><%= product.name %></h4>
                 <p> <%= product.description %></p>
                 <p> <%= number_to_currency(product.price) %></p>
-                <%= link_to "Add to Cart", {controller: "carts", action:"add", id: session[:cart_id], product_id: product.id, quantity: 1}, method: :post %>
-                <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
+                <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
+                <%= link_to "More info", product_path(id: product.id), method: :get%>
             </div>
         <% end %>
     </div>

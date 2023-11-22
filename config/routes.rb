@@ -8,14 +8,12 @@ Rails.application.routes.draw do
 
   root :to => redirect('/products')
 
-
   # cart routes
-  post 'carts/:id/add/:product_id' => 'carts#add'
+  post '/cart/:product_id', to: 'carts#add', as: 'add_to_cart'
   post 'carts/:id/remove/:product_id' => 'carts#remove'
 
+  
   # product routes
-  get 'products' => 'products#index'
-  get 'products/new' => 'products#new'
   post 'products/create' => 'products#create'
   get 'products/:id' => 'products#show', as: :show_product
   post 'products/search' => 'products#search', as: :product_search
@@ -24,10 +22,4 @@ Rails.application.routes.draw do
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
   get 'logout', to: 'sessions#destroy'
-
-  get '/users' => 'user#index', as: 'users'
-
-  get '/users/edit' => 'user#edit', as:'edit'
-
-
 end
