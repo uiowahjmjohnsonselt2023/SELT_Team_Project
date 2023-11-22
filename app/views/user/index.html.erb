@@ -8,31 +8,33 @@
 <!--    <p><%#= @user.name %> - <%#= pluralize(@user.reviews.count, 'Review') %></p> <!-- Dynamic reviews count -->-->
   </div>
 
-  <div style="display: flex; justify-content: space-between; width: 100%;">
-    <!-- Left column for user info and previous orders -->
-    <div style="flex: 1;">
-      <div class="user-info-wrapper">
-        <h2>Profile</h2>
-        <div class="user-info">
-          <!-- User info details -->
-          <h4><%= @user.name %></h4>
-          <% if @address %>
-            <p>Street: <%= @address.street %></p>
-          <% else %>
-            <p>No address on file.</p>
-          <% end %>
-          <h4><%= @user.email %></h4>
-          <% if @user.phone_number %>
-            <p>Phone: <%= @user.phone_number %></p>
-          <% else %>
+  <% if @user.id == session[:user_id] %>
+    <div style="display: flex; justify-content: space-between; width: 100%;">
+      <!-- Left column for user info and previous orders -->
+      <div style="flex: 1;">
+        <div class="user-info-wrapper">
+          <h2>Profile</h2>
+          <div class="user-info">
+            <!-- User info details -->
+            <h4><%= @user.name %></h4>
+            <% if @address %>
+              <p>Street: <%= @address.street %></p>
+            <% else %>
+              <p>No address on file.</p>
+            <% end %>
+            <h4><%= @user.email %></h4>
+            <%# if @user.phone_number %>
+            <!--            <p>Phone: <%#= @user.phone_number %></p>-->
+            <%# else %>
+            <!--            <p>No phone number on file.</p>-->
+            <%# end %>
             <p>No phone number on file.</p>
-          <% end %>
-          <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
+            <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
+          </div>
         </div>
-      </div>
+  <% end %>
 
-
-      <!--      <div class="Most-Recent-orders-wrapper">-->
+        <!--      <div class="Most-Recent-orders-wrapper">-->
       <!--         <%# prod = Product.first %> -->
       <!--        <h3>Recent Order</h3>-->
       <!--        <!-- Previous orders listed here -->-->

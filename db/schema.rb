@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 20231122022614) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin"
-    t.string   "phone_number"
     t.integer  "rating"
     t.boolean  "verified_seller"
   end
