@@ -57,6 +57,10 @@ class Product < ApplicationRecord
         self.quantity ||= 1
     end 
 
+    def default_category
+        self.category_id ||= Category.find_by(name: 'Everything else')
+    end
+
     def default_description # default description to empty string
         self.description ||= "Default Product Description"
     end
