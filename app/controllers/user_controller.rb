@@ -36,7 +36,6 @@ class UserController < ApplicationController
   # Function to update users after selecting the edit page
   def update
     @user = User.find(params[:id])
-
     # Select only the parameters that are not blank
     updated_params = user_params.select { |key, value| value.present? }
 
@@ -47,7 +46,7 @@ class UserController < ApplicationController
 
     if @user.update(updated_params)
       # Redirect to a success page
-      redirect_to @user
+      redirect_to root_path
     else
       # Render the form again with error messages
       render :edit
