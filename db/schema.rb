@@ -61,6 +61,22 @@ ActiveRecord::Schema.define(version: 20231122195338) do
 
   add_index "products", ["category_id"], name: "index_products_on_category_id"
 
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_tags", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "product_tags", ["product_id"], name: "index_product_tags_on_product_id"
+  add_index "product_tags", ["tag_id"], name: "index_product_tags_on_tag_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
