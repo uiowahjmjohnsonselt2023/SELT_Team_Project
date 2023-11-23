@@ -58,6 +58,22 @@
         <%= label_tag :placeholder_country, 'Country' %>
         <%= text_field_tag :placeholder_country, 'Country', disabled: true, aria: { label: "Country" } %>
       </fieldset>
+      <!-- Address Update Buttons -->
+      <% @user.addresses.each_with_index do |address, index| %>
+        <%= form_tag(update_user_path(address), method: :put) do %>
+          <!-- Hidden fields to pass address information -->
+          <%= hidden_field_tag :street, params[:placeholder_street] %>
+          <%= hidden_field_tag :city, params[:placeholder_city] %>
+          <%= hidden_field_tag :state, params[:placeholder_state] %>
+          <%= hidden_field_tag :zip, params[:placeholder_zip] %>
+          <%= hidden_field_tag :country, params[:placeholder_country] %>
+
+          <%= submit_tag "Update Address #{index + 1}", class: "button" %>
+        <% end %>
+      <% end %>
+
+      <!-- Placeholder for the fourth button -->
+      <%= button_tag "Fourth Button", type: "button", disabled: true %>
     </div>
 
     <!-- Payments Section - Placeholders for now -->
