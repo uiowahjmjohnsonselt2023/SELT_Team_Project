@@ -9,7 +9,7 @@
   </div>
 <% end %>
 
-<%= form_for(@user, url: user_path(@user), html: { method: :put }) do |form| %>
+<%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
   <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
     <div style="text-align: center;">
       <!-- User profile header -->
@@ -80,4 +80,7 @@
     </div>
   </div>
 <% end %>
+
+
+
 

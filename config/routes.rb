@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :products, :user, :carts
-  
+
   resources :cart_items, only: %i[create update destroy]
 
   resources :signup, only: %i[new create]
@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get '/users' => 'user#index', as: 'users'
 
   get '/users/edit' => 'user#edit', as:'edit'
+
+  put '/users/:id' => 'user#update', as: 'update_user'
 
 
 end
