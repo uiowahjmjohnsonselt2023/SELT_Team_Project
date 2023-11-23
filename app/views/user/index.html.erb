@@ -18,7 +18,9 @@
             <!-- User info details -->
             <h4><%= @user.name %></h4>
             <% if @address %>
-              <p>Street Address: <%= @address.street %></p>
+              <% @address.each do |address| %>
+                <p><%= address.street %>, <%= address.city %>, <%= address.state %>, <%= address.zip %>, <%= address.country %></p>
+              <% end %>
             <% else %>
               <p>No address on file.</p>
             <% end %>

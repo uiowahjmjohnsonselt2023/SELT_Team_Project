@@ -10,6 +10,14 @@ class User < ApplicationRecord
     #after_save :create_session_token
     has_many :products
     has_one :cart
+    has_many :addresses
+
+    validate :validate_addresses_limit
+    private
+
+    def validate_addresses_limit
+        errors.add(:addresses, "You can only have up to 3 addresses.") if addresses.count > 3
+    end
 # private 
 #     def create_session_token
 #         self.session_token = SessionRandom.urlsafe_base64

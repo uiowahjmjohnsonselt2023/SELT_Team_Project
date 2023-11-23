@@ -7,7 +7,7 @@ class UserController < ApplicationController
   before_action :ensure_registration, only: [:index]
   def index
     @user = User.find(params[:id])
-    @address = Address.find(@user.address_id)
+    @address = @user.addresses
   end
 
   def show
