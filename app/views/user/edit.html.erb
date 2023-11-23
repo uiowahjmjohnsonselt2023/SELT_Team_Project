@@ -9,15 +9,11 @@
   </div>
 <% end %>
 
-<%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
-  <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
-    <div style="text-align: center;">
-      <!-- User profile header -->
-      <h1><%= @user.name %></h1>
-    </div>
+<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+  <!-- User Info Section -->
+  <%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
+    <div style="width: 30%;">
 
-    <!-- User Info Section -->
-    <div style="width: 50%;">
       <fieldset>
         <legend>User Info</legend>
         <%= form.label :name %>
@@ -32,71 +28,56 @@
         <%= form.label :password_confirmation, 'Confirm New Password' %>
         <%= form.password_field :password_confirmation, aria: { label: "Confirm New Password" } %>
 
-
-        <!-- Placeholder for phone number -->
-        <%= label_tag :placeholder_phone, 'Phone number' %>
-        <%= text_field_tag :placeholder_phone, '123-456-7890', disabled: true, aria: { label: "Phone number" } %>
+        <%= form.label :phone_number %>
+        <%= form.phone_field :phone_number, aria: { label: "Phone number" } %>
       </fieldset>
+      <%= form.submit "Update User Info", class: "button", style: "margin-top: 20px;" %>
     </div>
+  <% end %>
 
-    <!-- Addresses Section - Placeholders for now -->
-    <div style="width: 50%;">
+  <!-- Addresses Section -->
+  <%= form_tag(update_user_path, method: :post) do %>
+    <div style="width: 30%;">
       <fieldset>
         <legend>Address Info</legend>
-        <%= label_tag :placeholder_street, 'Street address' %>
-        <%= text_field_tag :placeholder_street, 'Street address', disabled: true, aria: { label: "Street address" } %>
+        <%= label_tag :street, 'Street address' %>
+        <%= text_field_tag :street %>
 
-        <%= label_tag :placeholder_city, 'City' %>
-        <%= text_field_tag :placeholder_city, 'City', disabled: true, aria: { label: "City" } %>
+        <%= label_tag :city, 'City' %>
+        <%= text_field_tag :city %>
 
-        <%= label_tag :placeholder_state, 'State' %>
-        <%= text_field_tag :placeholder_state, 'State', disabled: true, aria: { label: "State" } %>
+        <%= label_tag :state, 'State' %>
+        <%= text_field_tag :state %>
 
-        <%= label_tag :placeholder_zip, 'ZIP code' %>
-        <%= text_field_tag :placeholder_zip, 'ZIP Code', disabled: true, aria: { label: "ZIP code" } %>
+        <%= label_tag :zip, 'ZIP code' %>
+        <%= text_field_tag :zip %>
 
-        <%= label_tag :placeholder_country, 'Country' %>
-        <%= text_field_tag :placeholder_country, 'Country', disabled: true, aria: { label: "Country" } %>
-      </fieldset>
-      <!-- Address Update Buttons -->
-      <% @user.addresses.each_with_index do |address, index| %>
-        <%= form_tag(update_user_path(address), method: :put) do %>
-          <!-- Hidden fields to pass address information -->
-          <%= hidden_field_tag :street, params[:placeholder_street] %>
-          <%= hidden_field_tag :city, params[:placeholder_city] %>
-          <%= hidden_field_tag :state, params[:placeholder_state] %>
-          <%= hidden_field_tag :zip, params[:placeholder_zip] %>
-          <%= hidden_field_tag :country, params[:placeholder_country] %>
+        <%= label_tag :country, 'Country' %>
+        <%= text_field_tag :country %>
 
-          <%= submit_tag "Update Address #{index + 1}", class: "button" %>
+        <!-- Buttons to update respective address -->
+        <% (1..3).each do |i| %>
+          <%= submit_tag "Update Address #{i}", name: 'address_index', value: i, class: "button", style: "margin-top: 20px;" %>
         <% end %>
-      <% end %>
-
-      <!-- Placeholder for the fourth button -->
-      <%= button_tag "Fourth Button", type: "button", disabled: true %>
+      </fieldset>
     </div>
+  <% end %>
 
-    <!-- Payments Section - Placeholders for now -->
-    <div style="width: 50%;">
+  <!-- Payments Section -->
+  <%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
+    <div style="width: 30%;">
       <fieldset>
         <legend>Payment Info</legend>
-        <%= label_tag :placeholder_cc_number, 'Credit card number' %>
-        <%= text_field_tag :placeholder_cc_number, 'Credit card number', disabled: true, aria: { label: "Credit card number" } %>
+        <%= label_tag :cc_number, 'Credit card number' %>
+        <%= text_field_tag :cc_number %>
 
-        <%= label_tag :placeholder_cc_expr, 'Expiration date (MM/YY)' %>
-        <%= text_field_tag :placeholder_cc_expr, 'MM/YY', disabled: true, aria: { label: "Expiration date" } %>
+        <%= label_tag :cc_expr, 'Expiration date (MM/YY)' %>
+        <%= text_field_tag :cc_expr %>
 
-        <%= label_tag :placeholder_cc_name_on_card, 'Name on card' %>
-        <%= text_field_tag :placeholder_cc_name_on_card, 'Name on card', disabled: true, aria: { label: "Name on card" } %>
+        <%= label_tag :cc_name_on_card, 'Name on card' %>
+        <%= text_field_tag :cc_name_on_card %>
       </fieldset>
+      <%= form.submit "Update Payment Info", class: "button", style: "margin-top: 20px;" %>
     </div>
-
-    <div style="text-align: center; width: 100%;">
-      <%= form.submit "Update", class: "button", style: "margin-top: 20px;" %>
-    </div>
-  </div>
-<% end %>
-
-
-
-
+  <% end %>
+</div>
