@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 User.create(name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
 User.create(name: "Garfield", email: "garf@test.com", password: "garfpassword", password_confirmation: "garfpassword",
-            address_id: 4495, phone_number: 515-657-2381)
+            address_id: 4495, phone_number: "515-657-2381")
 Address.create(id: 4495, street: "888 ToonTown avenue")
 Product.create(name: "Apple", description: "A delicious apple", price: 0.99, quantity: 100, user_id: 1)
 Product.create(name: "Banana", description: "A delicious banana", price: 1.99, quantity: 100, user_id: 1)

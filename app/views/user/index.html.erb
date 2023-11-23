@@ -18,13 +18,13 @@
             <!-- User info details -->
             <h4><%= @user.name %></h4>
             <% if @address %>
-              <p>Street: <%= @address.street %></p>
+              <p>Street Address: <%= @address.street %></p>
             <% else %>
               <p>No address on file.</p>
             <% end %>
             <p>Email: <%= @user.email %><p>
             <% if @user.phone_number %>
-              <p>Phone: <%#= @user.phone_number %></p>
+              <p>Phone: <%= @user.phone_number %></p>
             <% else %>
               <p>No phone number on file.</p>
             <% end %>
