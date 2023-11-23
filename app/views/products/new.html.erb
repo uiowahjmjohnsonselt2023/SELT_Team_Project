@@ -26,6 +26,10 @@
         <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true %>
     </div>
     <div class="form-group">
+      <%= f.label :tag_list, "Tags (separate with commas, max 3 tags)" %>
+      <%= f.text_field :tag_list, class: 'form-control' %>
+    </div>
+    <div class="form-group">
         <%= f.label :images %>
             <%= f.file_field :images, multiple: true, required: true, id: "image_field", class: "form-control", data: { max_files: 5 } %>
             <small class="text-muted" id="image_error" style="display: none;">Maximum 5 files allowed.</small>
