@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231123015306) do
+ActiveRecord::Schema.define(version: 20231123020209) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20231123015306) do
     t.integer  "rating"
     t.boolean  "verified_seller"
     t.string   "phone_number"
+    t.integer  "address_id"
   end
 
 end

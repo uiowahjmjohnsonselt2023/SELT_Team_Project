@@ -22,13 +22,12 @@
             <% else %>
               <p>No address on file.</p>
             <% end %>
-            <h4><%= @user.email %></h4>
+            <p>Email: <%= @user.email %><p>
             <% if @user.phone_number %>
-            <!--            <p>Phone: <%#= @user.phone_number %></p>-->
+              <p>Phone: <%#= @user.phone_number %></p>
             <% else %>
-            <!--            <p>No phone number on file.</p>-->
+              <p>No phone number on file.</p>
             <% end %>
-            <p>No phone number on file.</p>
             <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
           </div>
         </div>
