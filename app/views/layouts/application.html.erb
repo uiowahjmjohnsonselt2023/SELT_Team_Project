@@ -27,7 +27,7 @@
         <%= link_to 'About', root_path %>
         <%= link_to 'Login', new_session_path %>
         <% if current_user.present? %>
-          <%= link_to 'Log Out', logout_path %> <%= "Welcome, #{current_user.name}!\nSession: #{session[:session_id]}\n #{current_user.id}" %>
+          <%= link_to 'Log Out', logout_path %> <%= "Welcome, #{current_user.name}!" %>
         <% else %>
           <%= link_to 'Log Out', logout_path %>
         <% end %>

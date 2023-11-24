@@ -48,7 +48,7 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg', '~> 0.15'
+  gem 'pg'
   gem 'rails_12factor'
   gem 'dragonfly-s3_data_store'
   gem 'rack-cache', :require => 'rack/cache'
