@@ -25,7 +25,7 @@ COPY Gemfile Gemfile.lock ./
 
 RUN bundle config force_ruby_platform true  
 
-RUN bundle install --jobs 20 --retry 5 --without development test
+RUN bundle install --jobs 20 --retry 5
 
 # Copy the app and migrate the database
 FROM base AS deploy
@@ -37,4 +37,4 @@ RUN bundle exec rake assets:precompile
 
 CMD bundle exec puma -C config/puma.rb
 
-EXPOSE 3000
+EXPOSE 3001

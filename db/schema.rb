@@ -13,6 +13,17 @@
 
 ActiveRecord::Schema.define(version: 20231122195338) do
 
+  create_table "addresses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "address"
+    t.string   "street"
+    t.string   "zip"
+    t.string   "state"
+    t.string   "city"
+    t.string   "country"
+  end
+
   create_table "cart_items", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "cart_id"
@@ -48,6 +59,16 @@ ActiveRecord::Schema.define(version: 20231122195338) do
   add_index "images", ["product_id"], name: "index_images_on_product_id"
   add_index "images", ["user_id"], name: "index_images_on_user_id"
 
+  create_table "product_tags", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "product_tags", ["product_id"], name: "index_product_tags_on_product_id"
+  add_index "product_tags", ["tag_id"], name: "index_product_tags_on_tag_id"
+
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
@@ -67,16 +88,6 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "product_tags", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "product_tags", ["product_id"], name: "index_product_tags_on_product_id"
-  add_index "product_tags", ["tag_id"], name: "index_product_tags_on_tag_id"
-
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -84,6 +95,8 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin"
+    t.integer  "rating"
+    t.boolean  "verified_seller"
   end
 
 end
