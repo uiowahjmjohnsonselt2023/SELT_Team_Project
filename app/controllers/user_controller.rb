@@ -1,6 +1,4 @@
 class UserController < ApplicationController
-
-
   #ensures users are signed in before we try to do :show, :edit, or :update and redirects them to products
   before_action :ensure_signed_in!, only: [:show, :edit, :update]
   #if users aren't logged in when trying to index, send them to the login page.
@@ -13,6 +11,11 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def new
+      @user = User.new
+      @user.cart = Cart.new
+  end
+  
   def create
     @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
     if @user.save
@@ -25,9 +28,12 @@ class UserController < ApplicationController
   #the params to be passed when going to the edit page
   # Now redirects when an incorrect user types in the edit page's path
   def edit
-    @user = User.find(params[:id])
-    if @user.id != session[:user_id]
-      redirect_to root_path
+    @user = User.find_by(id: params[:id])
+    if @user.nil?
+      flash[:warning] = "User not found"
+      if @user.id != session[:user_id]
+        redirect_to root_path
+      end
     end
   end
 
@@ -63,5 +69,19 @@ class UserController < ApplicationController
     )
   end
 
+
+  def ensure_correct_user
+    @user = User.find_by(id: params[:id])
+    if not @user 
+      flash[:warning] = "Product not found"
+      redirect_to root_path
+    end
+
+    if current_user.id != @user.id
+        flash[:warning] = "You do not have permission to edit this user. Please login to the correct account."
+        redirect_to root_path   # TODO: either redirect to current users path, or redirect to root path
+    end
+
+end
 
 end

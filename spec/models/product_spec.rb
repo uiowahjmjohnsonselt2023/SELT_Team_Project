@@ -37,12 +37,23 @@ RSpec.describe Product, type: :model do
     end
   end
 
-  # Testing search feature
   describe 'search' do
-    before do
-      FactoryBot.create(:product, name: 'Apple', price: 0.99)
-      FactoryBot.create(:product, name: 'Pineapple', price: 2.44)
-      FactoryBot.create(:product, name: 'Guava', price: 3.88)
+    before(:each) do
+      @user = FactoryBot.create(:user)
+
+      @food = FactoryBot.create(:category, name: 'Food')
+      @electronics = FactoryBot.create(:category, name: 'Electronics')
+      @everything_else = FactoryBot.create(:category, name: 'Everything else')
+
+      FactoryBot.create(:product, name: 'Apple', price: 4.99, user: @user)
+      FactoryBot.create(:product, name: 'Pineapple', price: 6.99, user: @user)
+      FactoryBot.create(:product, name: 'Guava', price: 9.99, user: @user)
+      FactoryBot.create(:product, name: 'Mango', price: 2.99, user: @user, category_id: @food.id)
+      FactoryBot.create(:product, name: 'Playstation 5', price: 499.99, user: @user, category_id: @electronics.id)
+    end
+
+    after(:each) do
+      DatabaseCleaner.clean_with(:truncation)
     end
 
     it 'returns products using lowercase for search term' do
@@ -63,23 +74,43 @@ RSpec.describe Product, type: :model do
         expect(Product.search('')).to match_array(Product.all)
     end
 
-
-=begin
-    it 'return matching products that is in the price range' do
-        match = Product.search('', min_price: 1, max_price: 1.5)
-        expect(match).to include(Product.find_by(name: 'Apple'))
-        expect(match).to_not include(Product.find_by(name: 'Pineapple'))
-        expect(match).to_not include(Product.find_by(name: 'Guava'))
+    it 'can search by price' do
+      expect(Product.search('', min_price: 3, max_price: 10)).to include(Product.find_by(name: 'Apple'))
+      expect(Product.search('', min_price: 3, max_price: 10)).to include(Product.find_by(name: 'Pineapple'))
+      expect(Product.search('', min_price: 3, max_price: 10)).to include(Product.find_by(name: 'Guava'))
+      expect(Product.search('', min_price: 3, max_price: 10)).not_to include(Product.find_by(name: 'Playstation 5'))
+      expect(Product.search('', min_price: 4, max_price: 10)).not_to include(Product.find_by(name: 'Mango'))
     end
-=end
 
+    it 'can filter if only entered min price' do
+      expect(Product.search('', min_price: 8)).to include(Product.find_by(name: 'Guava'))
+      expect(Product.search('', min_price: 8)).to include(Product.find_by(name: 'Playstation 5'))
+      expect(Product.search('', min_price: 8)).not_to include(Product.find_by(name: 'Mango'))
+      expect(Product.search('', min_price: 8)).not_to include(Product.find_by(name: 'Apple'))
+      expect(Product.search('', min_price: 8)).not_to include(Product.find_by(name: 'Pineapple'))
+    end
+
+    it 'can filter if only entered max price' do
+      expect(Product.search('', max_price: 7)).to include(Product.find_by(name: 'Mango'))
+      expect(Product.search('', max_price: 7)).to include(Product.find_by(name: 'Apple'))
+      expect(Product.search('', max_price: 7)).to include(Product.find_by(name: 'Pineapple'))
+      expect(Product.search('', max_price: 7)).not_to include(Product.find_by(name: 'Guava'))
+      expect(Product.search('', max_price: 7)).not_to include(Product.find_by(name: 'Playstation 5'))
+    end
+
+    it 'can search by categories' do
+      expect(Product.search('', category_id: @electronics.id)).to include(Product.find_by(name: 'Playstation 5'))
+      other_product = ['Apple', 'Mango', 'Guava', 'Pineapple']
+      other_product.each do |product_name|
+        expect(Product.search('', category_id: @electronics.id)).not_to include(Product.find_by(name: product_name))
+      end
+    end
+
+    # it 'should have a default categories' do
+    #   products = ['Apple', 'Guava', 'Pineapple']
+    #   products.each do |product_name|
+    #     expect(Product.search('', category_id: @everything_else.id)).to include(Product.find_by(name: product_name))
+    #   end
+    # end
   end
-  # describe 'methods' do
-  #   context 'search method' do
-  #     it 'returns products with similar names to the search term' do
-  #       product = Product.create(name: 'Test Product', price: 10.99, description: 'This is a test product')
-  #       expect(Product.search('Test')).to include(product)
-  #     end
-  #   end
-  # end
 end

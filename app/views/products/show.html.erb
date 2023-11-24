@@ -4,7 +4,16 @@
 <p>Price: <%= number_to_currency(@product.price) %></p>
 <p>Quantity: <%= @product.quantity %></p>
 <p>Seller: <%= @user.name %> </p>
+<p>Category: <%= @product.category.name %></p>
+<p>Tags: <%= @product.tag_list %></p>
 
-<%= link_to "Add to Cart", {controller: "carts", action:"add", id: session[:cart_id], product_id: @product.id, quantity: 1}, method: :post %>
+<%= link_to "Add to Cart", add_to_cart_path(product_id: @product.id, quantity: 1), method: :post%>
+
 <br>
+<h1>Photos</h1>
+<% if @product.images.present? %>
+  <ul class="row" id="photos-list">
+    <%= render @product.images %>
+  </ul>
+<%end%>
 

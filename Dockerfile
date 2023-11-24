@@ -23,7 +23,7 @@ COPY --from=gem-cache /usr/local/bundle /usr/local/bundle
 COPY Gemfile Gemfile.lock ./
 # ensure we're using the correct platform
 
-RUN bundle config force_ruby_platform true   
+RUN bundle config force_ruby_platform true  
 
 RUN bundle install --jobs 20 --retry 5
 
@@ -32,8 +32,9 @@ FROM base AS deploy
 COPY --from=gems /usr/local/bundle /usr/local/bundle
 COPY . .
 
+RUN bundle exec rake db:migrate
 RUN bundle exec rake assets:precompile
 
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD bundle exec puma -C config/puma.rb
 
-EXPOSE 3000
+EXPOSE 3001

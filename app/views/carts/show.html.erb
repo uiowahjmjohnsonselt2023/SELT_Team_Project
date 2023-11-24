@@ -1,16 +1,8 @@
 <!-- FILEPATH: /Users/kailindholm/Documents/Fall 2023/SELT/SELT_Team_Project/app/views/carts/show.html.erb -->
+<div class="cart-container">
+  <h1> <%= @user.name %>'s Cart</h1>
 
-<h1>Cart Items</h1>
+  <%= render @cart.cart_items %>
 
-<% @cart.cart_items.each do |item| %>
-  <div>
-    <% product = item.product %>
-    <h3><%= product.name %></h3>
-    <p> <%= product.description %></p>
-    <p>Unit Price: <%=  number_to_currency(product.price) %></p>
-    <p>Quantity:   <%=  item.quantity %></p>
-    <p>Total Item Price:<%=  number_to_currency(item.total_price) %></p>
-    <%= link_to "Remove", {controller: "carts", action:"remove", id: @cart.id, product_id: product.id, quantity: 1}, method: :post%> 
-  </div>
-<% end %>
-<p> Cart Total: <%=  number_to_currency(@cart.total_price) %></p>
+  <p> Cart Total: <%=  number_to_currency(@cart.total_price) %></p>
+</div>

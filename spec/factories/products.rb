@@ -5,5 +5,6 @@ FactoryBot.define do
     price { 20.0 }
     quantity { 10 }
     user_id {1}
+    category { FactoryBot.create(:category) }
   end
 end

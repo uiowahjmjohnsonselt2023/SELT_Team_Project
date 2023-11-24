@@ -1,28 +1,40 @@
-<h1>New Product</h1>
+<h1> Sell A Product!</h1>
 
 <%= link_to "Back", root_path %>
 
-<%= form_for @product, url: products_create_path do |f| %>
-    <div>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
+<%= form_for @product, html: { class: "container-md" }, url: products_create_path do |f|%>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <div class="form-group">
+        <%= f.label :name, "Title", class: "form-label-md"%>
+        <%= f.text_field :name, required: true, class: "form-control" %>
     </div>
-    <div>
-        <%= f.label :price %>
-        <%= f.number_field :price, step: 0.01, min: 0 %>
+    <div class="form-group">
+        <%= f.label :description, class: "form-label"%>
+        <%= f.text_area :description, required: true, class: "form-control" %>
     </div>
-    <div>
-        <%= f.label :description %>
-        <%= f.text_area :description %>
-    </div>
-    <div>
-        <%= f.label :quantity %>
-        <%= f.number_field :quantity, min: 0 %>
-    </div>
-    <div>
-        <%= f.label :image %>
-        <%= f.file_field :image %>
+    <div class="form-group">
+        <%= f.label :price, class: "form-label"%>
+        <%= f.number_field :price, step: 0.01, min: 0, required: true, class: "form-control"%>
     </div>
 
-    <%= f.submit %>
+    <div class="form-group">
+        <%= f.label :quantity, class: "form-label"%>
+        <%= f.number_field :quantity, required: true, min: 0 , class: "form-control"%>
+    </div>
+    <div class="form-group">
+        <%= f.label :category_id %>
+        <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :tag_list, "Tags (separate with commas, max 3 tags)" %>
+      <%= f.text_field :tag_list, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+        <%= f.label :images %>
+            <%= f.file_field :images, multiple: true, required: true, id: "image_field", class: "form-control", data: { max_files: 5 } %>
+            <small class="text-muted" id="image_error" style="display: none;">Maximum 5 files allowed.</small>
+        <div id="image_preview">
+        </div>
+    </div>
+    <%= f.submit "List It!", class: "btn btn-primary" %>   
 <% end %>

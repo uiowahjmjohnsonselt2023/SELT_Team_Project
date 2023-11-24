@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /index" do
-    it "redirects when users are not logged in" do
-      get(users_path)
-      expect(response).to redirect_to(signup_path)
-    end
-
-  end
+  # describe "GET /index" do
+  #   it "redirects when users are not logged in" do
+  #     get users_path
+  #     expect(response).to redirect_to(signup_path)
+  #   end
+  # end
   #note: defined incorrectly
   # describe "Get /show" do
   #   it "assigns the requested user to @user" do

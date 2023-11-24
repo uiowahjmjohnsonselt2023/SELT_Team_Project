@@ -1,0 +1,25 @@
+<div class="product">
+    <div class="card card-body">
+        <% if not product.images.empty? %>
+            <div class="product-thumbnail-container">
+                <%= image_tag product.images.first.image.thumb("150x150").url, class: "product-image", loading: "lazy", id: "thumbnail" %>
+            </div>
+        <% else %>
+            <%= image_tag "https://via.placeholder.com/150", class: "product-image", loading: "lazy", id: "thumbnail"%>
+        <% end %>
+    </div>
+    <h4><%= product.name %></h4>
+
+    <div class="product-details container-sm">
+        <div class="row">
+            <div class="col">
+                <p> <%= number_to_currency(product.price) %>
+                <%= link_to product.user.name %> - <%= product.user.email %>
+            </div>
+            
+        </div>
+       
+        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
+        <%= link_to "More info", product_path(id: product.id), method: :get%>
+    </div>
+</div>
