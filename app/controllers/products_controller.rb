@@ -48,6 +48,7 @@ class ProductsController < ApplicationController
     def edit
         # check if product is of the current user, and that it exists 
         @product = Product.find_by(id: params[:id])
+        @categories = Category.all
         if @product.nil?
             flash[:warning] = "Product not found"
             redirect_to user_path(current_user.id)
@@ -85,9 +86,10 @@ class ProductsController < ApplicationController
         min_price = params[:min_price]
         max_price = params[:max_price]
         category_id = params[:category_id]
+        tag_list = params[:tag_list]
 
         @categories = Category.all
-        @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id)
+        @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list)
         if @match.empty?
             @match = Product.all
             flash.now[:notice] = "No products found."
@@ -97,7 +99,7 @@ class ProductsController < ApplicationController
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
-        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :category_id, :images)
+        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :category_id, :images, :tag_list)
     end
 
     def ensure_correct_user

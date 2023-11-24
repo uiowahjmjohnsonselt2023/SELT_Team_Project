@@ -125,15 +125,3 @@
     border-radius: 4px;
     font-size: 14px;
 }
-
-/* new.html sections format */
-.newP_sec {
-    display: grid;
-    height: 40px;
-    width: 400px;
-    grid-template-columns: 1fr 2fr; /* Adjust the ratio as needed */
-    gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
-}
- 

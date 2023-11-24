@@ -15,6 +15,10 @@
         <label for="category_id">Category</label>
         <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), include_blank: true, class: "tab-input" %>
       </div>
+      <div class="tab">
+        <label for="tag_list">Tag</label>
+        <%= text_field_tag :tag_list, params[:tag_list], class: "tab-input" %>
+      </div>
       <input type="submit" value="Search" class="search-button">
       <div class="tab">
         <%= submit_tag "See all", name: "see_all", class: "return-button" %>
