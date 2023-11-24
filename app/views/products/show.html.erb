@@ -4,6 +4,8 @@
 <p>Price: <%= number_to_currency(@product.price) %></p>
 <p>Quantity: <%= @product.quantity %></p>
 <p>Seller: <%= @user.name %> </p>
+<p>Category: <%= @product.category.name %></p>
+<p>Tags: <%= @product.tag_list %></p>
 
 <%= link_to "Add to Cart", add_to_cart_path(product_id: @product.id, quantity: 1), method: :post%>
 

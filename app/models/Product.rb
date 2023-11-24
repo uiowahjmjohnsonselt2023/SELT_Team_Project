@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
     has_many :cart_items, dependent: :destroy
     has_many :carts, through: :cart_items
+    has_many :product_tags
+    has_many :tags, through: :product_tags
     belongs_to :user   
 
     has_many :reviews
@@ -16,29 +18,53 @@ class Product < ApplicationRecord
     
     before_save :default_quantity
     before_save :default_description
+    before_save :default_category
     before_save :price_format
     before_save :name_format
 
     def total_quantity
         quantity
-    end 
+    end
 
-    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil)
-        match = if search_term.blank?
-                    all
-                else
-                    all.select do |product|
-                        levenshtein_distance(product.name.downcase, search_term.downcase) <= 3 ||
-                          product.name.downcase.include?(search_term.downcase) ||
-                          product.description.include?(search_term.downcase)
-                    end
-                end
+    # Getter for tags in comma seperated string
+    def tag_list
+        self.tags.map(&:name).join(", ")
+    end
 
-        match = match.select { |product| product.category_id == category_id.to_i } if category_id.present?
-        match = match.select { |product| product.price >= min_price.to_f } if min_price.present?
-        match = match.select { |product| product.price <= max_price.to_f } if max_price.present?
+    # Take a string of comma seperated tags, split into individual tags, and associate w/ product
+    def tag_list=(tag_string)
+        # Split the tags by comma, makes sure only 3 tags are entered
+        tag_names = tag_string.split(",").map(&:strip).reject(&:empty?).uniq.first(3)
+        new_or_found_tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
+        self.tags = new_or_found_tags
+    end
+
+    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil, tag_list: nil)
+        match = all
+        # Filter by category
+        match = match.where(category_id: category_id) if category_id.present?
+        # Filter by price
+        match = match.where('price >= ?', min_price.to_f) if min_price.present?
+        match = match.where('price <= ?', max_price.to_f) if max_price.present?
+
+        # Filter by tags if tag_list is present
+        if tag_list.present?
+            # Convert tag_list to lowercase and split into an array
+            tags = tag_list.downcase.split(',').map(&:strip).reject(&:empty?).uniq
+            match = match.joins(:tags).where(tags: { name: tags }).distinct
+        end
+
+        # If a search term is provided, filter the results using Levenshtein distance
+        if search_term.present?
+            match = match.select do |product|
+                levenshtein_distance(product.name.downcase, search_term.downcase) <= 3 ||
+                  product.name.downcase.include?(search_term.downcase) ||
+                  product.description.downcase.include?(search_term.downcase)
+            end
+        end
         match
     end
+
 
     def assign_images(images)
         images.each do |image|
