@@ -37,4 +37,4 @@ RUN bundle exec rake assets:precompile
 
 CMD bundle exec puma -C config/puma.rb
 
-EXPOSE 3001
+EXPOSE 3000
