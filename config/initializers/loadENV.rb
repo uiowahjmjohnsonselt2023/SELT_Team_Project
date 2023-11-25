@@ -1,4 +1,2 @@
 require 'dotenv'
 Dotenv.load
-
-
