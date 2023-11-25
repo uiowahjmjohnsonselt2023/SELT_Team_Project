@@ -1,4 +1,5 @@
 require 'dragonfly'
+require 'dragonfly/s3_data_store' 
 
 # Configure
 Dragonfly.app.configure do
@@ -10,14 +11,15 @@ Dragonfly.app.configure do
 
   if Rails.env.development? || Rails.env.test?
     datastore :file,
-              root_path: Rails.root.join('public/system/dragonfly', Rails.env),
-              server_root: Rails.root.join('public')
+    root_path: Rails.root.join('public/system/dragonfly', Rails.env),
+    server_root: Rails.root.join('public')
   else
     datastore :s3,
-              bucket_name: 'team007-selt-project',
-              access_key_id: ENV['AWS_KEY'],
-              secret_access_key: ENV['AWS_SEC'],
-              url_scheme: 'https'
+    bucket_name: 'team007-selt-project',
+    access_key_id: ENV['AWS_KEY'],
+    secret_access_key: ENV['AWS_SEC'],
+    url_scheme: 'https',
+    region: 'us-east-2'
   end
 end
 
