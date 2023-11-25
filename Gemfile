@@ -10,6 +10,7 @@ gem 'jquery-rails'
 
 gem 'nokogiri', '~> 1.13.10'
 gem 'puma'
+gem 'dotenv', '~> 2.8.1'
 
 gem 'bcrypt', '~> 3.1.7' 
 gem 'dragonfly', '~> 1.4.0'
@@ -49,7 +50,7 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg', '~> 0.20'
+  gem 'pg', '~> 0.15'
   gem 'rails_12factor'
   gem 'dragonfly-s3_data_store'
   gem 'rack-cache', :require => 'rack/cache'
