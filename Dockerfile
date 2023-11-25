@@ -32,7 +32,6 @@ FROM base AS deploy
 COPY --from=gems /usr/local/bundle /usr/local/bundle
 COPY . .
 
-RUN bundle exec rake db:migrate
 RUN bundle exec rake assets:precompile
 
 CMD bundle exec puma -C config/puma.rb
