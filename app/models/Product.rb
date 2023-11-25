@@ -51,7 +51,7 @@ class Product < ApplicationRecord
         if tag_list.present?
             # Convert tag_list to lowercase and split into an array
             tags = tag_list.downcase.split(',').map(&:strip).reject(&:empty?).uniq
-            match = match.joins(:tags).where(tags: { name: tags }).distinct
+            match = match.joins(:tags).where('lower(tags.name) IN (?)', tags).distinct
         end
 
         # If a search term is provided, filter the results using Levenshtein distance
