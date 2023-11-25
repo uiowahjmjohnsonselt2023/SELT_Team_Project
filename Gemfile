@@ -15,6 +15,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'dragonfly', '~> 1.4.0'
 gem 'bootstrap-sass'
 gem 'remotipart', '~> 1.2'
+gem 'bigdecimal', '~> 1.4'
 
 gem 'omniauth-github', '~> 2.0.0'
 gem 'omniauth-rails_csrf_protection'
