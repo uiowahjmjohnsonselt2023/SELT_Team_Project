@@ -3,13 +3,14 @@ class UserController < ApplicationController
   before_action :ensure_signed_in!, only: [:show, :edit, :update]
   #if users aren't logged in when trying to index, send them to the login page.
   before_action :ensure_registration, only: [:index]
-  def index
-    @user = User.find(params[:id])
-  end
 
-  def show
-    @user = User.find(params[:id])
-  end
+  # def index
+  #   @user = User.find(params[:id])
+  # end
+
+  # def show
+  #   @user = User.find(params[:id])
+  # end
 
   def new
       @user = User.new
