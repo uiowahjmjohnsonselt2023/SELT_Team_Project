@@ -36,5 +36,6 @@ class ApplicationController < ActionController::Base
   def sign_out
     session[:user_id] = nil
     session[:cart_id] = nil
+    puts "session user id: #{session[:user_id]}"
   end
 end
