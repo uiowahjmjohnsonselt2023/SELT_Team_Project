@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get 'products/:id' => 'products#show', as: :show_product
   post 'products/search' => 'products#search', as: :product_search
 
+  # about page route
+  get 'about', to: 'pages#about'
+
   # User routes
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success

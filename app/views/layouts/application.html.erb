@@ -18,7 +18,7 @@
         <%end%>
         <%= link_to 'Cart', cart_path(session[:cart_id] || session[:session_id]) %>
         <%= link_to "Profile", {controller: "user", action:"index", id: session[:user_id]}, method: :get %>
-        <%= link_to 'About', root_path %>
+        <%= link_to 'About', about_path %>
         <%= link_to 'SignUp', signup_path %>
         <% if current_user.present? %>
           <%= link_to 'LogOut', logout_path %> <%= "Welcome, #{current_user.name}!\nSession: #{session[:session_id]}\n #{current_user.id}" %>
