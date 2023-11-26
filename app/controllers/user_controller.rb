@@ -27,7 +27,7 @@ class UserController < ApplicationController
   # Now redirects when an incorrect user types in the edit page's path
   def edit
     @user = User.find(params[:id])
-    @address = @user.addresses
+    @address = @user.addresses || @user.addresses.build
     if @user.id != session[:user_id]
       redirect_to root_path
     end
@@ -42,7 +42,7 @@ class UserController < ApplicationController
 
     if @user.update(updated_params)
       # Redirect to a success page
-      redirect_to user_path(@user), notice: "User info updatedsuccessfully."
+      redirect_to edit_user_path(@user), notice: "User info updated successfully."
     else
       # Render the form again with error messages
       redirect_to edit_user_path(@user), alert: "Error updating info."
@@ -50,12 +50,16 @@ class UserController < ApplicationController
   end
 
   def update_or_create_address
-    @user = User.find(params[:user_id]) # Ensure you have the user's ID
+    @user = User.find(params[:id]) # Ensure you have the user's ID
     address_index = params[:address_index].to_i
 
-    address = @user.addresses[address_index] || @user.addresses.build
-    address.assign_attributes(address_params)
+    if @user.addresses[address_index].present?
+      address = @user.addresses.limit(3)[address_index]
+    else
+      address = @user.addresses.build
+    end
 
+    address.assign_attributes(address_params)
     if address.save
       redirect_to user_path(@user), notice: "Address updated/created successfully."
     else

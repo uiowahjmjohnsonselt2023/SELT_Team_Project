@@ -36,9 +36,11 @@
   <% end %>
 
   <!-- Addresses Section -->
-  <%= form_tag(update_user_path, method: :post) do %>
+  <%= form_tag(update_address_path, method: :post) do %>
+    <!-- Hidden field for user ID -->
     <div style="width: 30%;">
       <fieldset>
+
         <legend>Address Info</legend>
         <%= label_tag :street, 'Street address' %>
         <%= text_field_tag :street %>
