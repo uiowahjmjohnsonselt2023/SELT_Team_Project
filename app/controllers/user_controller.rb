@@ -8,6 +8,7 @@ class UserController < ApplicationController
   def index
     @user = User.find(params[:id])
     @address = @user.addresses
+    @product = @user.products
   end
 
   def show
