@@ -33,18 +33,25 @@
             <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
           </div>
         </div>
+
+        <div class="Most-Recent-orders-wrapper">
+          <h3>Posted Products</h3>
+          <!-- Previous orders listed here -->
+          <% if @product %>
+            <% @product.each do |product| %>
+              <h3><%= product.name %></h3>
+              <p> <%= product.description %></p>
+              <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+            <% end %>
+          <% else %>
+            <p>No posted products.</p>
+          <% end %>
+          <%= link_to "More info" %>
+        </div>
+      </div>
   <% end %>
 
-        <!--      <div class="Most-Recent-orders-wrapper">-->
-      <!--         <%# prod = Product.first %> -->
-      <!--        <h3>Recent Order</h3>-->
-      <!--        <!-- Previous orders listed here -->-->
-      <!--        <h4><%#= prod.name %></h4>-->
-      <!--        <p><%#= prod.description %></p>-->
-      <!--        <p>$<%#= prod.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--      </div>-->
-      <!--    </div>-->
+
 
 
       <!--    <!-- Right column for current postings -->-->

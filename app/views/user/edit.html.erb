@@ -21,26 +21,18 @@
           <%= form.label :email %>
           <%= form.email_field :email, aria: { label: "Email" } %>
 
-          <%= form.label :password, 'New Password' %>
-          <%= form.password_field :password, aria: { label: "New Password" } %>
-
-          <%= form.label :password_confirmation, 'Confirm New Password' %>
-          <%= form.password_field :password_confirmation, aria: { label: "Confirm New Password" } %>
-
           <%= form.label :phone_number %>
           <%= form.phone_field :phone_number, aria: { label: "Phone number" } %>
         </fieldset>
         <%= form.submit "Update User Info", class: "button", style: "margin-top: 20px;" %>
       <% end %>
 
-      <%= form_for(@user, url: update_password_path(@user), html: { method: :put }) do |form| %>
-        <fieldset>
+      <%= form_for(@user, :url => update_password_path(@user), html: { method: :put }) do |form| %>
           <%= form.label :password, 'New Password' %>
           <%= form.password_field :password, aria: { label: "New Password" } %>
 
           <%= form.label :password_confirmation, 'Confirm New Password' %>
           <%= form.password_field :password_confirmation, aria: { label: "Confirm New Password" } %>
-        </fieldset>
         <%= form.submit "Update Password", class: "button", style: "margin-top: 20px;" %>
       <% end %>
     </div>

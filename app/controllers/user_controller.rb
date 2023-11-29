@@ -58,7 +58,7 @@ class UserController < ApplicationController
       redirect_to edit_user_path(@user), notice: "password updated successfully."
     else
       # Render the form again with error messages
-      redirect_to edit_user_path(@user), alert: @user.errors.full_messages.to_sentence
+      redirect_to edit_user_path(@user),  notice: "password not successfully."                              #alert: @user.errors.full_messages.to_sentence
     end
   end
 
