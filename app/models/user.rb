@@ -19,7 +19,7 @@ class User < ApplicationRecord
         errors.add(:addresses, "You can only have up to 3 addresses.") if addresses.count > 3
     end
     def required_password?
-        new_record?
+        new_record? || password.present?
     end
 # private 
 #     def create_session_token

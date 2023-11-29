@@ -49,6 +49,18 @@ class UserController < ApplicationController
     end
   end
 
+  def update_password
+    @user = User.find(params[:id])
+
+    if @user.update(password_params)
+      # Redirect to a success page
+      redirect_to edit_user_path(@user), notice: "password updated successfully."
+    else
+      # Render the form again with error messages
+      redirect_to edit_user_path(@user), alert: @user.errors.full_messages.to_sentence
+    end
+  end
+
   def update_or_create_address
     @user = User.find(params[:id]) # Ensure you have the user's ID
     address_index = params[:address_index].to_i
@@ -70,11 +82,15 @@ class UserController < ApplicationController
   private
   # marks the user_params
   def user_params
-    params.fetch(:user, {}).permit(:name, :email, :password, :password_confirmation, :phone_number)
+    params.fetch(:user, {}).permit(:name, :email, :phone_number)
   end
 
   def address_params
     params.permit(:street, :city, :state, :zip, :country)
+  end
+
+  def password_params
+    params.require(:user).permit(:password, :password_confirmation)
   end
 
 
