@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20231123023543) do
     t.string   "state"
     t.string   "city"
     t.string   "country"
-    t.integer  "user_id"
+    t.integer  "user"
   end
 
   create_table "cart_items", force: :cascade do |t|
