@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
     def index 
         @products = Product.all
         @categories = Category.all
+        @product_tags = Tag.all
     end
 
     def show 
@@ -89,6 +90,7 @@ class ProductsController < ApplicationController
         tag_list = params[:tag_list]
 
         @categories = Category.all
+        @product_tags = Tag.all
         @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list)
         if @match.empty?
             @match = Product.all
