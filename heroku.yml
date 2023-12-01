@@ -1,10 +1,5 @@
-setup: 
-  config: 
-    env_file: .env
 build: 
   docker: 
     web: Dockerfile
-release: 
-  image: web
 run: 
   web: bundle exec puma -C config/puma.rb

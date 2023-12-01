@@ -13,6 +13,17 @@
 
 ActiveRecord::Schema.define(version: 20231130193046) do
 
+  create_table "addresses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "address"
+    t.string   "street"
+    t.string   "zip"
+    t.string   "state"
+    t.string   "city"
+    t.string   "country"
+  end
+
   create_table "cart_items", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "cart_id"
@@ -63,8 +74,8 @@ ActiveRecord::Schema.define(version: 20231130193046) do
     t.string   "description"
     t.decimal  "price"
     t.integer  "quantity"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "user_id"
     t.integer  "category_id"
     t.decimal  "discount",    precision: 5, scale: 2, default: 0.0
@@ -85,6 +96,8 @@ ActiveRecord::Schema.define(version: 20231130193046) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin"
+    t.integer  "rating"
+    t.boolean  "verified_seller"
   end
 
 end

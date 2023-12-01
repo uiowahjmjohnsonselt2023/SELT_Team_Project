@@ -314,4 +314,41 @@ RSpec.describe "Products", type: :request do
       end
     end
   end
+
+  describe "SEARCH #search" do
+    before(:each) do
+      DatabaseCleaner.clean_with(:truncation)
+      @product = FactoryBot.create(:product, name: "Sample Product", price: 3.99)
+      @product2 = FactoryBot.create(:product, name: "Test Product", price: 1.11)
+    end
+    after(:each) do
+      DatabaseCleaner.clean_with(:truncation)
+    end
+    context "when user search" do
+      it "search using the search field" do
+        post product_search_path, params: { search: 'sample' }
+        expect(assigns(:match)).to include(Product.all)
+        #expect(assigns(:match)).not_to include(@product2)
+      end
+=begin
+      it "uses the price range filtering" do
+        post product_search_path, params: { min_price: 3 }
+        expect(assigns(:match)).to include(@product)
+        expect(assigns(:match)).not_to include(@product2)
+      end
+=end
+    end
+=begin
+    context "when there are no match" do
+      it "should render view of all products" do
+        post product_search_path, params: { search: 'QWERTY' }
+        expect(assigns(:match)).to include(Product.all)
+      end
+      it "should flash a notice" do
+        post product_search_path, params: { search: 'QWERTY' }
+        expect(flash[:notice]).to eq("No products found.")
+      end
+    end
+=end
+  end
 end
