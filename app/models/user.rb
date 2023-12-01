@@ -11,6 +11,7 @@ class User < ApplicationRecord
     has_many :products
     has_one :cart
     has_many :addresses
+    has_many :recent_purchases
 
     validate :validate_addresses_limit
     private

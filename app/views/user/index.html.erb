@@ -35,13 +35,13 @@
         </div>
 
         <div class="Most-Recent-orders-wrapper">
-          <h3>Posted Products</h3>
+          <h3>Recent Orders</h3>
           <!-- Previous orders listed here -->
-          <% if @product %>
-            <% @product.each do |product| %>
-              <h3><%= product.name %></h3>
-              <p> <%= product.description %></p>
-              <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+          <% if @recent_purchases %>
+            <% @recent_purchases.each do |purchase| %>
+              <h3><%= purchase.product.name %></h3>
+              <p> <%= purchase.product.description %></p>
+              <p>Unit Price: <%=  number_to_currency(purchase.product.price) %></p>
             <% end %>
           <% else %>
             <p>No posted products.</p>
@@ -53,21 +53,21 @@
 
 
 
+  <div class="Posted-Products_Wrapper">
+    <h3>Posted Products</h3>
+    <!-- Posted Products -->
+    <% if @product %>
+      <% @product.each do |product| %>
+        <h3><%= product.name %></h3>
+        <p> <%= product.description %></p>
+        <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+      <% end %>
+    <% else %>
+      <p>No posted products.</p>
+    <% end %>
+    <%= link_to "More info" %>
+  </div>
 
-      <!--    <!-- Right column for current postings -->-->
-      <!--    <div style="flex: 1;">-->
-      <!--      <div class="current-postings-wrapper">-->
-      <!--        <h3>Current Postings</h3>-->
-      <%# prod_two = Product.first %>
-      <!--        <div class="product">-->
-      <!--          <!-- Current posting details -->-->
-      <!--          <h4><%#= prod_two.name %></h4>-->
-      <!--          <p><%#= prod.description %></p>-->
-      <!--          <p>$<%#= prod_two.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
 
       <script>
           document.addEventListener('DOMContentLoaded', function() {
