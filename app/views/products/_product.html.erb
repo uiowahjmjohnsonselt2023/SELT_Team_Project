@@ -13,10 +13,19 @@
     <div class="product-details container-sm">
         <div class="row">
             <div class="col">
-                <p> <%= number_to_currency(product.price) %>
-                <%= link_to product.user.name %> - <%= product.user.email %>
+              <% if product.discount.present? && product.discount > 0 %>
+                <p>
+                  Was <del><%= number_to_currency(product.price) %></del>
+                </p>
+                <p>
+                  Now: <span style="color: red;"><%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></span>
+                  <span>(<%= product.discount %>% off)</span>
+                </p>
+              <% else %>
+                <p>Price: <%= number_to_currency(product.price) %></p>
+              <% end %>
+              <%= link_to product.user.name %> - <%= product.user.email %>
             </div>
-            
         </div>
        
         <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
