@@ -25,7 +25,17 @@
 
     <div class="field">
         <%= f.label :price %>
-        <%= f.number_field :price %>
+        <%= f.number_field :price, id: 'price_field', min: 0 %>
+    </div>
+
+    <div class="field">
+        <%= f.label :discount, "Add discount (%)" %>
+        <%= f.number_field :discount, id: 'discount_field', max: 100, step: "any" %>
+    </div>
+
+    <div class="field">
+        <%= label_tag :final_price, "Price after discount" %>
+        <%= text_field_tag :final_price, nil, readonly: true, id: 'final_price_field' %>
     </div>
 
     <div class="field">
