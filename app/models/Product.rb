@@ -15,6 +15,7 @@ class Product < ApplicationRecord
     validates :price, numericality: { greater_than: 0}
     validates :quantity, presence: true
     validates :description, presence: true, length: {minimum: 10, maximum: 300}
+    validates :discount, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
     
     before_save :default_quantity
     before_save :default_description
@@ -37,6 +38,10 @@ class Product < ApplicationRecord
         tag_names = tag_string.split(",").map(&:strip).reject(&:empty?).uniq.first(3)
         new_or_found_tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
         self.tags = new_or_found_tags
+    end
+
+    def discounted_price
+        price - (price * :discount / 100)
     end
 
     def self.search(search_term, min_price: nil, max_price: nil, category_id: nil, tag_list: nil)

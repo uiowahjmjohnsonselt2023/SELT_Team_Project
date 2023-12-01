@@ -101,7 +101,7 @@ class ProductsController < ApplicationController
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
-        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :category_id, :images, :tag_list)
+        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :category_id, :images, :tag_list, :discount)
     end
 
     def ensure_correct_user
