@@ -5,7 +5,7 @@
     <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;"> <!-- Placeholder for profile photo -->
     <h4><%= @user.name %></h4>
     <div id="userRating"></div> <!-- Dynamic star rating -->
-<!--    <p><%#= @user.name %> - <%#= pluralize(@user.reviews.count, 'Review') %></p> <!-- Dynamic reviews count -->-->
+    <p><%= pluralize(@user.reviews, 'Review') %></p> <!-- Dynamic reviews count -->
   </div>
 
   <% if @user.id == session[:user_id] %>
@@ -78,4 +78,3 @@
 
     </div>
   </div>
-</div>
