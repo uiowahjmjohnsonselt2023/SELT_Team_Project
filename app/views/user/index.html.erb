@@ -42,11 +42,11 @@
               <h3><%= purchase.product.name %></h3>
               <p> <%= purchase.product.description %></p>
               <p>Unit Price: <%=  number_to_currency(purchase.product.price) %></p>
+              <%= link_to "More info", {controller: "products", action: "show", id: purchase.product.id}, method: :get%>
             <% end %>
           <% else %>
-            <p>No posted products.</p>
+            <p>No recent orders, buy something!.</p>
           <% end %>
-          <%= link_to "More info" %>
         </div>
       </div>
   <% end %>
@@ -61,6 +61,7 @@
         <h3><%= product.name %></h3>
         <p> <%= product.description %></p>
         <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+        <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
       <% end %>
     <% else %>
       <p>No posted products.</p>
