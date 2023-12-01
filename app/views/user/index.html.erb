@@ -1,73 +1,93 @@
-
 <div style="display: flex; flex-direction: column; align-items: center;">
   <div style="text-align: center;">
     <!-- User profile header -->
     <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;"> <!-- Placeholder for profile photo -->
-    <h4><%= @user.name %></h4>
-    <div id="userRating"></div> <!-- Dynamic star rating -->
-<!--    <p><%#= @user.name %> - <%#= pluralize(@user.reviews.count, 'Review') %></p> <!-- Dynamic reviews count -->-->
+    <h1>Garfield Abernackle</h1> <!-- Static placeholder name -->
+    <p>⭐⭐⭐⭐⭐ Verified User - 4223 Reviews</p> <!-- Static placeholder ratings -->
   </div>
 
-  <% if @user.id == session[:user_id] %>
-    <div style="display: flex; justify-content: space-between; width: 100%;">
-      <!-- Left column for user info and previous orders -->
-      <div style="flex: 1;">
-        <div class="user-info-wrapper">
-          <h2>Profile</h2>
-          <div class="user-info">
-            <!-- User info details -->
-            <h4><%= @user.name %></h4>
-            <% if @address %>
-              <p>Street: <%= @address.street %></p>
-            <% else %>
-              <p>No address on file.</p>
-            <% end %>
-            <h4><%= @user.email %></h4>
-            <%# if @user.phone_number %>
-            <!--            <p>Phone: <%#= @user.phone_number %></p>-->
-            <%# else %>
-            <!--            <p>No phone number on file.</p>-->
-            <%# end %>
-            <p>No phone number on file.</p>
-            <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
-          </div>
+  <div style="display: flex; justify-content: space-between; width: 100%;">
+    <!-- Left column for user info and previous orders -->
+    <div style="flex: 1;">
+      <div class="user-info-wrapper">
+        <h2>Profile</h2>
+        <div class="user-info">
+          <!-- User info details -->
+          <% testUser = @user.first %>
+          <h4><%= testUser.name %></h4> <!-- Test placeholder name -->
+          <p>Address: 1 Bass Pro Dr, Memphis, TN 38105</p> <!-- Static placeholder address -->
+          <h4><%= testUser.email %></h4> <!-- Test placeholder email -->
+          <p>Phone: (563) 388-9464</p> <!-- Static placeholder phone number -->
+          <p>Payment: Mastercard ending in 4444</p> <!-- Static placeholder payment info -->
+          <h4><%= link_to "Edit user settings", edit_path %></h4> <!-- link to edit user settings -->
         </div>
-  <% end %>
+      </div>
+      <div class="recent-orders-wrapper">
+        <% prod = Product.first %>
+        <h3>Recent Orders</h3>
+        <!-- Previous orders listed here -->
+        <h4><%= prod.name %></h4>
+        <p><%= prod.description %></p>
+        <p>$<%= prod.price %></p>
+        <%= link_to "More info" %>
+      </div>
+    </div>
 
-        <!--      <div class="Most-Recent-orders-wrapper">-->
-      <!--         <%# prod = Product.first %> -->
-      <!--        <h3>Recent Order</h3>-->
-      <!--        <!-- Previous orders listed here -->-->
-      <!--        <h4><%#= prod.name %></h4>-->
-      <!--        <p><%#= prod.description %></p>-->
-      <!--        <p>$<%#= prod.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--      </div>-->
-      <!--    </div>-->
 
-
-      <!--    <!-- Right column for current postings -->-->
-      <!--    <div style="flex: 1;">-->
-      <!--      <div class="current-postings-wrapper">-->
-      <!--        <h3>Current Postings</h3>-->
-      <%# prod_two = Product.first %>
-      <!--        <div class="product">-->
-      <!--          <!-- Current posting details -->-->
-      <!--          <h4><%#= prod_two.name %></h4>-->
-      <!--          <p><%#= prod.description %></p>-->
-      <!--          <p>$<%#= prod_two.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-      <script>
-          document.addEventListener('DOMContentLoaded', function() {
-              var userRating = <%= @user.rating %>; // get the rating from Rails
-              document.getElementById('userRating').innerHTML = updateUserRating(userRating);
-          });
-      </script>
-
+    <!-- Right column for current postings -->
+    <div style="flex: 1;">
+      <div class="current-postings-wrapper">
+        <h3>Current Postings</h3>
+        <% prod_two = Product.first %>
+        <div class="product">
+          <!-- Current posting details -->
+          <h4><%= prod_two.name %></h4>
+          <p><%= prod.description %></p>
+          <p>$<%= prod_two.price %></p>
+          <%= link_to "More info" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+
+
+
+<!-- Orignal Starter html file for user profile
+<div class = "user-info-wrapper">
+  <h2>Profile</h2>
+  <div class = "user-info">
+    <% testUser = @user.first %>
+      <h4><%= testUser.name %></h4>
+      <h4>Placeholder Address</h4>
+      <h4><%= testUser.email %></h4>
+      <h4>Placeholder phone</h4>
+      <h4>Placeholder payment</h4>
+      <h4><%= link_to "Edit user settings", edit_path %></h4>
+  </div>
+</div>
+
+<% #For now, this displays the first product in the database to get a feel for the functionality %>
+<div class = "recent-order-wrapper">
+  <h3>Recent Orders</h3>
+  <% prod = Product.first %>
+  <div class="product">
+    <h4><%= prod.name %></h4>
+    <p><%= prod.description %></p>
+    <p>$<%= prod.price %></p>
+    <%= link_to "More info" %>
+  </div>
+</div>
+<% #Currently this just displays the second product listed in the db, mostly so we can visualize what it looks like %>
+<div class = "current-postings-wrapper">
+  <h3>Current Postings</h3>
+  <% prod_two = Product.first %>
+  <div class="product">
+    <h4><%= prod_two.name %></h4>
+    <p><%= prod.description %></p>
+    <p>$<%= prod_two.price %></p>
+    <%= link_to "More info" %>
+  </div>
+</div>
+-->

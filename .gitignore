@@ -21,6 +21,3 @@
 .env*
 !.env.example
 public/system/dragonfly/*
-
-coverage/
-.vscode/
