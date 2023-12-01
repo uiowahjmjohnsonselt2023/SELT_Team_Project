@@ -41,7 +41,6 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
     # Select only the parameters that are not blank
     updated_params = user_params.select { |key, value| value.present? }
-
     if @user.update(updated_params)
       # Redirect to a success page
       redirect_to edit_user_path(@user), notice: "User info updated successfully."
@@ -59,13 +58,13 @@ class UserController < ApplicationController
       redirect_to edit_user_path(@user), notice: "password updated successfully."
     else
       # Render the form again with error messages
-      redirect_to edit_user_path(@user),  notice: "password not successfully."                              #alert: @user.errors.full_messages.to_sentence
+      redirect_to edit_user_path(@user),  notice: "password not successfully."
     end
   end
 
   def update_or_create_address
     @user = User.find(params[:id]) # Ensure you have the user's ID
-    address_index = params[:address_index].to_i
+    address_index = (params[:address_index].to_i) - 1
 
     if @user.addresses[address_index].present?
       address = @user.addresses.limit(3)[address_index]

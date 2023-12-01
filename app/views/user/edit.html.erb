@@ -12,7 +12,7 @@
 <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
   <!-- User Info Section -->
     <div style="width: 50%;">
-      <%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
+      <%= form_for(@user, :url => update_user_path(@user), html: { method: :put }) do |form| %>
         <fieldset>
           <legend>User Info</legend>
           <%= form.label :name %>
