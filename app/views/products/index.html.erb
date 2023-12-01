@@ -5,15 +5,15 @@
     <div class="search-tabs">
       <div class="tab">
         <label for="min_price">Min Price</label>
-        <%= number_field_tag :min_price, params[:min_price], class: "tab-input", step: "0.01" %>
+        <%= number_field_tag :min_price, params[:min_price] ||= 0, class: "tab-input", step: "0.01" %>
       </div>
       <div class="tab">
         <label for="max_price">Max Price</label>
-        <%= number_field_tag :max_price, params[:max_price], class: "tab-input", step: "0.01" %>
+        <%= number_field_tag :max_price, params[:max_price] ||= 9999, class: "tab-input", step: "0.01" %>
       </div>
       <div class="tab">
         <label for="category_id">Category</label>
-        <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), include_blank: true, class: "tab-input" %>
+        <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), include_blank: true, class: "tab-input" %>
       </div>
       <div class="tab">
         <label for="tag_list">Tag</label>
@@ -33,7 +33,6 @@
         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" disabled>
         <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
     </div>
-    
     <div class="product-list">
         <%= render @products %>
     </div>

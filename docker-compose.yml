@@ -1,10 +1,10 @@
 version: "3.8"
 
-name: selt_team_project
+name: integration
 
 services: 
   app:
-    container_name: team_app
+    container_name: int2
     build: ./
     command: bundle exec puma -C config/puma.rb
     working_dir: /app

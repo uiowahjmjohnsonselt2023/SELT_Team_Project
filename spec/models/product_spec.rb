@@ -225,5 +225,11 @@ RSpec.describe Product, type: :model do
         expect(result).not_to include(untagged_product)
       end
     end
+    # it 'should have a default categories' do
+    #   products = ['Apple', 'Guava', 'Pineapple']
+    #   products.each do |product_name|
+    #     expect(Product.search('', category_id: @everything_else.id)).to include(Product.find_by(name: product_name))
+    #   end
+    # end
   end
 end
