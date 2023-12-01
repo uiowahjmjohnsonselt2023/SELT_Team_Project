@@ -6,11 +6,13 @@ class User < ApplicationRecord
     validates :email, presence: true, format: {with: VALID_EMAIL}, uniqueness: {case_sensitive: false}
     validates :password, presence: true, length: {minimum: 6}, if: :required_password?
     validates :password_confirmation, presence: true, if: :required_password?
+    validates :reviews, presence: true
 
     #after_save :create_session_token
     has_many :products
     has_one :cart
     has_many :addresses
+    has_many :recent_purchases
 
     validate :validate_addresses_limit
     private

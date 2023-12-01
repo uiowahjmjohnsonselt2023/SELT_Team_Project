@@ -13,6 +13,7 @@ User.create(name: "Admin", email: "admin@test.com", password: "password", passwo
 #Address.create(user_id: 5, street: "456 Meow Ave", city: "Feline Town", zip: "67890", state: "NY", country: "USA")
 #Address.create(user_id: 5, street: "789 Purr Ln", city: "Kitten Ville", zip: "10112", state: "TX", country: "USA")
 Product.create(name: "Lasagna", description: "A delicious lasagna", price: 10.0, quantity: 1, user_id: 5)
+RecentPurchase.create(user_id: 2, product_id: 1, created_at: Time.now)
 
 #Product test seeds
 Product.create(name: "Apple", description: "A delicious apple", price: 0.99, quantity: 100, user_id: 1)

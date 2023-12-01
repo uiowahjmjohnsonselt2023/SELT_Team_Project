@@ -3,6 +3,7 @@ class Product < ApplicationRecord
     has_many :carts, through: :cart_items
     belongs_to :user   
     has_many :reviews
+    has_many :recent_purchases
 
     validates :name, presence: true, length: {minimum: 3, maximum: 50} 
     validates :price, numericality: { greater_than: 0}

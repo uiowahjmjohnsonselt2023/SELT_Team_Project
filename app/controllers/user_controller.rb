@@ -9,6 +9,7 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
     @address = @user.addresses
     @product = @user.products
+    @recent_purchases = @user.recent_purchases
   end
 
   def show
@@ -74,7 +75,7 @@ class UserController < ApplicationController
 
     address.assign_attributes(address_params)
     if address.save
-      redirect_to user_path(@user), notice: "Address updated/created successfully."
+      redirect_to edit_user_path(@user), notice: "Address updated/created successfully."
     else
       redirect_to edit_user_path(@user), alert: "Error updating/creating address."
     end
