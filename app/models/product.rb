@@ -3,6 +3,7 @@ class Product < ApplicationRecord
     has_many :carts, through: :cart_items
     has_many :product_tags
     has_many :tags, through: :product_tags
+    has_many :recent_purchases
     belongs_to :user   
 
     has_many :reviews
