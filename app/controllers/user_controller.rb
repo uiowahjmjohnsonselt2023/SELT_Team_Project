@@ -44,7 +44,6 @@ class UserController < ApplicationController
     end
   end
 
-
   # Function to update users after selecting the edit page
   def update
     @user = User.find(params[:id])
