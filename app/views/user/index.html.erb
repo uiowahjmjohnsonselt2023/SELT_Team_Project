@@ -55,17 +55,20 @@
 
   <div class="Posted-Products_Wrapper">
     <h3>Posted Products</h3>
-    <!-- Posted Products -->
-    <% if @product %>
-      <% @product.each do |product| %>
-        <h3><%= product.name %></h3>
-        <p> <%= product.description %></p>
-        <p>Unit Price: <%=  number_to_currency(product.price) %></p>
-        <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
+    <button onclick="toggleDropdown('postedProductsDropdown')">Toggle Posted Products</button>
+    <div id="postedProductsDropdown" style="display: none;">
+      <!-- Posted Products -->
+      <% if @product %>
+        <% @product.each do |product| %>
+          <h3><%= product.name %></h3>
+          <p> <%= product.description %></p>
+          <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+          <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
+        <% end %>
+      <% else %>
+        <p>No posted products.</p>
       <% end %>
-    <% else %>
-      <p>No posted products.</p>
-    <% end %>
+    </div>
   </div>
 
 
