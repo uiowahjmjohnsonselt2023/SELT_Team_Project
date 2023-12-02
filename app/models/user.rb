@@ -11,8 +11,21 @@ class User < ApplicationRecord
     #after_save :create_session_token
     has_many :products, dependent: :destroy
     has_one :cart, dependent: :destroy
+    has_many :addresses
+    has_many :recent_purchases
+
 
     before_save { self.cart = Cart.create(user_id: self.id) }
+
+    validate :validate_addresses_limit
+    private
+
+    def validate_addresses_limit
+        errors.add(:addresses, "You can only have up to 3 addresses.") if addresses.count > 3
+    end
+    def required_password?
+        new_record? || password.present?
+    end
 
     # private 
 #     def create_session_token
