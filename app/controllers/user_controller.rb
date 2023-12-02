@@ -53,7 +53,7 @@ class UserController < ApplicationController
       redirect_to edit_user_path(@user), notice: "User info updated successfully."
     else
       # Render the form again with error messages
-      redirect_to edit_user_path(@user), alert: "Error updating info."
+      redirect_to edit_user_path(@user), notice: "Error updating info."
     end
   end
 
