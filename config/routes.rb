@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
-  
-  root :to => redirect('/products')
+
+  root 'products#index'
 
   # cart routes
   post '/cart/:product_id', to: 'carts#add', as: 'add_to_cart'

@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 # Copy gems from a gem-cache build stage if specified, otherwise install them
 FROM base AS gems
 COPY --from=gem-cache /usr/local/bundle /usr/local/bundle
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile* ./
 # ensure we're using the correct platform
 
 RUN bundle config force_ruby_platform true  
