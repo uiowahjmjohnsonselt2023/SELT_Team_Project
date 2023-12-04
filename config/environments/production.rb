@@ -1,5 +1,3 @@
-require 'pg' if Rails.env.production?
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -21,6 +19,22 @@ Rails.application.configure do
   # For large-scale production use, consider using a caching reverse proxy like
   # NGINX, varnish or squid.
   config.action_dispatch.rack_cache = true
+  client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),    # memcache server list
+                                  :username => ENV["MEMCACHIER_USERNAME"],    # user and pass for memcache servers
+                                  :password => ENV["MEMCACHIER_PASSWORD"],
+                                  :failover => true,
+                                  :socket_timeout => 1.5,     # seconds
+                                  :socket_failure_delay => 0.2, 
+                                  :value_max_bytes => 10485760) # 10MBs 
+
+  config.action_dispatch.rack_cache = {   # use Dalli for Rack::Cache
+    :metastore    => client,
+    :entitystore  => client
+  }
+
+  config.serve_static_assets = true                         # allow static assets to be served 
+  config.static_cache_control = "public, max-age=2592000"   # store assets for 30 days
+  
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -29,7 +43,7 @@ Rails.application.configure do
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = Uglifier.new(harmony: true)
    # config.assets.css_compressor = :sass
-   
+
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 

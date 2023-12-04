@@ -10,6 +10,7 @@ gem 'jquery-rails'
 
 gem 'nokogiri', '~> 1.13.10'
 gem 'puma'
+gem 'racc', '~> 1.4', '>= 1.4.14'
 gem 'dotenv', '~> 2.8.1'
 
 gem 'bcrypt', '~> 3.1.7' 
@@ -34,7 +35,6 @@ group :test do
   gem 'simplecov', require: false
   gem 'cucumber-rails', require: false
   gem 'rspec-rails'
-  gem 'devise'
 end
 
 # for Heroku deployment - as described in Ap. A of ELLS book
@@ -53,6 +53,7 @@ group :production do
   gem 'pg', '~> 0.15'
   gem 'rails_12factor'
   gem 'dragonfly-s3_data_store'
-  gem 'rack-cache', :require => 'rack/cache'
-
+  gem 'rack-cache', '~> 1.14'
+  gem 'dalli', '~> 3.2', '>= 3.2.6'
+  gem "memcachier"            # sets enviroment variables prefixed with MEMCACHIER_* 
 end
