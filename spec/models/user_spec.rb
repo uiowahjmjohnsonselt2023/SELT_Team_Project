@@ -121,10 +121,15 @@ RSpec.describe User, type: :model do
   describe 'address limit validation' do
     it 'does not allow more than 3 addresses' do
       user = create(:user)
-      3.times { user.addresses.create(street: '123 Street', city: 'City', state: 'State', zip: '12345', country: 'Country') }
-      expect(user.addresses.build(street: '123 Street', city: 'City', state: 'State', zip: '12345', country: 'Country')).not_to be_valid
+      3.times do
+        user.addresses.create!(street: '123 Street', city: 'City', state: 'State', zip: '12345', country: 'Country')
+      end
+      new_address = user.addresses.build(street: '123 Street', city: 'City', state: 'State', zip: '12345', country: 'Country')
+      expect(new_address.save).to be false  # The save should not succeed
+      expect(new_address.errors[:user]).to include("can only have up to 3 addresses.")
     end
   end
+
 
   # Test callbacks
   describe 'callbacks' do

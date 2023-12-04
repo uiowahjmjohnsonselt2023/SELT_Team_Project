@@ -20,6 +20,7 @@ class User < ApplicationRecord
     validate :validate_addresses_limit
     private
 
+    #method not used atm but im going to leave it here for now just in case
     def validate_addresses_limit
         if addresses.length > 3
             errors.add(:addresses, "You can only have up to 3 addresses.")
