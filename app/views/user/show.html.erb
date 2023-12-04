@@ -33,6 +33,17 @@
             <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
           </div>
         </div>
+        <h2>Products</h2>
+        <ul>
+          <% @user.products.each do |product| %>
+            <li>
+              <div>
+                <%= link_to product.name, product_path(product.id) %>
+                <%= link_to "Edit", edit_product_path(product.id) %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
 
         <div class="Most-Recent-orders-wrapper">
           <h3>Recent Orders</h3>
