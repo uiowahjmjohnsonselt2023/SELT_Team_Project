@@ -28,8 +28,8 @@ Rails.application.configure do
                                   :value_max_bytes => 10485760) # 10MBs 
 
   config.action_dispatch.rack_cache = {   # use Dalli for Rack::Cache
-    :metastore    => client,
-    :entitystore  => client
+    :metastore    => client,      # stores highlevel information about each cache entry such as HTTP requests, and response headers
+    :entitystore  => client       # caches response bodies 
   }
 
   config.serve_static_assets = true                         # allow static assets to be served 
