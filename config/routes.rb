@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :images
 
   resources :cart_items, only: %i[create update destroy]
-
+  resources :recent_purchases
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
   
