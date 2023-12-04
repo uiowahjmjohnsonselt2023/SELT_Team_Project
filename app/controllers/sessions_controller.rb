@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
             sign_in(user)
             redirect_to signup_success_path
         else
-            @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "github")
+            @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "github", admin: false)
             if @user.save
                 sign_in(@user)
                 redirect_to signup_success_path
@@ -26,23 +26,17 @@ class SessionsController < ApplicationController
 
     def google
         auth_hash = request.env['omniauth.auth']
-        puts auth_hash
         email = auth_hash.info['email']
-        puts email
         name = auth_hash.info['name']
-        puts name
         password = auth_hash.credentials['token'][0, 10]
-        puts password
         user = User.find_by(email: email, login_type: "google")
         if user&.authenticate(password) 
             sign_in(user)
             redirect_to signup_success_path
         else
-            @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "google")
+            @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "google", admin: false)
             if @user.save
-                puts "user saved"
                 sign_in(@user)
-                puts "post sign in"
                 redirect_to signup_success_path
             end
         end
