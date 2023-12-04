@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231122195338) do
+ActiveRecord::Schema.define(version: 20231201052751) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "address"
+    t.string   "street"
+    t.string   "zip"
+    t.string   "state"
+    t.string   "city"
+    t.string   "country"
+    t.integer  "user_id"
+  end
 
   create_table "cart_items", force: :cascade do |t|
     t.integer  "product_id"
@@ -63,13 +75,21 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.string   "description"
     t.decimal  "price"
     t.integer  "quantity"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.integer  "user_id"
     t.integer  "category_id"
+    t.integer  "discount",    default: 0
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id"
+
+  create_table "recent_purchases", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tags", force: :cascade do |t|
     t.string   "name"
@@ -84,6 +104,10 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "admin"
+    t.integer  "rating"
+    t.boolean  "verified_seller"
+    t.string   "phone_number"
+    t.integer  "reviews"
   end
 
 end

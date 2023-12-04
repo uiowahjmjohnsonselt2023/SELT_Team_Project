@@ -6,6 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+#User test seeds
+#User.create(name: "Garfield", email: "garf@test.com", password: "garfpassword", password_confirmation: "garfpassword", phone_number: "515-657-2381")
+#Address.create(user_id: 5, street: "123 Cat St", city: "Cat City", zip: "12345", state: "CA", country: "USA")
+#Address.create(user_id: 5, street: "456 Meow Ave", city: "Feline Town", zip: "67890", state: "NY", country: "USA")
+#Address.create(user_id: 5, street: "789 Purr Ln", city: "Kitten Ville", zip: "10112", state: "TX", country: "USA")
+
 require 'factory_bot_rails'
 
 User.destroy_all
@@ -14,7 +20,6 @@ puts "#{Product.count} products in the database"
 
 puts "Creating users..."
 admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
-
 # Create some categories
 categories = Category.create([
                                { name: 'Food' },
@@ -34,3 +39,4 @@ categories = Category.create([
                                             quantity: Faker::Number.number(digits: 2), 
                                             category_id: category.id, user_id: admin.id)
 end
+# RecentPurchase.create(user_id: 1, product_id: 1)

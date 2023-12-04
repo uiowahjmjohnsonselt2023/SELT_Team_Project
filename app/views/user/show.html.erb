@@ -1,18 +1,94 @@
-<h1>User Information</h1>
-<%= link_to "Edit Page", edit_user_path(@user.id) %>
-<br>
-<%= link_to "New Product", products_new_path%>
-<p>Name: <%= @user.name %></p>
-<p>Email: <%= @user.email %></p>
 
-<h2>Products</h2>
-<ul>
-    <% @user.products.each do |product| %>
-        <li> 
-            <div>
-                <%= link_to product.name, product_path(product.id) %> 
+<div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="text-align: center;">
+    <!-- User profile header -->
+    <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;"> <!-- Placeholder for profile photo -->
+    <h4><%= @user.name %></h4>
+    <div id="userRating"></div> <!-- Dynamic star rating -->
+    <p><%= pluralize(@user.reviews, 'Review') %></p> <!-- Dynamic reviews count -->
+  </div>
+
+  <% if @user.id == session[:user_id] %>
+    <div style="display: flex; justify-content: space-between; width: 100%;">
+      <!-- Left column for user info and previous orders -->
+      <div style="flex: 1;">
+        <div class="user-info-wrapper">
+          <h2>Profile</h2>
+          <div class="user-info">
+            <!-- User info details -->
+            <h4><%= @user.name %></h4>
+            <% if @address %>
+              <% @address.each do |address| %>
+                <p><%= address.street %>, <%= address.city %>, <%= address.state %>, <%= address.zip %>, <%= address.country %></p>
+              <% end %>
+            <% else %>
+              <p>No address on file.</p>
+            <% end %>
+            <p>Email: <%= @user.email %><p>
+            <% if @user.phone_number %>
+              <p>Phone: <%= @user.phone_number %></p>
+            <% else %>
+              <p>No phone number on file.</p>
+            <% end %>
+            <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
+          </div>
+        </div>
+        <h2>Products</h2>
+        <ul>
+          <% @user.products.each do |product| %>
+            <li>
+              <div>
+                <%= link_to product.name, product_path(product.id) %>
                 <%= link_to "Edit", edit_product_path(product.id) %>
-            </div>
-        </li>
-    <% end %>
-</ul>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+        <div class="Most-Recent-orders-wrapper">
+          <h3>Recent Orders</h3>
+          <!-- Previous orders listed here -->
+          <% if @recent_purchases %>
+            <% @recent_purchases.each do |purchase| %>
+              <h3><%= purchase.product.name %></h3>
+              <p> <%= purchase.product.description %></p>
+              <p>Unit Price: <%=  number_to_currency(purchase.product.price) %></p>
+              <%= link_to "More info", {controller: "products", action: "show", id: purchase.product.id}, method: :get%>
+            <% end %>
+          <% else %>
+            <p>No recent orders, buy something!.</p>
+          <% end %>
+        </div>
+      </div>
+  <% end %>
+
+
+
+  <div class="Posted-Products_Wrapper">
+    <h3>Posted Products</h3>
+    <button onclick="toggleDropdown('postedProductsDropdown')">Toggle Posted Products</button>
+    <div id="postedProductsDropdown" style="display: none;">
+      <!-- Posted Products -->
+      <% if @product %>
+        <% @product.each do |product| %>
+          <h3><%= product.name %></h3>
+          <p> <%= product.description %></p>
+          <p>Unit Price: <%=  number_to_currency(product.price) %></p>
+          <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get%>
+        <% end %>
+      <% else %>
+        <p>No posted products.</p>
+      <% end %>
+    </div>
+  </div>
+
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var userRating = <%= @user.rating %>; // get the rating from Rails
+          document.getElementById('userRating').innerHTML = updateUserRating(userRating);
+      });
+  </script>
+
+  </div>
+</div>

@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
     def index 
         @products = Product.all
         @categories = Category.all
+        @product_tags = Tag.all
     end
 
     def show 
@@ -89,6 +90,7 @@ class ProductsController < ApplicationController
         tag_list = params[:tag_list]
 
         @categories = Category.all
+        @product_tags = Tag.all
         @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list)
         if @match.empty?
             @match = Product.all
@@ -99,7 +101,7 @@ class ProductsController < ApplicationController
     private
     def product_params # TODO: add user_id to product params
         # function to permit only the specified parameters to be passed to the create function
-        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :category_id, :images, :tag_list)
+        params.require(:product).permit(:name, :description, :price, :quantity, :user_id, :category_id, :images, :tag_list, :discount)
     end
 
     def ensure_correct_user
