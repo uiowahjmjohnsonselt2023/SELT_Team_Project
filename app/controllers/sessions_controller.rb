@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
         user = User.find_by(email: email, login_type: "github")
         if user&.authenticate(password)
             sign_in(user)
-            redirect_to signup_success_path
+            redirect_to signin_success_path
         else
             @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "github", admin: false)
             if @user.save
@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
         user = User.find_by(email: email, login_type: "google")
         if user&.authenticate(password) 
             sign_in(user)
-            redirect_to signup_success_path
+            redirect_to signin_success_path
         else
             @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "google", admin: false)
             if @user.save
@@ -45,7 +45,7 @@ class SessionsController < ApplicationController
         user = User.find_by(email: params[:email])
         if user&.authenticate(params[:password])
             sign_in(user)
-            redirect_to signup_success_path
+            redirect_to signin_success_path
         else 
             flash[:signin] = "Invalid email or password"
             render :new, status: :unprocessable_entity

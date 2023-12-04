@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   # User routes
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
+  get 'signin_success', to: 'pages#signin_success', as: :signin_success
   get 'logout', to: 'sessions#destroy'
 
   get '/users' => 'user#index', as: 'users'
