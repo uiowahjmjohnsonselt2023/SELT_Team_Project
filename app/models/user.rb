@@ -12,7 +12,7 @@ class User < ApplicationRecord
     has_many :products, dependent: :destroy
     has_one :cart, dependent: :destroy
     has_many :addresses
-    has_many :recent_purchases
+    has_many :recent_purchases, dependent: :destroy
 
 
     before_save { self.cart = Cart.create(user_id: self.id) }
@@ -21,7 +21,9 @@ class User < ApplicationRecord
     private
 
     def validate_addresses_limit
-        errors.add(:addresses, "You can only have up to 3 addresses.") if addresses.count > 3
+        if addresses.length > 3
+            errors.add(:addresses, "You can only have up to 3 addresses.")
+        end
     end
     def required_password?
         new_record? || password.present?
