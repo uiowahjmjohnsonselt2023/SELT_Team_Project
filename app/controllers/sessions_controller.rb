@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
     def new 
     end
 
-    def SSO 
+    def github 
         auth_hash = request.env['omniauth.auth']
         password = auth_hash.extra.raw_info['node_id']
         email = auth_hash.info['email']

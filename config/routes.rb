@@ -37,6 +37,6 @@ Rails.application.routes.draw do
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'
   post '/users/:id' => 'user#update_or_create_address', as: 'update_address'
 
-  get 'auth/github/callback', to: 'sessions#SSO'
+  get 'auth/github/callback', to: 'sessions#github'
   get 'auth/google_oauth2/callback', to: 'sessions#google'
 end
