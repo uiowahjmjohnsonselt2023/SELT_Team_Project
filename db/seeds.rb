@@ -20,8 +20,6 @@ puts "#{Product.count} products in the database"
 
 puts "Creating users..."
 admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
-Product.create(name: "Lasagna", description: "A delicious lasagna", price: 10.0, quantity: 1, user_id: 5)
-RecentPurchase.create(user_id: 2, product_id: 1, created_at: Time.now)
 # Create some categories
 categories = Category.create([
                                { name: 'Food' },
@@ -41,3 +39,4 @@ categories = Category.create([
                                             quantity: Faker::Number.number(digits: 2), 
                                             category_id: category.id, user_id: admin.id)
 end
+# RecentPurchase.create(user_id: 1, product_id: 1)
