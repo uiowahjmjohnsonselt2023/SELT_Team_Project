@@ -52,8 +52,35 @@ RSpec.describe User, type: :model do
       assc = User.reflect_on_association(:cart)
       expect(assc.macro).to eq :has_one
     end
+
+    it 'has many recent_purchases' do
+      assc = User.reflect_on_association(:recent_purchases)
+      expect(assc.macro).to eq :has_many
+    end
   end
 
-  # Add more tests for your custom methods here
+  # test that the user can only have 3 addresses
+  describe 'address limit validation' do
+    it 'does not allow more than 3 addresses' do
+      user = create(:user)
+      3.times { user.addresses.create(street: '123 Street', city: 'City', state: 'State', zip: '12345', country: 'Country') }  # Replace with your actual address attributes
+      expect(user.addresses.build(street: '123 Street', city: 'City', state: 'State', zip: '12345', country: 'Country')).not_to be_valid
+    end
+  end
+
+  # ensure the required_password? method functions correctly
+  describe '#required_password?' do
+    it 'requires a password for new records' do
+      user = build(:user, password: nil)
+      expect(user.required_password?).to be true
+    end
+
+    it 'does not require a password for existing records when not updating password' do
+      user = create(:user)
+      user.name = 'Updated Name'
+      expect(user.required_password?).to be false
+    end
+  end
+
 end
 
