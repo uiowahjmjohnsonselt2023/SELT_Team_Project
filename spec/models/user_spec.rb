@@ -68,6 +68,30 @@ RSpec.describe User, type: :model do
       user.name = 'Updated Name'
       expect(user.valid?).to be true
     end
+
+    context 'when updating a user' do
+      let(:user) { create(:user) }
+
+      it 'is valid when updating name' do
+        user.name = 'New Name'
+        expect(user).to be_valid
+      end
+
+      it 'is valid when updating email with correct format' do
+        user.email = 'new_email@example.com'
+        expect(user).to be_valid
+      end
+
+      it 'is invalid when updating email with incorrect format' do
+        user.email = 'invalid_email'
+        expect(user).not_to be_valid
+      end
+
+      it 'does not require a password when email is updated' do
+        user.email = 'new_email@example.com'
+        expect(user.valid?).to be true
+      end
+    end
   end
 
   # Test associations
@@ -132,6 +156,5 @@ RSpec.describe User, type: :model do
       user.recent_purchases.create(product: create(:product), created_at: Date.today)
       expect { user.destroy }.to change(RecentPurchase, :count).by(-1)
     end
-
   end
 end
