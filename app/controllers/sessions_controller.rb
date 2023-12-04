@@ -11,12 +11,12 @@ class SessionsController < ApplicationController
             flash[:warning] = "Please make your email public on Github"
             redirect_to root_path
         end
-        user = User.find_by(email: email)
+        user = User.find_by(email: email, login_type: "github")
         if user&.authenticate(password)
             sign_in(user)
             redirect_to signup_success_path
         else
-            @user = User.new(name: name, email: email, password: password, password_confirmation: password)
+            @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "github")
             if @user.save
                 sign_in(@user)
                 redirect_to signup_success_path
@@ -33,12 +33,12 @@ class SessionsController < ApplicationController
         puts name
         password = auth_hash.credentials['token'][0, 10]
         puts password
-        user = User.find_by(email: email)
-        if user&.authenticate(password)
+        user = User.find_by(email: email, login_type: "google")
+        if user&.authenticate(password) 
             sign_in(user)
             redirect_to signup_success_path
         else
-            @user = User.new(name: name, email: email, password: password, password_confirmation: password)
+            @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "google")
             if @user.save
                 puts "user saved"
                 sign_in(@user)
