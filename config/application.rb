@@ -24,9 +24,6 @@ module App
     config.active_record.raise_in_transactional_callbacks = true
 
     # Configuation of Rack::Cache
-    config.cache_store = :mem_cache_store, ENV["MEMCACHIER_SERVERS"].split(","), { 
-      :username => ENV["MEMCACHIER_USERNAME"],  
-      :password => ENV["MEMCACHIER_PASSWORD"]
-    }
+    config.cache_store = :mem_cache_store
   end
 end

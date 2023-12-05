@@ -5,7 +5,6 @@ class ProductsController < ApplicationController
     def index 
         @products = Product.all
         @categories = Category.all
-        puts "Products: #{@products.count}"
     end
 
     def show 
