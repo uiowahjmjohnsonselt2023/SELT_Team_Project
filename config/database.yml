@@ -19,4 +19,5 @@ test:
 
 # Postgres production database
 production:
+  <<: *default 
   adapter: postgresql

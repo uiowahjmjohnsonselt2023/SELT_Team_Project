@@ -49,11 +49,17 @@ group :development, :test do
   gem 'sqlite3', '~> 1.3.6'
 end
 
+group :production, :development do
+  gem 'rack-cache', '~> 1.14'
+
+  gem 'dalli', '~> 3.2', '>= 3.2.6'
+  gem 'connection_pool', '~> 2.4', '>= 2.4.1'
+  gem "memcachier"            # sets enviroment variables prefixed with MEMCACHIER_* 
+
+end
+
 group :production do
   gem 'pg', '~> 0.15'
   gem 'rails_12factor'
   gem 'dragonfly-s3_data_store'
-  gem 'rack-cache', '~> 1.14'
-  gem 'dalli', '~> 3.2', '>= 3.2.6'
-  gem "memcachier"            # sets enviroment variables prefixed with MEMCACHIER_* 
 end

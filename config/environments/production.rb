@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  config.cache_classes = false #true
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -12,12 +12,19 @@ Rails.application.configure do
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
+  config.action_controller.perform_caching = false
+ # --------------------------------------------------------------------------
+  # MEMCACHIER
+  # ----------
 
-  # Enable Rack::Cache to put a simple HTTP cache in front of your application
-  # Add `rack-cache` to your Gemfile before enabling this.
-  # For large-scale production use, consider using a caching reverse proxy like
-  # NGINX, varnish or squid.
+  # Configure rails caching (action, fragment)
+  config.cache_store = :mem_cache_store, ENV["MEMCACHIER_SERVERS"].split(","), { pool: 5 } 
+
+  # Configure Rack::Cache (rack middleware, whole page / static assets) (we set
+  # value_max_bytes to 10MB, most memcache servers won't allow values larger
+  # than 1MB but this stops Rack::Cache returning a 5xx error. With this
+  # option, Rack::Cache just returns a miss).
+
   config.action_dispatch.rack_cache = true
   client = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),    # memcache server list
                                   :username => ENV["MEMCACHIER_USERNAME"],    # user and pass for memcache servers
@@ -27,15 +34,13 @@ Rails.application.configure do
                                   :socket_failure_delay => 0.2, 
                                   :value_max_bytes => 10485760) # 10MBs 
 
-  config.action_dispatch.rack_cache = {   # use Dalli for Rack::Cache
-    :metastore    => client,      # stores highlevel information about each cache entry such as HTTP requests, and response headers
-    :entitystore  => client       # caches response bodies 
+  config.action_dispatch.rack_cache = {
+    :metastore    => client,
+    :entitystore  => client
   }
-
-  config.serve_static_assets = true                         # allow static assets to be served 
-  config.static_cache_control = "public, max-age=2592000"   # store assets for 30 days
   
-
+  config.static_cache_control = "public, max-age=2592000"
+  
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
@@ -63,6 +68,7 @@ Rails.application.configure do
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :debug
+  config.assets.raise_runtime_errors = true
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -93,3 +99,4 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
+

@@ -34,6 +34,6 @@
         <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
     </div>
     <div class="product-list">
-        <%= render @products %>
+        <%= render @products, cached: true %>
     </div>
 </div>
