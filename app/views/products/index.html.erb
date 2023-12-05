@@ -1,9 +1,5 @@
 <div class="for-you-wrapper">
   <h3>For You</h3>
-  <%= cache 'current-time' do %>
-    <%= Time.current %>
-  <% end %>
-  
   <% # Will contain the code to display current hot items, etc%>
   <% form_tag :product_search, method: "post", class: "search-price" do %>
     <div class="search-tabs">
@@ -38,6 +34,6 @@
         <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
     </div>
     <div class="product-list">
-        <%= render @products, cached: true %>
+      <%= render partial: 'products/product', collection: @products, cached: true %>
     </div>
 </div>
