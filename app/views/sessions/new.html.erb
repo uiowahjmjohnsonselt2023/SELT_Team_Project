@@ -1,27 +1,40 @@
-<h1>Sign in</h1>
+<div class="flex items-start justify-center h-screen bg-white-100">
+  <div class="w-1/3 h-1/2 p-10 bg-white shadow-md rounded-md mt-10">
+    <h1 class="text-5xl font-bold mb-4 text-center">Sign in</h1>
 
-<p>Need an account? <%= link_to "SignUp", new_signup_path %></p>
+    <p class="text-center">Need an account? <%= link_to "Sign up", signup_path %></p>
 
-<%= form_tag(sessions_path) do %>
-  <div>
-    <%= label_tag :email %>
-    <%= email_field_tag :email %>
+    <%= form_tag(sessions_path, class: 'mt-4') do %>
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-xl font-bold mb-2">Email</label>
+        <%= email_field_tag :email, nil, class: 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' %>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-xl font-bold mb-2">Password</label>
+        <%= password_field_tag :password, nil, class: 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' %>
+      </div>
+
+      <% if flash[:signin] %>
+        <div class="mb-4 text-red-500">
+          <%= flash[:signin] %>
+        </div>
+      <% end %>
+
+      <%= submit_tag "Login", class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' %>
+    <% end %>
+
+    <p class="mt-6 mb-4 text-left text-gray-500 font-semibold">or</p>
+
+    <%= form_tag('/auth/github', method: 'post', data: { turbo: false }, class: 'mt-4') do %>
+      <button type='submit' class='bg-gray-800 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+        Login with Github
+      </button>
+    <% end %>
+    <%= form_tag('/auth/google_oauth2', method: 'post', data: { turbo: false }, class: 'mt-4') do %>
+      <button type='submit' class='bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+        Login with Google
+      </button>
+    <% end %>
   </div>
-
-  <div>
-    <%= label_tag :password %>
-    <%= password_field_tag :password %>
-  </div>
-
-  <% if flash[:signin] %>
-    <div>
-      <%= flash[:signin] %>
-    </div>
-  <% end %>
-
-  <%= submit_tag "Login" %>
-<% end %>
-<p> or </p>
-<%= form_tag('/auth/github', method: 'post', data: {turbo: false}) do %>
-  <button type='submit'>Login with Github</button>
-<% end %>
+</div>

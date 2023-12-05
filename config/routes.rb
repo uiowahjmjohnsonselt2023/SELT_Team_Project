@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   # User routes
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
+  get 'signin_success', to: 'pages#signin_success', as: :signin_success
   get 'logout', to: 'sessions#destroy'
 
   get '/users' => 'user#index', as: 'users'
@@ -36,5 +37,6 @@ Rails.application.routes.draw do
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'
   post '/users/:id' => 'user#update_or_create_address', as: 'update_address'
 
-  get 'auth/github/callback', to: 'sessions#SSO'
+  get 'auth/github/callback', to: 'sessions#github'
+  get 'auth/google_oauth2/callback', to: 'sessions#google'
 end
