@@ -13,7 +13,7 @@
 <h1>Photos</h1>
 <% if @product.images.present? %>
   <ul class="row" id="photos-list">
-    <%= render @product.images %>
+    <%= render partial: 'images/image', collection: @product.images, cached: true %>  
   </ul>
 <%end%>
 

@@ -78,9 +78,11 @@ class Product < ApplicationRecord
             if img.valid?
                 self.images << img
             else
+                puts "#{img.errors.full_messages}}"
                 return false
             end
         end
+
         return true
     end
     
