@@ -11,3 +11,9 @@ function updateUserRating(rating) {
     }
     return stars;
 }
+
+// New function for toggling dropdowns
+function toggleDropdown(dropdownId) {
+    var dropdown = document.getElementById(dropdownId);
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
