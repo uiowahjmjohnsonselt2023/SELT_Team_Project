@@ -19,6 +19,10 @@ class UserController < ApplicationController
       @user = User.new
       @user.cart = Cart.new
   end
+
+  def search
+    
+  end
   
   def create
     @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
@@ -34,11 +38,18 @@ class UserController < ApplicationController
   def edit
     @user = User.find_by(id: params[:id])
     @address = @user.addresses || @user.addresses.build
-    if @user.nil?
+    if @user.nil? or @user.id != session[:user_id]
       flash[:warning] = "User not found"
-      if @user.id != session[:user_id]
-        redirect_to root_path
-      end
+      redirect_to root_path
+    end
+  end
+
+
+  def admin
+    @user = User.find_by(id: params[:id])
+    if @user.admin != true
+      flash[:warning] = "User is not an admin"
+      redirect_to root_path
     end
   end
 

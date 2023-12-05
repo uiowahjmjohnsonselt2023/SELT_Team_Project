@@ -32,9 +32,12 @@ Rails.application.routes.draw do
 
   get '/users/edit' => 'user#edit', as:'edit'
 
+  get 'users/:id/admin' => 'user#admin', as:'admin'
+
   put '/users/:id/update' => 'user#update', as: 'update_user'
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'
   post '/users/:id' => 'user#update_or_create_address', as: 'update_address'
+
 
   get 'auth/github/callback', to: 'sessions#SSO'
 end
