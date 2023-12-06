@@ -21,7 +21,7 @@ class UserController < ApplicationController
   end
 
   def search
-    
+
   end
   
   def create
