@@ -1,0 +1,19 @@
+<% unless @matches.blank? %>
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= match.name %></td>
+        <td><%= match.email %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -16,12 +16,18 @@ class UserController < ApplicationController
   end
 
   def new
-      @user = User.new
-      @user.cart = Cart.new
+    @user = User.new
+    @user.cart = Cart.new
   end
 
+  # meant to be used to search for users on the admin page, or for any other implementation we want?
+  # not sure if this will be our final version of this.
   def search
-
+    email_search = params[:search]
+    @matches = User.where(email: email_search)
+    if @matches.empty?
+      flash[:warning] = "No Matches found"
+    end
   end
   
   def create
@@ -116,7 +122,7 @@ class UserController < ApplicationController
   def ensure_correct_user
     @user = User.find_by(id: params[:id])
     if not @user 
-      flash[:warning] = "Product not found"
+      flash[:warning] = "User not found"
       redirect_to root_path
     end
 

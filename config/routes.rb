@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :recent_purchases
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
-  
+
   root :to => redirect('/products')
 
   # cart routes
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   get '/users/edit' => 'user#edit', as:'edit'
 
   get 'users/:id/admin' => 'user#admin', as:'admin'
+
+  post 'users/search' => 'user#search'
 
   put '/users/:id/update' => 'user#update', as: 'update_user'
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'

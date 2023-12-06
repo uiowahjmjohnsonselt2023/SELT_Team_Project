@@ -2,6 +2,12 @@
   <h1> Admin Dashboard</h1>
   <h2> Metrics </h2>
   <h2> Add admins </h2>
+  <%= form_tag users_search_path, :class => "search_form" do  %>
+    <%= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a user by email" %>
+  <%end%>
+  <div class = 'users-list'>
+    <%= render partial: 'search' %>
+  </div>
   <h2> Return to home page </h2>
   <%= link_to "Home Page", root_path %>
 </div>

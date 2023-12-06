@@ -24,6 +24,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'factory_bot_rails'
 gem 'faker'
 
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
