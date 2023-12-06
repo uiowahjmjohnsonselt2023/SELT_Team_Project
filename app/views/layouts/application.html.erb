@@ -21,14 +21,15 @@
         <% if current_user.present? %>
           <%= link_to 'Profile', user_path(current_user.id)%>
           <%= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get"%>
+          <% if current_user.admin == true %>
+            <%= link_to 'Admin', admin_path(current_user.id) %>
+          <% end %>
         <% else %>
           <%= link_to 'Profile', new_session_path %>
           <%= link_to 'Cart', new_session_path %>
         <% end %>
 
-        <% if current_user.admin == true %>
-          <%= link_to 'Admin', admin_path(current_user.id) %>
-        <% end %>
+
         
         <%= link_to 'About', about_path %>
         <%= link_to 'Login', new_session_path %>
