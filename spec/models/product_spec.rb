@@ -231,6 +231,29 @@ RSpec.describe Product, type: :model do
         expect(result).not_to include(untagged_product)
       end
     end
+
+    context 'discount feature' do
+      it 'allows adding a discount to a product' do
+        product = FactoryBot.create(:product, price: 40)
+        product.discount = 10
+        expect(product.save).to be_truthy
+        expect(product.reload.discount).to eq(10)
+      end
+
+      it 'does not allow a discount greater than 100%' do
+        product = FactoryBot.create(:product, price: 40)
+        product.discount = 150
+        expect(product.save).to be_falsey
+        expect(product.errors[:discount]).to include("must be less than or equal to 100")
+      end
+
+      it 'does not allow a negative discount' do
+        product = FactoryBot.create(:product, price: 40)
+        product.discount = -10
+        expect(product.save).to be_falsey
+        expect(product.errors[:discount]).to include("must be greater than or equal to 0")
+      end
+    end
     # it 'should have a default categories' do
     #   products = ['Apple', 'Guava', 'Pineapple']
     #   products.each do |product_name|

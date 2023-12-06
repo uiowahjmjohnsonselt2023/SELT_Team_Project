@@ -88,10 +88,11 @@ class ProductsController < ApplicationController
         max_price = params[:max_price]
         category_id = params[:category_id]
         tag_list = params[:tag_list]
+        discounted = params[:discounted]
 
         @categories = Category.all
         @product_tags = Tag.all
-        @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list)
+        @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list, discounted: discounted)
         if @match.empty?
             @match = Product.all
             flash.now[:notice] = "No products found."

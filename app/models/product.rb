@@ -45,7 +45,7 @@ class Product < ApplicationRecord
         price - (price * :discount / 100)
     end
 
-    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil, tag_list: nil)
+    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil, tag_list: nil, discounted: nil)
         match = all
         # Filter by category
         match = match.where(category_id: category_id) if category_id.present?
@@ -59,6 +59,9 @@ class Product < ApplicationRecord
             tags = tag_list.downcase.split(',').map(&:strip).reject(&:empty?).uniq
             match = match.joins(:tags).where('lower(tags.name) IN (?)', tags).distinct
         end
+
+        # Filter by discount
+        match = match.where('discount > 0') if discounted.present?
 
         # If a search term is provided, filter the results using Levenshtein distance
         if search_term.present?
