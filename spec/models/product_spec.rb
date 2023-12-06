@@ -190,6 +190,12 @@ RSpec.describe Product, type: :model do
         expect(product.tags.map(&:name)).to include('Electronics', 'Sale')
       end
 
+      it 'associates existing tags with the product' do
+        product = FactoryBot.create(:product)
+        product.tag_list = "Tag1"
+        expect(product.tags.size).to eq 1
+      end
+
       it 'correctly assigns and returns tags as a comma-separated string' do
         product = FactoryBot.create(:product)
         product.tag_list = "Tag1, Tag2, Tag3"
