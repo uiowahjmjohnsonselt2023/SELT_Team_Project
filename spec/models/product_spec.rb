@@ -190,6 +190,12 @@ RSpec.describe Product, type: :model do
         expect(product.tags.map(&:name)).to include('Electronics', 'Sale')
       end
 
+      it 'associates existing tags with the product' do
+        product = FactoryBot.create(:product)
+        product.tag_list = "Tag1"
+        expect(product.tags.size).to eq 1
+      end
+
       it 'correctly assigns and returns tags as a comma-separated string' do
         product = FactoryBot.create(:product)
         product.tag_list = "Tag1, Tag2, Tag3"
@@ -223,6 +229,29 @@ RSpec.describe Product, type: :model do
         result = Product.search('', tag_list: 'Electronics')
         expect(result).to include(tagged_product)
         expect(result).not_to include(untagged_product)
+      end
+    end
+
+    context 'discount feature' do
+      it 'allows adding a discount to a product' do
+        product = FactoryBot.create(:product, price: 40)
+        product.discount = 10
+        expect(product.save).to be_truthy
+        expect(product.reload.discount).to eq(10)
+      end
+
+      it 'does not allow a discount greater than 100%' do
+        product = FactoryBot.create(:product, price: 40)
+        product.discount = 150
+        expect(product.save).to be_falsey
+        expect(product.errors[:discount]).to include("must be less than or equal to 100")
+      end
+
+      it 'does not allow a negative discount' do
+        product = FactoryBot.create(:product, price: 40)
+        product.discount = -10
+        expect(product.save).to be_falsey
+        expect(product.errors[:discount]).to include("must be greater than or equal to 0")
       end
     end
     # it 'should have a default categories' do
