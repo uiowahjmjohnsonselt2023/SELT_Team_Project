@@ -68,7 +68,7 @@
   <% end %>
 
   <!-- Payments Section -->
-  <%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
+  <%= form_for(@user, url: update_payment_path(@user), html: { method: :put }) do |form| %>
     <div style="width: 50%;">
       <fieldset>
         <legend>Payment Info</legend>
@@ -80,6 +80,7 @@
 
         <%= label_tag :cc_name_on_card, 'Name on card' %>
         <%= text_field_tag :cc_name_on_card %>
+
       </fieldset>
       <%= form.submit "Update Payment Info", class: "button", style: "margin-top: 20px;" %>
     </div>

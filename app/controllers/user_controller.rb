@@ -5,9 +5,7 @@ class UserController < ApplicationController
   before_action :ensure_registration, only: [:index]
 
   def index
-    @user = User.find(params[:id])
-    @address = @user.addresses
-    @product = @user.products
+    @users = User.all # Changed to list all users
   end
 
   def show
@@ -21,7 +19,7 @@ class UserController < ApplicationController
       @user = User.new
       @user.cart = Cart.new
   end
-  
+
   def create
     @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
     if @user.save
@@ -88,6 +86,11 @@ class UserController < ApplicationController
     end
   end
 
+  def update_payment
+    @user = User.find(params[:id]) # Ensure you have the user's ID
+    redirect_to edit_user_path(@user), notice: "You tried to update payment lol."
+  end
+
   private
   # marks the user_params
   def user_params
@@ -102,10 +105,14 @@ class UserController < ApplicationController
     params.require(:user).permit(:password, :password_confirmation)
   end
 
+  def payment_params
+    params.require(:user).permit(:cc_number, :cc_expr, :cc_name_on_card)
+  end
+
 
   def ensure_correct_user
     @user = User.find_by(id: params[:id])
-    if not @user 
+    if not @user
       flash[:warning] = "Product not found"
       redirect_to root_path
     end

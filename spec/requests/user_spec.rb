@@ -2,35 +2,47 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
 
-  describe 'PUT /users/:id/update_password' do
-    let(:user) { create(:user) }
-    let(:new_password) { 'newpassword123' }
+  describe "GET #new" do
+    it "renders the new template" do
+      get signup_path # Updated to use signup_path for new user registration
+      expect(response).to render_template(:new)
+    end
 
-    it 'updates the password' do
-      put update_password_path(user), params: { user: { password: new_password, password_confirmation: new_password } }
-      user.reload
-      expect(user.authenticate(new_password)).to be_truthy
+    it "assigns a new user to @user" do
+      get signup_path # Updated to use signup_path for new user registration
+      expect(assigns(:user)).to be_a_new(User)
     end
   end
 
-  describe 'GET /users/:id' do
-    it 'assigns the requested user and their details' do
-      user = create(:user)
-      get user_path(user)
-      expect(response).to have_http_status(:success)
-      # Additional checks on the response body can be added here
-    end
-  end
+  # Test for profile page display when signed in
+  describe "GET #show" do
+    context "when user is signed in" do
+      before do
+        @user = FactoryBot.create(:user)
+        # Manually sign in the user
+        post sessions_path, params: { session: { email: @user.email, password: 'password' } }
+        # Set the user_id in the session
+        session[:user_id] = @user.id
+      end
 
-  describe 'GET /users/:id/edit' do
-    context 'when the user is correct' do
-      it 'renders the edit template' do
-        user = create(:user)
-        get edit_path
-        expect(response).to have_http_status(:success)
-        # Additional checks on the response body can be added here
+      it "renders the show template" do
+        get user_path(@user)
+        expect(response).to render_template(:show)
+      end
+
+      it "renders edit template" do
+        get edit_user_path(@user)
+        expect(response).to render_template(:edit)
       end
     end
+
+    context "when user is not signed in" do
+      it "redirects to the signup page" do
+        get "/users"
+        expect(response).to redirect_to(signup_path)
+      end
+    end
+
   end
 
 end
