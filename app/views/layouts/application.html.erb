@@ -11,37 +11,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div class="navbar navbar-expand-lg bg-primary text-white mb-3">
-      <div class="topnav-wrapper">
-         <%= link_to "Home", root_path %>   
-        <%= form_tag product_search_path, :class => "search_form" do  %>
-          <%= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a product" %>
-        <%end%>
-
-        <% if current_user.present? %>
-          <%= link_to 'Profile', user_path(current_user.id)%>
-          <%= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get"%>
-        <% else %>
-          <%= link_to 'Profile', new_session_path %>
-          <%= link_to 'Cart', new_session_path %>
-        <% end %>
-        
-        <%= link_to 'About', about_path %>
-
-        <% if current_user.present? %>
-          <%= link_to 'Log Out', logout_path %> <%= "Welcome, #{current_user.name}!" %>
-        <% else %>
-          <%= link_to 'Login', new_session_path %>
-        <% end %>
+  <nav class="fixed top-0 left-0 right-0 bg-gray-800 z-50">
+    <div class="mx-20 max-w-7xl px-2 sm:px-6 lg:px-10">
+      <div class="flex h-24 items-center justify-between">
+        <div class="flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex space-x-8">
+<!--            <div class="flex space-x-64">-->
+<!--              <div class="flex space-x-8">-->
+            <%= link_to "Home", root_path, class: "bg-gray-200 hover:bg-gray-400 hover:text-white text-blue rounded-md px-3 py-2 text-2xl font-medium"%>
+            <%= link_to 'About', about_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium" %>
+            <% if current_user.present? %>
+              <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+              <%= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+              <%= link_to 'Log Out', logout_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
+              <div class="text-gray-300 rounded-md px-3 py-2 text-2xl font-medium truncate">
+                <%= "Welcome, #{current_user.name}!" %>
+              </div>
+            <% else %>
+              <%= link_to 'Profile', new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+              <%= link_to "Cart", new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+              <%= link_to 'Login', new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
+            <% end %>
+          </div>
+          <div class="fixed top-4 right-10">
+            <%= form_tag product_search_path, class: "flex" do %>
+              <%= text_field_tag :search, params[:search] ||= '', class: "form-input text-l px-2", placeholder: "Search for a product", style: "width: 400px;" %>
+              <%= button_tag(type: 'submit', class: "btn btn-default") do %>
+                Search
+              <% end %>
+            <% end %>
+          </div>
         </div>
+      </div>
     </div>
+  </nav>
+<!--      <div class="topnav-wrapper">-->
+        <%#= link_to "Home", root_path %>
+        <%#= link_to 'About', about_path %>
+        <%#= form_tag product_search_path, :class => "search_form" do  %>
+          <%#= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a product" %>
+        <%#end%>
 
-    <div class="container">
-      <%# Render "flash" messages in our application. This loads _flash.erb %>
-      <%= render 'layouts/flash' %>
-      <main id="main">
-        <%= yield %>
-      </main>
-    </div>
+        <%# if current_user.present? %>
+          <%#= link_to 'Profile', user_path(current_user.id)%>
+          <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get"%>
+          <%#= link_to 'Log Out', logout_path %> <%#= "Welcome, #{current_user.name}!" %>
+        <%# else %>
+          <%#= link_to 'Profile', new_session_path %>
+          <%#= link_to 'Cart', new_session_path %>
+          <%#= link_to 'Login', new_session_path %>
+        <%# end %>
+<!--        </div>-->
+
+  <div class="container" style="padding-top: 60px;">
+    <%# Render "flash" messages in our application. This loads _flash.erb %>
+    <%= render 'layouts/flash' %>
+    <main id="main">
+      <%= yield %>
+    </main>
+  </div>
   </body>
 </html>
