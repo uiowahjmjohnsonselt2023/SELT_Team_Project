@@ -18,7 +18,7 @@
           <div class="flex space-x-8">
 <!--            <div class="flex space-x-64">-->
 <!--              <div class="flex space-x-8">-->
-            <%= link_to "Home", root_path, class: "bg-gray-200 hover:bg-gray-400 hover:text-white text-blue rounded-md px-3 py-2 text-2xl font-medium"%>
+            <%= link_to "Home", root_path, class: "bg-gray-600 hover:bg-gray-400 text-white hover:text-blue rounded-md px-3 py-2 text-2xl font-medium"%>
             <%= link_to 'About', about_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium" %>
             <% if current_user.present? %>
               <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
@@ -34,8 +34,9 @@
             <% end %>
           </div>
           <div class="fixed top-4 right-10">
-            <%= form_tag product_search_path, class: "flex" do %>
-              <%= text_field_tag :search, params[:search] ||= '', class: "form-input text-l px-2", placeholder: "Search for a product", style: "width: 400px;" %>
+            <%= form_tag :product_search, method: "post", class: "flex" do %>
+              <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), prompt: "Select a Category", class: "text-l px-1", style: "width: 150px;"%>
+              <%= text_field_tag :search, params[:search] ||= '', class: "form-input text-l px-2", placeholder: "Search for a product", style: "width: 300px;" %>
               <%= button_tag(type: 'submit', class: "btn btn-default") do %>
                 Search
               <% end %>
