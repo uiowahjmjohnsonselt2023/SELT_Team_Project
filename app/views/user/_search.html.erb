@@ -1,4 +1,4 @@
-<% unless @matches.blank? %>
+<% unless @search_res.blank? %>
   <table>
     <thead>
     <tr>
@@ -8,7 +8,7 @@
     </thead>
 
     <tbody>
-    <% @matches.each do |match| %>
+    <% @search_res.each do |match| %>
       <tr>
         <td><%= match.name %></td>
         <td><%= match.email %></td>
@@ -17,3 +17,4 @@
     </tbody>
   </table>
 <% end %>
+

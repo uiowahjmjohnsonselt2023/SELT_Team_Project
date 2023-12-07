@@ -24,9 +24,17 @@ class UserController < ApplicationController
   # not sure if this will be our final version of this.
   def search
     email_search = params[:search]
-    @matches = User.where(email: email_search)
-    if @matches.empty?
+    @search_res = User.where(email: email_search)
+    if @search_res.empty?
       flash[:warning] = "No Matches found"
+    end
+
+    # render :partial => "user/search"
+    # redirect_to admin_path(current_user.id)
+
+    respond_to do |format|
+      format.html { render 'admin'}
+      format.js
     end
   end
   
