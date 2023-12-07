@@ -15,3 +15,12 @@
 //= require_tree .
 //= require bootstrap
 //= require jquery.remotipart
+
+$(window).on('beforeunload', function() {
+    $.ajax({
+      type: 'DELETE',
+      url: '/logout', // Update with your logout route
+      async: false, // Ensure the request is completed before the page is closed
+    });
+  });
+  

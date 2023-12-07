@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  include SessionsHelper
   
   private 
   def ensure_signed_in!
@@ -34,6 +35,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_out
+    forget(current_user)
     session[:user_id] = nil
     session[:cart_id] = nil
     puts "session user id: #{session[:user_id]}"

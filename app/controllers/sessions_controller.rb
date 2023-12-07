@@ -45,6 +45,8 @@ class SessionsController < ApplicationController
         user = User.find_by(email: params[:email])
         if user&.authenticate(params[:password])
             sign_in(user)
+            puts "made it here" 
+            params[:remember_me] == '1' ? remember(user) : forget(user)
             redirect_to signin_success_path
         else 
             flash[:signin] = "Invalid email or password"

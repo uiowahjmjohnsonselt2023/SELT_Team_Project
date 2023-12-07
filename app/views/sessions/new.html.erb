@@ -15,6 +15,11 @@
         <%= password_field_tag :password, nil, class: 'appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' %>
       </div>
 
+      <div class="mb-4">
+      <%= check_box_tag :remember_me, '1', false, class: 'mr-2' %>
+      <%= label_tag :remember_me, 'Remember me', class: 'text-gray-700' %>
+      </div>
+
       <% if flash[:signin] %>
         <div class="mb-4 text-red-500">
           <%= flash[:signin] %>
