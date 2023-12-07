@@ -60,6 +60,14 @@ class UserController < ApplicationController
 
 
   def admin
+
+    #this is where we calculate all the data to display on the admin page.
+    tag_freq = Tag.joins(:products).group(:name).count
+    cat_freq = Category.joins(:products).group(:name).count
+    @pop_tag = tag_freq.sort_by{ |tag, count| -count }.take(5)
+    @pop_cat = cat_freq.sort_by { |cat, count| -count }.take(5)
+
+
     @user = User.find_by(id: params[:id])
     if @user.admin != true
       flash[:warning] = "User is not an admin"
@@ -69,11 +77,16 @@ class UserController < ApplicationController
 
   #this is the method that allows people to be promoted to an admin on the admin page.
   def promote
+
     @promotion = User.find_by(id: params[:id])
-    if @promotion.update(:admin => true)
+    user_update = {admin: true}
+    if @promotion.update(user_update)
       redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has been made an admin"
     else
       redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has not been made an admin"
+      puts("Promotion failed. See log file for more information.")
+      Rails.logger.info("Promotion failed.")
+      Rails.logger.info(@promotion.errors.messages.inspect)
     end
   end
 

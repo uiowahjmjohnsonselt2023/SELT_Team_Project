@@ -15,3 +15,5 @@
 //= require_tree .
 //= require bootstrap
 //= require jquery.remotipart
+//= require chartkick
+//= require Chart.bundle
