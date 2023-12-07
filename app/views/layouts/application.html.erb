@@ -19,9 +19,11 @@
 
         <% if current_user.present? %>
           <%= link_to 'Profile', user_path(current_user.id)%>
+          <%= link_to 'Profile Index', user_index_path(current_user.id)%>
           <%= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get"%>
         <% else %>
           <%= link_to 'Profile', new_session_path %>
+          <%= link_to 'Profile Index', new_session_path%>
           <%= link_to 'Cart', new_session_path %>
         <% end %>
         

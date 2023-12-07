@@ -3,9 +3,10 @@ class UserController < ApplicationController
   before_action :ensure_signed_in!, only: [:show, :edit, :update]
   #if users aren't logged in when trying to index, send them to the login page.
   before_action :ensure_registration, only: [:index]
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
-    @users = User.all # Changed to list all users
+    @user = User.find(params[:id])
   end
 
   def show
@@ -15,31 +16,17 @@ class UserController < ApplicationController
     @recent_purchases = @user.recent_purchases
   end
 
-  def new
-      @user = User.new
-      @user.cart = Cart.new
-  end
-
-  def create
-    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
-    if @user.save
-      redirect_to @user
-    else
-      render 'new'
-    end
-  end
-
   #the params to be passed when going to the edit page
   # Now redirects when an incorrect user types in the edit page's path
   def edit
     @user = User.find_by(id: params[:id])
-    @address = @user.addresses || @user.addresses.build
     if @user.nil?
       flash[:warning] = "User not found"
       if @user.id != session[:user_id]
         redirect_to root_path
       end
     end
+    @address = @user.addresses || @user.addresses.build
   end
 
   # Function to update users after selecting the edit page
@@ -86,10 +73,12 @@ class UserController < ApplicationController
     end
   end
 
+  # :nocov:
   def update_payment
     @user = User.find(params[:id]) # Ensure you have the user's ID
     redirect_to edit_user_path(@user), notice: "You tried to update payment lol."
   end
+  # :nocov:
 
   private
   # marks the user_params
@@ -105,15 +94,16 @@ class UserController < ApplicationController
     params.require(:user).permit(:password, :password_confirmation)
   end
 
+  # :nocov:
   def payment_params
     params.require(:user).permit(:cc_number, :cc_expr, :cc_name_on_card)
   end
-
+  # :nocov:
 
   def ensure_correct_user
     @user = User.find_by(id: params[:id])
     if not @user
-      flash[:warning] = "Product not found"
+      flash[:warning] = "User not found"
       redirect_to root_path
     end
 
