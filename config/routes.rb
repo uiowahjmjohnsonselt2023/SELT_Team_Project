@@ -34,7 +34,10 @@ Rails.application.routes.draw do
 
   get 'users/:id/admin' => 'user#admin', as:'admin'
 
+  put 'users/promote' => 'user#promote', as: 'promote'
+
   post '/user_search', to: 'user#search', as: 'user_search'
+
 
   put '/users/:id/update' => 'user#update', as: 'update_user'
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'

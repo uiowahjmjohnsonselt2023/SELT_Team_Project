@@ -1,6 +1,23 @@
 <div>
   <h1> Admin Dashboard</h1>
   <h2> Metrics </h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Users</th>
+      <th>Products</th>
+      <th>Sold Amt.</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <td><%= User.count %></td>
+      <td><%= Product.count %></td>
+      <td><%= Product.count - Product.count %></td>
+    </tr>
+    </tbody>
+  </table>
   <h2> Add admins </h2>
   <%= form_tag('/user_search', :class => "search_form") do  %>
     <%= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a user by email" %>

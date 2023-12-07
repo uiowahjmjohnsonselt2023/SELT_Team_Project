@@ -4,6 +4,7 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
+      <th>Promote</th>
     </tr>
     </thead>
 
@@ -12,6 +13,7 @@
       <tr>
         <td><%= match.name %></td>
         <td><%= match.email %></td>
+        <td><%= link_to "Promote", promote_path(id: match.id), method: :put %></td>
       </tr>
     <% end %>
     </tbody>

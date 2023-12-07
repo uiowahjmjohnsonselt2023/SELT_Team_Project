@@ -39,7 +39,7 @@ class UserController < ApplicationController
   end
   
   def create
-    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
+    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation, admin: false))
     if @user.save
       redirect_to @user
     else
@@ -64,6 +64,16 @@ class UserController < ApplicationController
     if @user.admin != true
       flash[:warning] = "User is not an admin"
       redirect_to root_path
+    end
+  end
+
+  #this is the method that allows people to be promoted to an admin on the admin page.
+  def promote
+    @promotion = User.find_by(id: params[:id])
+    if @promotion.update(:admin => true)
+      redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has been made an admin"
+    else
+      redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has not been made an admin"
     end
   end
 
