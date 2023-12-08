@@ -6,7 +6,7 @@
       Have an account already? <%= link_to "Login", new_session_path, class: "text-blue-600 underline" %>
     </p>
 
-    <%= link_to "Back", root_path %>
+    <%#= link_to "Back", root_path %>
 
     <%= form_for @user, url: signup_path do |f| %>
       <%= render "shared/form_errors", object: f.object %>
@@ -31,7 +31,8 @@
         <%= f.password_field :password_confirmation, class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
       </div>
 
-      <%= f.submit class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' %>
+      <%#= f.submit class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' %>
+      <%= f.submit class: 'w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline' %>
     <% end %>
   </div>
 </div>
