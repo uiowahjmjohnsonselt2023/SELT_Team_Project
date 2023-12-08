@@ -60,7 +60,7 @@
                 Search
               <% end %>
             <% end %>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -113,29 +113,29 @@
     </div>
   </aside>
 <!--      <div class="topnav-wrapper">-->
-        <%#= link_to "Home", root_path %>
-        <%#= link_to 'About', about_path %>
-        <%#= form_tag product_search_path, :class => "search_form" do  %>
-          <%#= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a product" %>
-        <%#end%>
+<%#= link_to "Home", root_path %>
+<%#= link_to 'About', about_path %>
+<%#= form_tag product_search_path, :class => "search_form" do  %>
+<%#= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a product" %>
+<%#end%>
 
-        <%# if current_user.present? %>
-          <%#= link_to 'Profile', user_path(current_user.id)%>
-          <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get"%>
-          <%#= link_to 'Log Out', logout_path %> <%#= "Welcome, #{current_user.name}!" %>
-        <%# else %>
-          <%#= link_to 'Profile', new_session_path %>
-          <%#= link_to 'Cart', new_session_path %>
-          <%#= link_to 'Login', new_session_path %>
-        <%# end %>
+<%# if current_user.present? %>
+<%#= link_to 'Profile', user_path(current_user.id)%>
+<%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get"%>
+<%#= link_to 'Log Out', logout_path %> <%#= "Welcome, #{current_user.name}!" %>
+<%# else %>
+<%#= link_to 'Profile', new_session_path %>
+<%#= link_to 'Cart', new_session_path %>
+<%#= link_to 'Login', new_session_path %>
+<%# end %>
 <!--        </div>-->
 
-  <div class="container" style="padding-top: 60px; padding-left: 30px;">
-    <%# Render "flash" messages in our application. This loads _flash.erb %>
-    <%= render 'layouts/flash' %>
-    <main id="main">
-      <%= yield %>
-    </main>
-  </div>
-  </body>
+<div class="container" style="padding-top: 60px; padding-left: 30px;">
+  <%# Render "flash" messages in our application. This loads _flash.erb %>
+  <%= render 'layouts/flash' %>
+  <main id="main">
+    <%= yield %>
+  </main>
+</div>
+</body>
 </html>

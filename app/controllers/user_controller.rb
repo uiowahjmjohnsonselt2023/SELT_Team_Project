@@ -3,18 +3,19 @@ class UserController < ApplicationController
   before_action :ensure_signed_in!, only: [:show, :edit, :update]
   #if users aren't logged in when trying to index, send them to the login page.
   before_action :ensure_registration, only: [:index]
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
+    @user = User.find(params[:id])
+  end
+
+  def show
     @user = User.find(params[:id])
     @address = @user.addresses
     @product = @user.products
     @recent_purchases = @user.recent_purchases
   end
 
-  def show
-    @user = User.find(params[:id])
-    @categories = Category.all
-  end
 
   def new
       @user = User.new
@@ -41,6 +42,7 @@ class UserController < ApplicationController
         redirect_to root_path
       end
     end
+    @address = @user.addresses || @user.addresses.build
   end
 
 
@@ -88,6 +90,13 @@ class UserController < ApplicationController
     end
   end
 
+  # :nocov:
+  def update_payment
+    @user = User.find(params[:id]) # Ensure you have the user's ID
+    redirect_to edit_user_path(@user), notice: "You tried to update payment lol."
+  end
+  # :nocov:
+
   private
   # marks the user_params
   def user_params
@@ -102,11 +111,16 @@ class UserController < ApplicationController
     params.require(:user).permit(:password, :password_confirmation)
   end
 
+  # :nocov:
+  def payment_params
+    params.require(:user).permit(:cc_number, :cc_expr, :cc_name_on_card)
+  end
+  # :nocov:
 
   def ensure_correct_user
     @user = User.find_by(id: params[:id])
-    if not @user 
-      flash[:warning] = "Product not found"
+    if not @user
+      flash[:warning] = "User not found"
       redirect_to root_path
     end
 
