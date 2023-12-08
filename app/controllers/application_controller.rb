@@ -3,8 +3,19 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include SessionsHelper
+  before_action :check_session_expiry
   
   private 
+  def check_session_expiry
+    if session_expired?
+      redirect_to new_session_path
+    end
+  end
+  def session_expired?
+    last_access_time = session[:last_access_time]
+    timeout_in_seconds = 20.seconds
+    last_access_time && Time.now - last_access_time > timeout_in_seconds
+  end
   def ensure_signed_in!
     puts current_user
     unless current_user
