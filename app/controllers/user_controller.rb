@@ -16,10 +16,6 @@ class UserController < ApplicationController
     @recent_purchases = @user.recent_purchases
   end
 
-  def show
-    @user = User.find(params[:id])
-    @categories = Category.all
-  end
 
   def new
       @user = User.new
