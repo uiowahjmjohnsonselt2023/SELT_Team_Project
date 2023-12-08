@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include SessionsHelper
   before_action :check_session_expiry
+  before_action :set_last_accessed_time
   
   private 
   def check_session_expiry
@@ -51,11 +52,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def sign_in(user)
-    session[:last_access_time] = Time.now
     session[:user_id] = user.id
     session[:cart_id] = user.cart.id
-    puts session[:user_id]
-    puts session[:cart_id]
+  end
+
+  def set_last_accessed_time
+    session[:last_access_time] = Time.now
   end
 
   def sign_out

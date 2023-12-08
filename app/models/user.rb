@@ -13,7 +13,7 @@ class User < ApplicationRecord
     has_many :products, dependent: :destroy
     has_one :cart, dependent: :destroy
     has_many :addresses, dependent: :destroy
-    has_many :recent_purchases. dependent: :destroy
+    has_many :recent_purchases, dependent: :destroy
 
 
     before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }
