@@ -7,7 +7,7 @@ RSpec.describe "Sessions", type: :request do
         user = FactoryBot.create(:user)
         
         post sessions_path, email: user.email, password: 'password' 
-        expect(response).to redirect_to(signup_success_path)
+        expect(response).to redirect_to(signin_success_path)
       end
     end
 
@@ -43,12 +43,15 @@ RSpec.describe "Sessions", type: :request do
         get '/auth/github/callback', omniauth_auth: auth_hash
 
         expect(response).to redirect_to(signup_success_path)
+
+        get '/auth/github/callback', omniauth_auth: auth_hash
+
+        expect(response).to redirect_to(signin_success_path)
       end
     end
 
     context "with invalid credentials" do
       it "does not sign in the user, sets flash, and redirects to root_path" do
-        # Assuming you have an OAuth hash generator for testing
         user = FactoryBot.create(:user, name: "Test User", email: "test@gmail.com", password: "password")
 
         auth_hash = generate_invalid_auth_hash(user.email, user.name, user.password)
@@ -66,6 +69,24 @@ RSpec.describe "Sessions", type: :request do
       get '/auth/github/callback', omniauth_auth: auth_hash
 
       expect(response).to redirect_to(signup_success_path)
+    end
+  end
+  describe "POST google" do
+    context "with valid credentials" do
+      it "signs in the user and redirects to signup_success_path" do
+
+        user = FactoryBot.create(:user, name: "Test User", email: "test@gmail.com", password: "password123456", password_confirmation: "password123456")
+
+        auth_hash = generate_valid_google_auth_hash(user.email, user.name, user.password)
+
+        get '/auth/google_oauth2/callback', omniauth_auth: auth_hash
+
+        expect(response).to redirect_to(signup_success_path)
+
+        get '/auth/google_oauth2/callback', omniauth_auth: auth_hash
+
+        expect(response).to redirect_to(signin_success_path)
+      end
     end
   end
 end

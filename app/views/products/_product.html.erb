@@ -8,21 +8,21 @@
             <%= image_tag "https://via.placeholder.com/150", class: "product-image", loading: "lazy", id: "thumbnail"%>
         <% end %>
     </div>
-    <h4><%= product.name %></h4>
+    <h4 class="text-4xl font-serif"><%= product.name %></h4>
 
     <div class="product-details container-sm">
         <div class="row">
             <div class="col">
               <% if product.discount.present? && product.discount > 0 %>
-                <p>
+                <p class="text-2xl">
                   Was <del><%= number_to_currency(product.price) %></del>
                 </p>
-                <p>
+                <p class="text-2xl">
                   Now: <span style="color: red;"><%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></span>
                   <span>(<%= product.discount %>% off)</span>
                 </p>
               <% else %>
-                <p>Price: <%= number_to_currency(product.price) %></p>
+                <p class="text-2xl">Price: <%= number_to_currency(product.price) %></p>
               <% end %>
               <%= link_to product.user.name %> - <%= product.user.email %>
             </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231201052751) do
+ActiveRecord::Schema.define(version: 20231204222645) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20231201052751) do
     t.boolean  "verified_seller"
     t.string   "phone_number"
     t.integer  "reviews"
+    t.string   "login_type"
   end
 
 end

@@ -16,10 +16,30 @@ class UserController < ApplicationController
     @recent_purchases = @user.recent_purchases
   end
 
+  def show
+    @user = User.find(params[:id])
+    @categories = Category.all
+  end
+
+  def new
+      @user = User.new
+      @user.cart = Cart.new
+  end
+  
+  def create
+    @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
+    if @user.save
+      redirect_to @user
+    else
+      render 'new'
+    end
+  end
+
   #the params to be passed when going to the edit page
   # Now redirects when an incorrect user types in the edit page's path
   def edit
     @user = User.find_by(id: params[:id])
+    @address = @user.addresses || @user.addresses.build
     if @user.nil?
       flash[:warning] = "User not found"
       if @user.id != session[:user_id]
@@ -28,6 +48,7 @@ class UserController < ApplicationController
     end
     @address = @user.addresses || @user.addresses.build
   end
+
 
   # Function to update users after selecting the edit page
   def update
