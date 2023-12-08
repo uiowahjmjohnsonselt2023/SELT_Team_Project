@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user_from_remember_token
   before_action :check_session_expiry
   before_action :set_last_accessed_time
+  before_action :set_categories, :set_tags
   
   private 
   def check_session_expiry
@@ -28,7 +29,8 @@ class ApplicationController < ActionController::Base
       (Time.now - last_access_time) > timeout_period
     end
   end
-  
+
+  private
   def ensure_signed_in!
     puts current_user
     unless current_user
@@ -44,7 +46,7 @@ class ApplicationController < ActionController::Base
   def user_signed_in?
     current_user.present?
   end
-  
+
   def current_user
     if session[:user_id]
       puts "session user id: #{session[:user_id]}"
@@ -74,10 +76,17 @@ class ApplicationController < ActionController::Base
   def authenticate_user_from_remember_token
     return unless cookies[:user_id].present? && cookies[:remember_token].present?
     user = User.find_by(id: cookies.signed[:user_id])
-    puts cookies.signed[:user_id]
     if user && user.authenticated?(cookies[:remember_token])
       sign_in(user)
       set_last_accessed_time
     end
+  end
+
+  def set_categories
+    @categories = Category.all
+  end
+
+  def set_tags
+    @product_tags = Tag.all
   end
 end
