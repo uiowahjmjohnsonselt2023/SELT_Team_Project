@@ -1,43 +1,64 @@
-<div class="for-you-wrapper">
-  <h3>For You</h3>
-  <% # Will contain the code to display current hot items, etc%>
-  <%= form_tag :product_search, method: "post", class: "search-price" do %>
-    <div class="search-tabs">
-      <div class="tab">
-        <label for="min_price">Min Price</label>
-        <%= number_field_tag :min_price, params[:min_price] ||= 0, class: "tab-input", step: "0.01" %>
-      </div>
-      <div class="tab">
-        <label for="max_price">Max Price</label>
-        <%= number_field_tag :max_price, params[:max_price] ||= 9999, class: "tab-input", step: "0.01" %>
-      </div>
-      <div class="tab">
-        <label for="category_id">Category</label>
-        <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), include_blank: true, class: "tab-input" %>
-      </div>
-      <div class="tab">
-        <label for="discounted">Discounted Products</label>
-        <%= check_box_tag :discounted, "1", params[:discounted], class: "tab-input" %>
-      </div>
-      <div class="tab">
-        <label for="tag_list">Tag</label>
-        <%= select_tag :tag_list, options_from_collection_for_select(@product_tags, :name, :name, params[:tag_list]), include_blank: true, class: "tab-input" %>
-      </div>
-      <input type="submit" value="Search" class="search-button">
-      <div class="tab">
-        <%= submit_tag "See all", name: "see_all", class: "return-button" %>
-      </div>
-    </div>
-  <% end %>
-</div>
+<div class="flex">
+  <!-- Fixed Sidebar -->
+  <aside id="default-sidebar" class="fixed top-20 left-0 w-72 h-screen bg-blue-100 dark:bg-gray-800 z-10">
+    <div class="h-full overflow-y-auto">
+      <ul class="space-y-2 font-medium px-3 py-4">
+        <h4>Apply Filters</h4>
+        <%= form_tag :product_search, method: "post", class: "search-price" do %>
+          <div class="space-y-4 space-x-1 items-center justify-center">
+            <div class="tab bg-white p-2 rounded shadow hidden"></div>
+            <div class="tab bg-white p-2 rounded shadow space-y-2">
+              <div>
+                <label for="min_price" class="block text-gray-700 text-xl font-bold mb-2">Min Price</label>
+                <%= number_field_tag :min_price, params[:min_price] ||= 0, class: "form-input pl-2 w-full border border-black", step: "0.01" %>
+              </div>
+              <div>
+                <label for="max_price" class="block text-gray-700 text-xl font-bold mb-2">Max Price</label>
+                <%= number_field_tag :max_price, params[:max_price] ||= 9999, class: "form-input pl-2 w-full border border-black", step: "0.01" %>
+              </div>
+            </div>
 
-<div class="product-list-wrapper">
-    <h3>Products</h3>
-    <div class="form-check form-switch">
+            <div class="tab bg-white p-2 rounded shadow">
+              <label for="category_id" class="block text-gray-700 text-xl font-bold mb-2">Category</label>
+              <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), include_blank: true, class: "tab-input form-select w-full" %>
+            </div>
+
+            <div class="tab bg-white p-2 rounded shadow flex items-center space-x-16">
+              <label for="discounted" class="text-gray-700 leading-8 text-xl font-bold">Discounted?</label>
+              <%= check_box_tag :discounted, "1", params[:discounted], id: "discounted", class: "form-checkbox mr-2", style: "width: 24px; height: 24px;" %>
+            </div>
+
+            <div class="tab bg-white p-2 rounded shadow">
+              <label for="tag_list" class="block text-gray-700 text-xl font-bold mb-2">Tag</label>
+              <%= select_tag :tag_list, options_from_collection_for_select(@product_tags, :name, :name, params[:tag_list]), include_blank: true, class: "tab-input form-select w-full" %>
+            </div>
+
+            <div>
+              <input type="submit" value="Search" class="rounded shadow w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div>
+              <%= submit_tag "See All / Clear Filters", name: "see_all", class: "rounded shadow mt-2 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+            </div>
+
+          </div>
+        <% end %>
+      </ul>
+    </div>
+  </aside>
+
+
+  <div class="flex-1 ml-24">
+    <div class="product-list-wrapper p-4">
+      <h3>Products</h3>
+      <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" disabled>
         <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
+      </div>
+      <div class="product-list">
+        <%= render partial: 'products/product', collection: @products, cached: true %>
+      </div>
     </div>
-    <div class="product-list">
-      <%= render partial: 'products/product', collection: @products, cached: true %>
-    </div>
+  </div>
 </div>
+
