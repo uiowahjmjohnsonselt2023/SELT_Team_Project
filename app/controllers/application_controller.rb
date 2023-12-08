@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
         last_access_time = last_access_time.to_time rescue nil
       end
     
-      timeout_period = 1.minutes
+      timeout_period = 60.minutes
     
       (Time.now - last_access_time) > timeout_period
     end
