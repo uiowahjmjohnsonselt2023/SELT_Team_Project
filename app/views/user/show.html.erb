@@ -45,6 +45,7 @@
               <h3><%= purchase.product.name %></h3>
               <p><%= purchase.product.description %></p>
               <p>Unit Price: <%= number_to_currency(purchase.product.price) %></p>
+              <p>Time Purchased: <%= purchase.created_at.to_date.to_s(:long) %></p>
               <%= link_to "More info", {controller: "products", action: "show", id: purchase.product.id}, method: :get %>
             </div>
           <% end %>
