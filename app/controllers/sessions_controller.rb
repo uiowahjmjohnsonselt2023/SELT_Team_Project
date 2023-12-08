@@ -19,6 +19,7 @@ class SessionsController < ApplicationController
             @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "github", admin: false)
             if @user.save
                 sign_in(@user)
+                params[:remember_me] == '1' ? remember(user) : forget(user)
                 redirect_to signup_success_path
             end
         end
@@ -37,6 +38,7 @@ class SessionsController < ApplicationController
             @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "google", admin: false)
             if @user.save
                 sign_in(@user)
+                params[:remember_me] == '1' ? remember(user) : forget(user)
                 redirect_to signup_success_path
             end
         end
@@ -44,7 +46,8 @@ class SessionsController < ApplicationController
     def create 
         user = User.find_by(email: params[:email])
         if user&.authenticate(params[:password])
-            sign_in(user)
+            sign_in(user) 
+            params[:remember_me] == '1' ? remember(user) : forget(user)
             redirect_to signin_success_path
         else 
             flash[:signin] = "Invalid email or password"
@@ -53,6 +56,7 @@ class SessionsController < ApplicationController
     end
 
     def destroy
+        puts "makes it to destroy"
         sign_out
         redirect_to root_path
     end
