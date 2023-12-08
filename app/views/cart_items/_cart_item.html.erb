@@ -1,18 +1,15 @@
-<div class="card mb-3 half-width-card">
+<div class="card half-width-card mb-4">
     <div class="card-body">
         <% item = cart_item.product %>
-        <h3 class="card-title font-serif font-bold"><%= item.name %></h3>
+        <h3 class="card-text font-serif font-bold"><%= item.name %></h3>
         <p class="card-text"><%= item.description %></p>
         <p class="card-text">Unit Price: <%= number_to_currency(item.price) %></p>
         <% if item.discount > 0 %>
           <p class="card-text text-red-500">Discount: <%= item.discount %>%</p>
-          <p class="card-text">Quantity: <%= cart_item.quantity %></p>
-<!--          <p class="card-text">Final Price: <%#= number_to_currency(cart_item.total_price - cart_item.total_discounted) %></p>-->
-          <p class="cart-text">Total Item Price: <%= number_to_currency(cart_item.total_price) %></p>
-        <% else %>
-          <p class="card-text">Quantity: <%= cart_item.quantity %></p>
-          <p class="card-text">Total Item Price: <%= number_to_currency(cart_item.total_price) %></p>
+          <p class="card-text">Discounted price per item: <%= number_to_currency(item.price * (1 - item.discount / 100.0)) %></p>
         <% end %>
+        <p class="card-text">Quantity: <%= cart_item.quantity %></p>
+        <p class="card-text">Total Item Price: <%= number_to_currency(cart_item.total_price) %></p>
         <%= link_to "Remove", cart_path(cart_id: @cart.id, product_id: item.id, quantity: 1), method: :delete, class: "btn btn-danger" %>
     </div>
 </div>

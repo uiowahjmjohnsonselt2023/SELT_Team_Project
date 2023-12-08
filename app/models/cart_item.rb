@@ -11,7 +11,7 @@ class CartItem < ApplicationRecord
     before_save :update_product_quantity
 
     def total_price
-      product.price * quantity
+      product.price.to_f * (1 - (product.discount.to_f / 100)) * quantity
     end
 
     def total_quantity
