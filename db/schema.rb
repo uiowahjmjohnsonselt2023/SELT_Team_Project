@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231207213146) do
+ActiveRecord::Schema.define(version: 20231208223120) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 20231207213146) do
     t.integer  "reviews"
     t.string   "login_type"
     t.string   "remember_digest"
+    t.boolean  "loggedIn"
   end
 
 end

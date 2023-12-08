@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def sign_in(user)
+    user.update(loggedIn: true)
     session[:user_id] = user.id
     session[:cart_id] = user.cart.id
   end
@@ -63,6 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_out
+    current_user.update(loggedIn: false)
     forget(current_user)
     session[:user_id] = nil
     session[:cart_id] = nil
@@ -71,11 +73,9 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user_from_remember_token
     return unless cookies[:user_id].present? && cookies[:remember_token].present?
-    puts "makes it in here to authenticate"
     user = User.find_by(id: cookies.signed[:user_id])
     puts cookies.signed[:user_id]
     if user && user.authenticated?(cookies[:remember_token])
-      puts "makes it user authenticated"
       sign_in(user)
       set_last_accessed_time
     end
