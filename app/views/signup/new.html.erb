@@ -30,6 +30,11 @@
         <%= f.label :password_confirmation, class: "block text-gray-700 text-xl font-bold mb-2" %>
         <%= f.password_field :password_confirmation, class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
       </div>
+      
+      <div class="mb-4">
+      <%= check_box_tag :remember_me, '1', false, class: 'mr-2' %>
+      <%= label_tag :remember_me, 'Remember me', class: 'text-gray-700' %>
+      </div>
 
       <%= f.submit class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' %>
     <% end %>

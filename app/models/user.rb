@@ -27,6 +27,10 @@ class User < ApplicationRecord
         update_attribute(:remember_digest, nil)
     end
 
+    def authenticated?(token)
+        BCrypt::Password.new(remember_digest).is_password?(token)
+    end
+
     validate :validate_addresses_limit
     private
 

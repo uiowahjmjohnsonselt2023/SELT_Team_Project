@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include SessionsHelper
+  before_action :authenticate_user_from_remember_token
   before_action :check_session_expiry
   before_action :set_last_accessed_time
   
@@ -10,6 +11,7 @@ class ApplicationController < ActionController::Base
   def check_session_expiry
     if session_expired?
       sign_out
+      flash[:warning] = "Your session has expired. Please sign in again."
       redirect_to new_session_path
     end
   end
@@ -21,7 +23,7 @@ class ApplicationController < ActionController::Base
         last_access_time = last_access_time.to_time rescue nil
       end
     
-      timeout_period = 60.minutes
+      timeout_period = 1.minutes
     
       (Time.now - last_access_time) > timeout_period
     end
@@ -65,5 +67,17 @@ class ApplicationController < ActionController::Base
     session[:user_id] = nil
     session[:cart_id] = nil
     puts "session user id: #{session[:user_id]}"
+  end
+
+  def authenticate_user_from_remember_token
+    return unless cookies[:user_id].present? && cookies[:remember_token].present?
+    puts "makes it in here to authenticate"
+    user = User.find_by(id: cookies.signed[:user_id])
+    puts cookies.signed[:user_id]
+    if user && user.authenticated?(cookies[:remember_token])
+      puts "makes it user authenticated"
+      sign_in(user)
+      set_last_accessed_time
+    end
   end
 end
