@@ -8,14 +8,24 @@ class ApplicationController < ActionController::Base
   private 
   def check_session_expiry
     if session_expired?
+      sign_out
       redirect_to new_session_path
     end
   end
   def session_expired?
-    last_access_time = session[:last_access_time]
-    timeout_in_seconds = 20.seconds
-    last_access_time && Time.now - last_access_time > timeout_in_seconds
+    if user_signed_in?
+      last_access_time = session[:last_access_time]
+    
+      if last_access_time.is_a?(String)
+        last_access_time = last_access_time.to_time rescue nil
+      end
+    
+      timeout_period = 60.minutes
+    
+      (Time.now - last_access_time) > timeout_period
+    end
   end
+  
   def ensure_signed_in!
     puts current_user
     unless current_user
@@ -41,8 +51,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def sign_in(user)
+    session[:last_access_time] = Time.now
     session[:user_id] = user.id
     session[:cart_id] = user.cart.id
+    puts session[:user_id]
+    puts session[:cart_id]
   end
 
   def sign_out

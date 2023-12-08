@@ -12,11 +12,11 @@ class User < ApplicationRecord
     #after_save :create_session_token
     has_many :products, dependent: :destroy
     has_one :cart, dependent: :destroy
-    has_many :addresses
-    has_many :recent_purchases
+    has_many :addresses, dependent: :destroy
+    has_many :recent_purchases. dependent: :destroy
 
 
-    before_save { self.cart = Cart.create(user_id: self.id) }
+    before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }
 
     def remember
         self.remember_token = User.new_token
