@@ -39,4 +39,6 @@ Rails.application.routes.draw do
 
   get 'auth/github/callback', to: 'sessions#github'
   get 'auth/google_oauth2/callback', to: 'sessions#google'
+
+  delete '/closed' => 'sessions#destroy'
 end

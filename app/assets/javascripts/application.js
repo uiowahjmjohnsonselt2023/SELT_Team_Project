@@ -15,12 +15,39 @@
 //= require_tree .
 //= require bootstrap
 //= require jquery.remotipart
-
-$(window).on('beforeunload', function() {
-    $.ajax({
-      type: 'DELETE',
-      url: '/logout', // Update with your logout route
-      async: false, // Ensure the request is completed before the page is closed
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    var logoutButton = document.getElementById('logout-button');
+  
+    if (logoutButton) {
+      logoutButton.addEventListener('click', function() {
+        console.log('Logout button clicked');
+  
+        fetch('/closed', {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-Token': '<%= form_authenticity_token %>',
+            'Content-Type': 'application/json' // Adjust if needed based on your server's expectations
+          },
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          console.log('Logout request successful');
+  
+          // Redirect to the desired location
+          window.location.href = '/';  // Change the URL as needed
+        })
+        .catch(error => {
+          console.error('Logout request failed:', error);
+        });
+      });
+    }
   });
+  
+  
+  
+  
+  
+  
   

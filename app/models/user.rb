@@ -6,8 +6,8 @@ class User < ApplicationRecord
     validates :name, presence: true, length: {maximum: 25}
     VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, presence: true, format: {with: VALID_EMAIL}, uniqueness: {case_sensitive: false, scope: :login_type}
-    validates :password, presence: true, length: {minimum: 6}
-    validates :password_confirmation, presence: true
+    validates :password, presence: true, length: {minimum: 6}, if: :required_password?
+    validates :password_confirmation, presence: true, if: :required_password?
 
     #after_save :create_session_token
     has_many :products, dependent: :destroy
