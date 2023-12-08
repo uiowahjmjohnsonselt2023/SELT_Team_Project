@@ -4,6 +4,10 @@
   <h2> Metrics </h2>
   <%= pie_chart @pop_tag %>
   <%= pie_chart @pop_cat %>
+  <p>Most popular tag: </p>
+  <%= @best_tag %>
+  <p>Most popular category: </p>
+  <%= @best_cat %>
   <table>
     <thead>
     <tr>
@@ -21,7 +25,7 @@
     </tr>
     </tbody>
   </table>
-  <h2> Add admins </h2>
+  <h3> Add admins </h3>
   <%= form_tag('/user_search', :class => "search_form") do  %>
     <%= text_field_tag :search, params[:search] ||= '', :class => "search_field", placeholder: "Search for a user by email" %>
     <%= submit_tag "Search" %>
@@ -29,6 +33,4 @@
   <div id = 'search_res'>
     <%= render partial: "search" %>
   </div>
-  <h2> Return to home page </h2>
-  <%= link_to "Home Page", root_path %>
 </div>

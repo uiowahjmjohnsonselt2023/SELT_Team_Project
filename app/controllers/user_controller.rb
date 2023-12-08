@@ -66,6 +66,10 @@ class UserController < ApplicationController
     cat_freq = Category.joins(:products).group(:name).count
     @pop_tag = tag_freq.sort_by{ |tag, count| -count }.take(5)
     @pop_cat = cat_freq.sort_by { |cat, count| -count }.take(5)
+    key_tag, value_tag = @pop_tag.first
+    key_cat, value_cat = @pop_cat.first
+    @best_tag = key_tag
+    @best_cat = key_cat
 
 
     @user = User.find_by(id: params[:id])
