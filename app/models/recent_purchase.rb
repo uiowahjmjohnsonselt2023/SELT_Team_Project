@@ -1,4 +1,6 @@
-class RecentPurchase < ActiveRecord::Base
-  belongs_to :products
-  belongs_to :users
+class RecentPurchase < ApplicationRecord
+  belongs_to :user
+  belongs_to :product
+
+  # Add any validations here if needed
 end

@@ -1,7 +1,8 @@
 <% if @user.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-    <ul>
+  <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <strong class="font-bold">Oops!</strong>
+    <span class="block sm:inline"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</span>
+    <ul class="list-disc list-inside">
       <% @user.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -9,79 +10,88 @@
   </div>
 <% end %>
 
-<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+<div class="flex flex-wrap -mx-2 justify-around w-full">
   <!-- User Info Section -->
-  <div style="width: 50%;">
+  <div class="px-2 w-full lg:w-1/2">
     <%= form_for(@user, :url => update_user_path(@user), html: { method: :put }) do |form| %>
-      <fieldset>
-        <legend>User Info</legend>
-        <%= form.label :name %>
-        <%= form.text_field :name, aria: { label: "Name" } %>
+      <div class="border p-4 rounded-lg shadow-md">
+        <div class="mb-4">
+          <%= form.label :name, class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.text_field :name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", aria: { label: "Name" } %>
+        </div>
 
-        <%= form.label :email %>
-        <%= form.email_field :email, aria: { label: "Email" } %>
+        <div class="mb-4">
+          <%= form.label :email, class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.email_field :email, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", aria: { label: "Email" } %>
+        </div>
 
-        <%= form.label :phone_number %>
-        <%= form.phone_field :phone_number, aria: { label: "Phone number" } %>
-      </fieldset>
-      <%= form.submit "Update User Info", class: "button", style: "margin-top: 20px;" %>
-    <% end %>
+        <div class="mb-6">
+          <%= form.label :phone_number, class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.phone_field :phone_number, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", aria: { label: "Phone number" } %>
+        </div>
 
-    <%= form_for(@user, :url => update_password_path(@user), html: { method: :put }) do |form| %>
-      <%= form.label :password, 'New Password' %>
-      <%= form.password_field :password, aria: { label: "New Password" } %>
-
-      <%= form.label :password_confirmation, 'Confirm New Password' %>
-      <%= form.password_field :password_confirmation, aria: { label: "Confirm New Password" } %>
-      <%= form.submit "Update Password", class: "button", style: "margin-top: 20px;" %>
+        <%= form.submit "Update User Info", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+      </div>
     <% end %>
   </div>
 
   <!-- Addresses Section -->
-  <%= form_tag(update_address_path, method: :post) do %>
-    <!-- Hidden field for user ID -->
-    <div style="width: 30%;">
-      <fieldset>
+  <div class="px-2 w-full lg:w-1/3">
+    <%= form_tag(update_address_path, method: :post) do %>
+      <div class="border p-4 rounded-lg shadow-md">
+        <div class="mb-4">
+          <%= label_tag :street, 'Street address', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :street, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <legend>Address Info</legend>
-        <%= label_tag :street, 'Street address' %>
-        <%= text_field_tag :street %>
+        <div class="mb-4">
+          <%= label_tag :city, 'City', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :city, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <%= label_tag :city, 'City' %>
-        <%= text_field_tag :city %>
+        <div class="mb-4">
+          <%= label_tag :state, 'State', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :state, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <%= label_tag :state, 'State' %>
-        <%= text_field_tag :state %>
+        <div class="mb-4">
+          <%= label_tag :zip, 'ZIP code', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :zip, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <%= label_tag :zip, 'ZIP code' %>
-        <%= text_field_tag :zip %>
+        <div class="mb-4">
+          <%= label_tag :country, 'Country', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :country, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <%= label_tag :country, 'Country' %>
-        <%= text_field_tag :country %>
-
-        <!-- Buttons to update respective address -->
         <% (1..3).each do |i| %>
-          <%= submit_tag "Update Address #{i}", name: 'address_index', value: i, class: "button", style: "margin-top: 20px;" %>
+          <%= submit_tag "Update Address #{i}", name: 'address_index', value: i, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline", style: "margin-top: 20px;" %>
         <% end %>
-      </fieldset>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
 
   <!-- Payments Section -->
-  <%= form_for(@user, url: update_user_path(@user), html: { method: :put }) do |form| %>
-    <div style="width: 50%;">
-      <fieldset>
-        <legend>Payment Info</legend>
-        <%= label_tag :cc_number, 'Credit card number' %>
-        <%= text_field_tag :cc_number %>
+  <div class="px-2 w-full lg:w-1/2">
+    <%= form_for(@user, url: update_payment_path(@user), html: { method: :put }) do |form| %>
+      <div class="border p-4 rounded-lg shadow-md">
+        <div class="mb-4">
+          <%= label_tag :cc_number, 'Credit card number', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :cc_number, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <%= label_tag :cc_expr, 'Expiration date (MM/YY)' %>
-        <%= text_field_tag :cc_expr %>
+        <div class="mb-4">
+          <%= label_tag :cc_expr, 'Expiration date (MM/YY)', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :cc_expr, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
 
-        <%= label_tag :cc_name_on_card, 'Name on card' %>
-        <%= text_field_tag :cc_name_on_card %>
-      </fieldset>
-      <%= form.submit "Update Payment Info", class: "button", style: "margin-top: 20px;" %>
-    </div>
-  <% end %>
+        <div class="mb-4">
+          <%= label_tag :cc_name_on_card, 'Name on card', class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= text_field_tag :cc_name_on_card, nil, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <%= form.submit "Update Payment Info", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+      </div>
+    <% end %>
+  </div>
 </div>
