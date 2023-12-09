@@ -14,6 +14,7 @@ class UserController < ApplicationController
     @address = @user.addresses
     @product = @user.products
     @recent_purchases = @user.recent_purchases
+    @image = @user.image
   end
 
 
@@ -37,6 +38,7 @@ class UserController < ApplicationController
   def edit
     @user = User.find_by(id: params[:id])
     @address = @user.addresses || @user.addresses.build
+    @image = @user.image
     if @user.nil?
       flash[:warning] = "User not found"
       if @user.id != session[:user_id]
@@ -71,6 +73,29 @@ class UserController < ApplicationController
     end
 
   end
+
+  def update_picture
+    @user = User.find(params[:id])
+
+    # Assuming you have a method `profile_picture_upload` to permit image params
+    image_params = profile_picture_upload[:image_attributes]
+
+    if @user.image.present?
+      # Update the existing image
+      @user.image.update(image_params)
+    else
+      # Create a new image and associate it with the user
+      @user.create_image(image_params)
+    end
+
+    # Now, we just need to check if the image is valid and saved
+    if @user.image.valid?
+      redirect_to edit_user_path(@user), notice: "Profile picture updated successfully."
+    else
+      redirect_to edit_user_path(@user), notice: "Error updating profile picture."
+    end
+  end
+
 
   def update_password
     @user = User.find(params[:id])
@@ -115,7 +140,7 @@ class UserController < ApplicationController
   private
   # marks the user_params
   def user_params
-    params.fetch(:user, {}).permit(:name, :email, :phone_number, image_attributes: [:image] )
+    params.fetch(:user, {}).permit(:name, :email, :phone_number)
   end
 
   def address_params
@@ -124,6 +149,10 @@ class UserController < ApplicationController
 
   def password_params
     params.require(:user).permit(:password, :password_confirmation)
+  end
+
+  def profile_picture_upload
+    params.require(:user).permit(image_attributes: [:image])
   end
 
   # :nocov:

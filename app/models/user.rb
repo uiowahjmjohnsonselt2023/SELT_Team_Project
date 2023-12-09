@@ -17,6 +17,7 @@ class User < ApplicationRecord
 
     #image attribute
     has_one :image, dependent: :destroy
+    accepts_nested_attributes_for :image
 
 
     before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }

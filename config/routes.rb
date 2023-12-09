@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get '/users/edit' => 'user#edit', as:'edit'
 
   put '/users/:id/update' => 'user#update', as: 'update_user'
+  put '/users/:id/update_picture' => 'user#update_picture', as: 'update_picture'
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'
   put 'users/:id/update_payment' => 'user#update_payment', as: 'update_payment'
   post '/users/:id' => 'user#update_or_create_address', as: 'update_address'
