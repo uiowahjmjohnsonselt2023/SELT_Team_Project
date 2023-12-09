@@ -52,24 +52,32 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
     # Select only the parameters that are not blank
     updated_params = user_params.select { |key, value| value.present? }
-    if @user.update(updated_params)
-      # Redirect to a success page
-      redirect_to edit_user_path(@user), notice: "User info updated successfully."
+    if @user.login_type == "standard"
+      if @user.update(updated_params)
+        # Redirect to a success page
+        redirect_to edit_user_path(@user), notice: "User info updated successfully."
+      else
+        # Render the form again with error messages
+        redirect_to edit_user_path(@user), notice: "Error updating info."
+      end
     else
-      # Render the form again with error messages
-      redirect_to edit_user_path(@user), notice: "Error updating info."
+      redirect_to edit_user_path(@user),  notice: "Can not change userinfo when logged in from google/github."
     end
+
   end
 
   def update_password
     @user = User.find(params[:id])
-
-    if @user.update(password_params)
-      # Redirect to a success page
-      redirect_to edit_user_path(@user), notice: "password updated successfully."
+    if @user.login_type == "standard"
+      if @user.update(password_params)
+        # Redirect to a success page
+        redirect_to edit_user_path(@user), notice: "password updated successfully."
+      else
+        # Render the form again with error messages
+        redirect_to edit_user_path(@user),  notice: "password not successfully."
+      end
     else
-      # Render the form again with error messages
-      redirect_to edit_user_path(@user),  notice: "password not successfully."
+      redirect_to edit_user_path(@user),  notice: "Can not change userinfo when logged in from google/github."
     end
   end
 
@@ -124,6 +132,7 @@ class UserController < ApplicationController
       flash[:warning] = "User not found"
       redirect_to root_path
     end
+
 
     if current_user.id != @user.id
         flash[:warning] = "You do not have permission to edit this user. Please login to the correct account."
