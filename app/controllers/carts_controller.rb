@@ -59,7 +59,7 @@ class CartsController < ApplicationController
         end
 
         if current_user.cart.id != session[:cart_id]
-            flash[:warning] = "You do not have access to this cart."
+            flash[:warning] = "You do not have access to this cart. #{session[:cart_id]}"
             redirect_to root_path
         end
     end 

@@ -1,117 +1,140 @@
 <%# Our "base" layout should be a valid HTML document. %>
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Ebay2!</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <%= stylesheet_link_tag 'application', 'media' => 'all' %>
-    <%= javascript_include_tag 'application' %>
-    <%= csrf_meta_tags %>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-  <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          document.getElementById('sidebar-toggle').addEventListener('click', function () {
-              var sidebar = document.getElementById('default-sidebar');
-              if (sidebar.style.transform === "translateX(0px)") {
-                  sidebar.style.transform = "translateX(-100%)";
-              } else {
-                  sidebar.style.transform = "translateX(0px)";
-              }
-          });
-      });
-  </script>
-  <nav class="fixed top-0 left-0 right-0 bg-gray-800 z-50">
-    <div class="mx-20 max-w-7xl px-2 sm:px-6 lg:px-10">
-      <div class="flex h-24 items-center justify-between">
-        <div class="flex items-center justify-center sm:items-stretch sm:justify-start">
-          <div class="flex space-x-8">
-<!--            <div class="flex space-x-64">-->
-<!--              <div class="flex space-x-8">-->
-            <button type="button" id="sidebar-toggle" class="text-gray-500 hover:text-gray-600">
-              <span class="sr-only">Toggle Navigation</span>
-              <svg class="flex-shrink-0" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-              </svg>
-            </button>
+<head>
+  <title>Ebay2!</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <%= stylesheet_link_tag 'application', 'media' => 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('sidebar-toggle').addEventListener('click', function () {
+            var sidebar = document.getElementById('default-sidebar');
+            if (sidebar.style.transform === "translateX(0px)") {
+                sidebar.style.transform = "translateX(-100%)";
+            } else {
+                sidebar.style.transform = "translateX(0px)";
+            }
+        });
+    });
+</script>
+<nav class="fixed top-0 left-0 right-0 bg-gray-800 z-50">
+  <div class="mx-20 max-w-7xl px-2 sm:px-6 lg:px-10">
+    <div class="flex h-24 items-center justify-between">
+      <div class="flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex space-x-8">
+          <!--            <div class="flex space-x-64">-->
+          <!--              <div class="flex space-x-8">-->
+          <button type="button" id="sidebar-toggle" class="text-gray-500 hover:text-gray-600">
+            <span class="sr-only">Toggle Navigation</span>
+            <svg class="flex-shrink-0" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+          </button>
 
-            <%= link_to "Home", root_path, class: "bg-gray-600 hover:bg-gray-400 text-white hover:text-blue rounded-md px-3 py-2 text-2xl font-medium"%>
-            <%= link_to 'About', about_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium" %>
-            <% if current_user.present? %>
-              <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
-              <%= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
-              <%= link_to 'Log Out', logout_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
-              <div class="text-gray-300 rounded-md px-3 py-2 text-2xl font-medium truncate">
-                <%= "Welcome, #{current_user.name}!" %>
-              </div>
-            <% else %>
-              <%= link_to 'Profile', new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
-              <%= link_to "Cart", new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
-              <%= link_to 'Login', new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
-            <% end %>
-          </div>
-          <div class="fixed top-4 right-10">
-            <%= form_tag :product_search, method: "post", class: "flex" do %>
-              <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), prompt: "Select a Category", class: "bg-gray-200 border-r-2 border-grey text-l px-1", style: "width: 150px;"%>
-              <%= text_field_tag :search, params[:search] ||= '', class: "bg-white form-input text-l px-2", placeholder: "Search for a product", style: "width: 300px;" %>
-              <%= button_tag(type: 'submit', class: "btn btn-default") do %>
-                Search
+          <%= link_to "Home", root_path, class: "bg-gray-600 hover:bg-gray-400 text-white hover:text-blue rounded-md px-3 py-2 text-2xl font-medium"%>
+          <%= link_to 'About', about_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium" %>
+          <% if current_user.present? %>
+            <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+            <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+            <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+            <!--                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="file: mt-4 h-6 w-6">-->
+            <!--                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />-->
+            <!--                </svg>-->
+            <!--                <p class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-2xl text-white">3</p>-->
+            <!--              </div>-->
+
+            <%= link_to cart_path(current_user.cart.id), class: "relative bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+              </svg>
+              <% if current_user.cart.total_quantity > 0 %>
+                  <span class="absolute top-0 right-0 inline-flex items-center justify-center h-5 w-5 rounded-full bg-red-500 text-white text-lg leading-none">
+                    <%= current_user.cart.total_quantity %>
+                  </span>
               <% end %>
+              <%#= "Cart (#{current_user.cart.total_quantity})" %>
+            <% end %>
+
+            <%= link_to 'Log Out', logout_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
+            <div class="text-gray-300 rounded-md px-3 py-2 text-2xl font-medium truncate">
+              <%= "Welcome, #{current_user.name}!" %>
+            </div>
+          <% else %>
+            <%= link_to 'Profile', new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+            <%= link_to new_session_path, class: "relative bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+              </svg>
+            <% end %>
+            <%= link_to 'Login', new_session_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
+          <% end %>
+        </div>
+        <div class="fixed top-4 right-10">
+          <%= form_tag :product_search, method: "post", class: "flex" do %>
+            <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), prompt: "Select a Category", class: "bg-gray-200 border-r-2 border-grey text-l px-1", style: "width: 150px;"%>
+            <%= text_field_tag :search, params[:search] ||= '', class: "bg-white form-input text-l px-2", placeholder: "Search for a product", style: "width: 300px;" %>
+            <%= button_tag(type: 'submit', class: "btn btn-default") do %>
+              Search
             <% end %>
           <% end %>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <aside id="default-sidebar" class="fixed top-20 left-0 w-72 h-screen bg-blue-100 dark:bg-gray-800 z-10">
-    <div class="h-full overflow-y-auto">
-      <ul class="space-y-2 font-medium px-3 py-4">
-        <h4>Apply Filters</h4>
-        <%= form_tag :product_search, method: "post", class: "search-price" do %>
-          <div class="space-y-4 space-x-1 items-center justify-center">
-            <div class="tab bg-white p-2 rounded shadow hidden"></div>
-            <div class="tab bg-white p-2 rounded shadow space-y-2">
-              <div>
-                <label for="min_price" class="block text-gray-700 text-xl font-bold mb-2">Min Price</label>
-                <%= number_field_tag :min_price, params[:min_price] ||= 0, class: "form-input pl-2 w-full border border-black", step: "0.01" %>
-              </div>
-              <div>
-                <label for="max_price" class="block text-gray-700 text-xl font-bold mb-2">Max Price</label>
-                <%= number_field_tag :max_price, params[:max_price] ||= 9999, class: "form-input pl-2 w-full border border-black", step: "0.01" %>
-              </div>
-            </div>
-
-            <div class="tab bg-white p-2 rounded shadow">
-              <label for="category_id" class="block text-gray-700 text-xl font-bold mb-2">Category</label>
-              <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), include_blank: true, class: "tab-input form-select w-full" %>
-            </div>
-
-            <div class="tab bg-white p-2 rounded shadow flex items-center space-x-16">
-              <label for="discounted" class="text-gray-700 leading-8 text-xl font-bold">Discounted?</label>
-              <%= check_box_tag :discounted, "1", params[:discounted], id: "discounted", class: "form-checkbox mr-2", style: "width: 24px; height: 24px;" %>
-            </div>
-
-            <div class="tab bg-white p-2 rounded shadow">
-              <label for="tag_list" class="block text-gray-700 text-xl font-bold mb-2">Tag</label>
-              <%= select_tag :tag_list, options_from_collection_for_select(@product_tags, :name, :name, params[:tag_list]), include_blank: true, class: "tab-input form-select w-full" %>
-            </div>
-
+<aside id="default-sidebar" class="fixed top-20 left-0 w-72 h-screen bg-blue-100 dark:bg-gray-800 z-10">
+  <div class="h-full overflow-y-auto">
+    <ul class="space-y-2 font-medium px-3 py-4">
+      <h4>Apply Filters</h4>
+      <%= form_tag :product_search, method: "post", class: "search-price" do %>
+        <div class="space-y-4 space-x-1 items-center justify-center">
+          <div class="tab bg-white p-2 rounded shadow hidden"></div>
+          <div class="tab bg-white p-2 rounded shadow space-y-2">
             <div>
-              <input type="submit" value="Search" class="rounded shadow w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              <label for="min_price" class="block text-gray-700 text-xl font-bold mb-2">Min Price</label>
+              <%= number_field_tag :min_price, params[:min_price] ||= 0, class: "form-input pl-2 w-full border border-black", step: "0.01" %>
             </div>
-
             <div>
-              <%= submit_tag "See All / Clear Filters", name: "see_all", class: "rounded shadow mt-2 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+              <label for="max_price" class="block text-gray-700 text-xl font-bold mb-2">Max Price</label>
+              <%= number_field_tag :max_price, params[:max_price] ||= 9999, class: "form-input pl-2 w-full border border-black", step: "0.01" %>
             </div>
-
           </div>
-        <% end %>
-      </ul>
-    </div>
-  </aside>
+
+          <div class="tab bg-white p-2 rounded shadow">
+            <label for="category_id" class="block text-gray-700 text-xl font-bold mb-2">Category</label>
+            <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id] ||= ''), include_blank: true, class: "tab-input form-select w-full" %>
+          </div>
+
+          <div class="tab bg-white p-2 rounded shadow flex items-center space-x-16">
+            <label for="discounted" class="text-gray-700 leading-8 text-xl font-bold">Discounted?</label>
+            <%= check_box_tag :discounted, "1", params[:discounted], id: "discounted", class: "form-checkbox mr-2", style: "width: 24px; height: 24px;" %>
+          </div>
+
+          <div class="tab bg-white p-2 rounded shadow">
+            <label for="tag_list" class="block text-gray-700 text-xl font-bold mb-2">Tag</label>
+            <%= select_tag :tag_list, options_from_collection_for_select(@product_tags, :name, :name, params[:tag_list]), include_blank: true, class: "tab-input form-select w-full" %>
+          </div>
+
+          <div>
+            <input type="submit" value="Search" class="rounded shadow w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          </div>
+
+          <div>
+            <%= submit_tag "See All / Clear Filters", name: "see_all", class: "rounded shadow mt-2 w-full bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+          </div>
+
+        </div>
+      <% end %>
+    </ul>
+  </div>
+</aside>
 <!--      <div class="topnav-wrapper">-->
 <%#= link_to "Home", root_path %>
 <%#= link_to 'About', about_path %>

@@ -15,3 +15,19 @@
 //= require_tree .
 //= require bootstrap
 //= require jquery.remotipart
+window.addEventListener("beforeunload", function (e) {
+    // Perform an AJAX request to log out the user
+    // Example using jQuery:
+    $.ajax({
+      type: "POST",
+      url: "/logout", // Adjust the URL to your logout endpoint
+      async: false, // Use synchronous request to ensure it completes before page unload
+    });
+  });
+  
+  
+  
+  
+  
+  
+  
