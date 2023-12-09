@@ -69,6 +69,12 @@ RSpec.describe "Users", type: :request do
         @user = FactoryBot.create(:admin)
         sign_in_user(@user)
       end
+
+      #test that an admin can view the page
+      it "allows admins to see admin page" do
+        put admin_path(@user)
+        expect(response).to redirect_to(admin_path(@user))
+      end
     end
   end
 
