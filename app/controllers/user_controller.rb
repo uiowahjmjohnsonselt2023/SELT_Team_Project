@@ -86,7 +86,7 @@ class UserController < ApplicationController
     if address.save
       redirect_to edit_user_path(@user), notice: "Address updated/created successfully."
     else
-      redirect_to edit_user_path(@user), alert: "Error updating/creating address."
+      redirect_to edit_user_path(@user), notice: "Error updating/creating address."
     end
   end
 
