@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include SessionsHelper
-  before_action :authenticate_user_from_remember_token
+  before_action :authenticate_user_from_remember_token, unless: -> { skip_auth}
   before_action :check_session_expiry
   before_action :set_last_accessed_time
   before_action :set_categories, :set_tags
@@ -81,6 +81,20 @@ class ApplicationController < ActionController::Base
       sign_in(user)
       set_last_accessed_time
     end
+  end
+
+  def skip_auth
+    if cookies[:user_id].present? && cookies[:remember_token].present?
+      user = User.find_by(id: cookies.signed[:user_id])
+      if user.remember_digest.nil?
+        redirect_to new_session_path
+        flash[:warning] = "You logged out on a different browser, please login again."
+        cookies.delete(:user_id)
+        cookies.delete(:remember_token)
+        return true
+      end
+    end
+    return false
   end
 
   def set_categories
