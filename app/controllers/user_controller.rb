@@ -60,6 +60,12 @@ class UserController < ApplicationController
 
 
   def admin
+    #check if the user is actually an admin in case they tried to do /users/admin or something
+    @user = User.find_by(id: params[:id])
+    if @user.admin != true
+      flash[:warning] = "User is not an admin"
+      redirect_to root_path
+    end
 
     #this is where we calculate all the data to display on the admin page.
     tag_freq = Tag.joins(:products).group(:name).count
@@ -71,17 +77,10 @@ class UserController < ApplicationController
     @best_tag = key_tag
     @best_cat = key_cat
 
-
-    @user = User.find_by(id: params[:id])
-    if @user.admin != true
-      flash[:warning] = "User is not an admin"
-      redirect_to root_path
-    end
   end
 
   #this is the method that allows people to be promoted to an admin on the admin page.
   def promote
-
     @promotion = User.find_by(id: params[:id])
     user_update = {admin: true}
     if @promotion.update(user_update)
