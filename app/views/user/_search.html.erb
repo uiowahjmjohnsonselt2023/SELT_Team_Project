@@ -2,18 +2,18 @@
   <table>
     <thead>
     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Promote</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Name</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Email</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Promote</th>
     </tr>
     </thead>
 
     <tbody>
     <% @search_res.each do |match| %>
       <tr>
-        <td><%= match.name %></td>
-        <td><%= match.email %></td>
-        <td><%= link_to "Promote", promote_path(id: match.id), method: :put %></td>
+        <td style="border: 1px solid #ccc; padding: 8px;"><%= match.name %></td>
+        <td style="border: 1px solid #ccc; padding: 8px;"><%= match.email %></td>
+        <td style="border: 1px solid #ccc; padding: 8px;"><%= link_to "Promote", promote_path(id: match.id), method: :put %></td>
       </tr>
     <% end %>
     </tbody>
