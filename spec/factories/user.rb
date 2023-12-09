@@ -5,7 +5,7 @@ FactoryBot.define do
         password { "password" }
         password_confirmation { "password" }
     end
-    factory :admin do
+    trait :admin do
         name { Faker::Name.first_name }
         email { Faker::Internet.email }
         password { "password" }
