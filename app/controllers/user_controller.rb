@@ -46,6 +46,12 @@ class UserController < ApplicationController
     @address = @user.addresses || @user.addresses.build
   end
 
+  # GET /users/:id/addresses - for displaying addresses in edit page
+  def addresses
+    @user = User.find(params[:id])
+    render json: @user.addresses
+  end
+
 
   # Function to update users after selecting the edit page
   def update
@@ -74,7 +80,7 @@ class UserController < ApplicationController
         redirect_to edit_user_path(@user), notice: "password updated successfully."
       else
         # Render the form again with error messages
-        redirect_to edit_user_path(@user),  notice: "password not successfully."
+        redirect_to edit_user_path(@user),  notice: "password could not be updated successfully."
       end
     else
       redirect_to edit_user_path(@user),  notice: "Can not change userinfo when logged in from google/github."
@@ -83,7 +89,7 @@ class UserController < ApplicationController
 
   def update_or_create_address
     @user = User.find(params[:id]) # Ensure you have the user's ID
-    address_index = (params[:address_index].to_i) - 1
+    address_index = (params[:address_index].to_i) + 1
 
     if @user.addresses[address_index].present?
       address = @user.addresses.limit(3)[address_index]

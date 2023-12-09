@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # about page route
   get 'about', to: 'pages#about'
 
+  # Additional route for user addresses
+  get '/users/:id/addresses', to: 'user#addresses', as: 'user_addresses'
+
   # User routes
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
