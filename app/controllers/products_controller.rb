@@ -6,11 +6,13 @@ class ProductsController < ApplicationController
         @products = Product.all
         @categories = Category.all
         @product_tags = Tag.all
+        session.delete(:search_term)
     end
 
-    def show 
+    def show
         @product = Product.find_by(id: params[:id])
         @categories = Category.all
+        session.delete(:search_term)
         if @product 
             @user = User.find(@product.user_id)
             @images = @product.images

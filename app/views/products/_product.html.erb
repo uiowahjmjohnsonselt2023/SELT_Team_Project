@@ -27,8 +27,10 @@
               <%= link_to product.user.name, user_path(product.user.id) %> - <%= product.user.email %>
             </div>
         </div>
-       
-        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
-        <%= link_to "More Info", product_path(id: product.id),  method: :get%>
+      <div class="mt-6 space-x-6">
+        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out" %>
+        <%= link_to "More info", product_path(id: product.id), method: :get, class: "bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out" %>
+      </div>
+
     </div>
 </div>
