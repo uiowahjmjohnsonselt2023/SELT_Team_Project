@@ -24,6 +24,7 @@ class UserController < ApplicationController
   
   def create
     @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
+    images = params[:user][:images] # Adjust this based on how images are sent in the form
     if @user.save
       redirect_to @user
     else
@@ -100,7 +101,7 @@ class UserController < ApplicationController
   private
   # marks the user_params
   def user_params
-    params.fetch(:user, {}).permit(:name, :email, :phone_number)
+    params.fetch(:user, {}).permit(:name, :email, :phone_number, image_attributes: [:image] )
   end
 
   def address_params

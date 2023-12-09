@@ -15,6 +15,9 @@ class User < ApplicationRecord
     has_many :addresses, dependent: :destroy
     has_many :recent_purchases, dependent: :destroy
 
+    #image attribute
+    has_one :image, dependent: :destroy
+
 
     before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }
 
@@ -32,6 +35,20 @@ class User < ApplicationRecord
     end
 
     validate :validate_addresses_limit
+
+    def assign_images(images)
+        images.each do |image|
+            img = Image.new(image: image, user_id: self.id)
+            if img.valid?
+                self.images << img
+            else
+                puts "#{img.errors.full_messages}}"
+                return false
+            end
+        end
+        true
+    end
+
     private
 
     #method not used atm but im going to leave it here for now just in case
