@@ -1,8 +1,31 @@
-<!-- FILEPATH: /Users/kailindholm/Documents/Fall 2023/SELT/SELT_Team_Project/app/views/carts/show.html.erb -->
-<div class="cart-container">
-  <h1> <%= @user.name %>'s Cart</h1>
+<div class="flex flex-row">
+  <div class="cart-container w-3/4">
+    <h1 class="px-8"> <%= @user.name %>'s Cart</h1>
+    <table class="table-auto w-full">
+      <thead>
+        <tr class="grid grid-cols-4 gap-4">
+          <th class="col-span-1 text-center">Product</th>
+          <th class="col-span-1 text-center">Price</th>
+          <th class="col-span-1 text-center">Quantity</th>
+          <th class="col-span-1 text-center">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @cart.cart_items %>
+      </tbody>
+    </table>
+  </div>
 
-  <%= render @cart.cart_items %>
-
-  <p class="mt-6 text-4xl"> CART TOTAL: <%=  number_to_currency(@cart.total_price) %></p>
+  <div class="checkout-container w-1/4 rounded-lg shadow-md m-4 p-4 text-center">
+    <h1>Checkout</h1>
+    <p id="cart_total" class="m-6 text-4xl">Cart Total: <%= number_to_currency(@cart.total_price) %></p>
+    <div id="cart-state">
+      <% if not @cart.empty? %>
+          <%= link_to "Checkout", checkout_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded b-0" %>
+        <% else %>
+        <p>Your cart is empty</p>
+      <% end %>
+    </div>
+  </div>
 </div>
+    

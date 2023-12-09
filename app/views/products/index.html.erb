@@ -1,15 +1,10 @@
-<div class="flex">
-  <div class="flex-1 ml-24">
+ <div class="px-10">
     <h2 class="mt-2 font-mono">PRODUCTS</h2>
-    <div class="product-list-wrapper p-4">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" disabled>
-        <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
-      </div>
-      <div class="product-list">
-        <%= render partial: 'products/product', collection: @products, cached: true %>
-      </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" disabled>
+      <label class="form-check-label" for="flexSwitchCheckDefault" id="switchLabel">Card View</label>
+    </div>
+    <div class="flex flex-row flex-wrap pt-4 justify-center">
+      <%= render partial: 'products/product', collection: @products, cached: true %>
     </div>
   </div>
-</div>
-

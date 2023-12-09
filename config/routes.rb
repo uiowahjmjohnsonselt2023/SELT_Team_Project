@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post '/cart/:product_id', to: 'carts#add', as: 'add_to_cart'
   post 'carts/:id/remove/:product_id' => 'carts#remove'
 
+  post 'cart/checkout' => 'carts#checkout', as: 'checkout'
   # product routes
   post 'products/create' => 'products#create'
   post 'products/search' => 'products#search', as: :product_search

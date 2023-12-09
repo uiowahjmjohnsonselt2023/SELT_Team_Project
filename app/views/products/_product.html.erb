@@ -1,34 +1,27 @@
-<div class="product">
-    <div class="card card-body">
-        <% if not product.images.empty? %>
-            <div class="product-thumbnail-container">
-                <%= image_tag product.images.first.image.thumb("150x150").url, class: "product-image", loading: "lazy", id: "thumbnail" %>
-            </div>
-        <% else %>
-            <%= image_tag "https://via.placeholder.com/150", class: "product-image", loading: "lazy", id: "thumbnail"%>
-        <% end %>
-    </div>
-    <h4 class="text-4xl font-serif"><%= product.name %></h4>
+<div id="product_<%=product.id%>" class="shadow-lg rounded-lg p-4 m-4 w-1/4 flex flex-col">
+  <div class="flex justify-center">
+    <% if not product.images.empty? %>
+      <div class="flex items-center justify-center">
+        <%= image_tag product.images.first.image.thumb("150x150").url, loading: "lazy", id: "thumbnail" %>
+      </div>
+    <% else %>
+      <%= image_tag "https://via.placeholder.com/150", loading: "lazy", id: "thumbnail"%>
+    <% end %>
+  </div>
+  <h4 class="text-4xl mx-auto font-serif"><%= product.name %></h4>
+  <% if product.discount.present? && product.discount > 0 %>
+    <p class="text-xl">
+      Was <del><%= number_to_currency(product.price) %></del>
+    </p>
+    <p class="text-2xl">
+      Now: <span class="text-red-500"><%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></span>
+      <span>(<%= product.discount %>% off)</span>
+    </p>
+  <% else %>
+    <p class="text-2xl">Price: <%= number_to_currency(product.price) %></p>
+  <% end %>
+  <p class="text-lg">User's Rating: <%= product.user%></p>
+    
+  <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "w-full bg-blue-500 text-white py-2 px-4 rounded-md text-center r-0 b-0 no-underline"%>
 
-    <div class="product-details container-sm">
-        <div class="row">
-            <div class="col">
-              <% if product.discount.present? && product.discount > 0 %>
-                <p class="text-xl">
-                  Was <del><%= number_to_currency(product.price) %></del>
-                </p>
-                <p class="text-2xl">
-                  Now: <span style="color: red;"><%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></span>
-                  <span>(<%= product.discount %>% off)</span>
-                </p>
-              <% else %>
-                <p class="text-2xl">Price: <%= number_to_currency(product.price) %></p>
-              <% end %>
-              <%= link_to product.user.name %> - <%= product.user.email %>
-            </div>
-        </div>
-       
-        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
-        <%= link_to "More info", product_path(id: product.id), method: :get%>
-    </div>
 </div>

@@ -63,7 +63,7 @@
               <h3><%= product.name %></h3>
               <p><%= product.description %></p>
               <p>Unit Price: <%= number_to_currency(product.price) %></p>
-              <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get %>
+              <%= link_to "Edit Product", {controller: "products", action: "edit", id: product.id}, method: :get %>
             </div>
           <% end %>
         <% else %>

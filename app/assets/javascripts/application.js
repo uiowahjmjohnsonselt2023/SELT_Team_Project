@@ -16,15 +16,24 @@
 //= require bootstrap
 //= require jquery.remotipart
 window.addEventListener("beforeunload", function (e) {
-    // Perform an AJAX request to log out the user
-    // Example using jQuery:
-    $.ajax({
-      type: "POST",
-      url: "/logout", // Adjust the URL to your logout endpoint
-      async: false, // Use synchronous request to ensure it completes before page unload
-    });
+  // Perform an AJAX request to log out the user
+  // Example using jQuery:
+  $.ajax({
+    type: "POST",
+    url: "/logout", // Adjust the URL to your logout endpoint
+    async: false, // Use synchronous request to ensure it completes before page unload
   });
-  
+});
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('sidebar-toggle').addEventListener('click', function () {
+      var sidebar = document.getElementById('default-sidebar');
+      if (sidebar.style.transform === "translateX(0px)") {
+          sidebar.style.transform = "translateX(-100%)";
+      } else {
+          sidebar.style.transform = "translateX(0px)";
+      }
+  });
+});
   
   
   

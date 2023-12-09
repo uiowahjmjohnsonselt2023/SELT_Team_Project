@@ -32,7 +32,6 @@ class ApplicationController < ActionController::Base
 
   private
   def ensure_signed_in!
-    puts current_user
     unless current_user
       redirect_to root_path 
       flash[:warning] = "You need to sign in before accessing this page." 
@@ -49,7 +48,6 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if session[:user_id]
-      puts "session user id: #{session[:user_id]}"
       User.find_by(id: session[:user_id])
     end
   end
@@ -70,7 +68,6 @@ class ApplicationController < ActionController::Base
     forget(current_user)
     session[:user_id] = nil
     session[:cart_id] = nil
-    puts "session user id: #{session[:user_id]}"
   end
 
   def authenticate_user_from_remember_token
