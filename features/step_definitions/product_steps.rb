@@ -3,7 +3,7 @@ Given ("a product is created") do
 end
 
 When ("the user clicks on more info") do
-    visit product_path(@product.id)
+    click_link "More Info"
 end
 
 When ("the user clicks on add to cart") do
@@ -18,6 +18,30 @@ Then ("they click back") do
     click_link "Back"
 end
 
-Then ("they should see the seller's profile") do
+When ("the user clicks on the seller's name") do
+    click_link @product.user.name
+end
+
+Then ("they should see the seller's profile") do 
     expect(page).to have_content(@product.user.name)
+end
+
+Then ("they should see the home page") do
+    expect(page).to have_content("PRODUCTS")
+end
+
+Then ("they should see the product page") do
+    expect(page).to have_content(@product.name)
+end
+
+Then ("they should see must sign in") do
+    expect(page).to have_content("You need to sign in before accessing this page.")
+end
+
+And ("the user clicks on home") do 
+    click_link "Home"
+end
+
+And ("the user loads the page") do
+    visit root_path
 end
