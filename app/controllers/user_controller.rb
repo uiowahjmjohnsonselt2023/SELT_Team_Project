@@ -25,7 +25,7 @@ class UserController < ApplicationController
   
   def create
     @user = User.new(params.require(:user).permit(:name, :email, :password, :password_confirmation))
-    images = params[:user][:images] # Adjust this based on how images are sent in the form
+    @user.images.create(image: image, user_id: self.user_id)
     if @user.save
       redirect_to @user
     else
@@ -76,26 +76,18 @@ class UserController < ApplicationController
 
   def update_picture
     @user = User.find(params[:id])
+    image_file = profile_picture_upload[:image]
 
-    # Assuming you have a method `profile_picture_upload` to permit image params
-    image_params = profile_picture_upload[:image_attributes]
-
-    if @user.image.present?
-      # Update the existing image
-      @user.image.update(image_params)
+    if image_file
+      if @user.assign_image(image_file)
+        redirect_to edit_user_path(@user), notice: "Profile picture updated successfully."
+      else
+        redirect_to edit_user_path(@user), notice: "Profile picture could not be updated."
+      end
     else
-      # Create a new image and associate it with the user
-      @user.create_image(image_params)
-    end
-
-    # Now, we just need to check if the image is valid and saved
-    if @user.image.valid?
-      redirect_to edit_user_path(@user), notice: "Profile picture updated successfully."
-    else
-      redirect_to edit_user_path(@user), notice: "Error updating profile picture."
+      redirect_to edit_user_path(@user), notice: "No image file provided."
     end
   end
-
 
   def update_password
     @user = User.find(params[:id])
@@ -152,7 +144,7 @@ class UserController < ApplicationController
   end
 
   def profile_picture_upload
-    params.require(:user).permit(image_attributes: [:image])
+    params.require(:user).permit(:image)
   end
 
   # :nocov:

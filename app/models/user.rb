@@ -37,16 +37,22 @@ class User < ApplicationRecord
 
     validate :validate_addresses_limit
 
-    def assign_images(images)
-        images.each do |image|
-            img = Image.new(image: image, user_id: self.id)
-            if img.valid?
-                self.images << img
+    def assign_image(image_file)
+        # If a user already has an image, update it
+        if self.image.present?
+            self.image.image = image_file
+            self.image.save
+        else
+            # No image exists, so build a new one
+            new_image = build_image(image: image_file)
+            if new_image.valid?
+                new_image.save
             else
-                puts "#{img.errors.full_messages}}"
+                puts "#{new_image.errors.full_messages}"
                 return false
             end
         end
+
         true
     end
 
