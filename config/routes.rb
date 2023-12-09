@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :recent_purchases
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
+  resources :orders, only: %i[show new create] 
 
   root 'products#index'
 
@@ -15,7 +16,8 @@ Rails.application.routes.draw do
   post '/cart/:product_id', to: 'carts#add', as: 'add_to_cart'
   post 'carts/:id/remove/:product_id' => 'carts#remove'
 
-  post 'cart/checkout' => 'carts#checkout', as: 'checkout'
+  post 'order/:id/checkout' => 'orders#checkout', as: 'checkout'
+  
   # product routes
   post 'products/create' => 'products#create'
   post 'products/search' => 'products#search', as: :product_search

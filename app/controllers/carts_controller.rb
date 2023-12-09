@@ -12,6 +12,7 @@ class CartsController < ApplicationController
         else
             @cart_items = @cart.cart_items
         end
+        @order = Order.new 
     end
 
     def add

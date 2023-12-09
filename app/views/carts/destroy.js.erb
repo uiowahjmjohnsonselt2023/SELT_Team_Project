@@ -1,10 +1,15 @@
 $("#item_<%= @item_id %>").remove();
 
 $("#cart_total").html("Cart Total: <%= number_to_currency(@cart.total_price)%>");
+if ("<%= @cart.total_quantity%>" > 0) {
+    $("#cart_total_notif").html("<%= @cart.total_quantity%>");
+}
+else {
+    $("#cart_total_notif").remove();
+}
 
+$("#cart_total_notif").html("<%= @cart.total_quantity%>");
 if ($("#cart tr").length < 1) {
     $("#cart-state").html("<p>Your cart is empty</p>");
 }
-
-$("#notice").html("removed item");
 

@@ -1,0 +1,6 @@
+<div class="shadow-md">
+<p> Time Purchased: <%= order.created_at.to_date.to_s(:long) %></p>
+<p> Order Size: <%= order.order_size %></p>
+<p> Order Total: <%= number_to_currency(order.total_price) %></p>
+<%= link_to "More Info", order_path(order), class: "btn btn-primary" %>
+</div>

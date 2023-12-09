@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231208223120) do
+ActiveRecord::Schema.define(version: 20231209212842) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -60,6 +60,22 @@ ActiveRecord::Schema.define(version: 20231208223120) do
   add_index "images", ["product_id"], name: "index_images_on_product_id"
   add_index "images", ["user_id"], name: "index_images_on_user_id"
 
+  create_table "orders", force: :cascade do |t|
+    t.integer  "recent_purchase_id"
+    t.integer  "user_id"
+    t.string   "card_number"
+    t.string   "card_expiration"
+    t.string   "card_cvv"
+    t.string   "card_zip"
+    t.string   "card_state"
+    t.string   "card_city"
+    t.string   "card_country"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
   create_table "product_tags", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "tag_id"
@@ -89,6 +105,8 @@ ActiveRecord::Schema.define(version: 20231208223120) do
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "quantity"
+    t.integer  "order_id"
   end
 
   create_table "tags", force: :cascade do |t|

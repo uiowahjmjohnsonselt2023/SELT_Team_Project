@@ -19,9 +19,25 @@
   <td class="col-span-1 text-center flex items-center justify-center"><%= number_to_currency(item.price)%></td>
   <td class="col-span-1 text-center flex items-center justify-center">
     <div class="flex flex-row justify-center">
-      <%= form_for cart_item, remote: true do |f|%>
+      <div class="flex flex-col justify-center items-center">
+        <%
+=begin%>
+ <%= link_to '-', cart_path(product_id: item.id, quantity: item.quantity - 1), remote: true, method: :put, class: "p-2 bg-red-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline", title: "Decrease quantity" %> 
+<%
+=end%>
+        <span id="item-<%=cart_item.id%>" class="text-center"><%= cart_item.quantity %></span>
+        <%
+=begin%>
+ <%= link_to '+', cart_path(product_id: item.id, quantity: item.quantity + 1), remote: true, method: :put, class: "p-2 bg-green-500 hover:text-green-500 hover:bg-white no-underline hover:no-underline", title: "Increase quantity" %> 
+<%
+=end%>
+      <%
+=begin%>
+ <%= form_for cart_item, remote: true do |f|%>
         <%= f.number_field :quantity, id: "item-#{cart_item.id}", class: "max-w-xs"%>
-      <% end %>
+      <% end %> 
+<%
+=end%>
     </div>
   </td>
   <td class="col-span-1 text-center flex items-center justify-center"><%= number_to_currency(cart_item.total_price) %></td>

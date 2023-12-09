@@ -14,8 +14,8 @@ class User < ApplicationRecord
     has_one :cart, dependent: :destroy
     has_many :addresses, dependent: :destroy
     has_many :recent_purchases, dependent: :destroy
-
-
+    has_many :orders, dependent: :destroy
+    
     before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }
 
     def remember
