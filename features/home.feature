@@ -39,31 +39,30 @@ Feature: Home page
     Scenario: the user selects a tag
         Given the user loads the page 
         And the user selects a tag 
-        And the user clicks search 
+        And the user clicks search in the side bar
         Then the user should see that product
-
-    Scenario: no products with that tag
-        Given the user loads the page  
-        And the user selects a tag 
-        And the user clicks search 
-        Then the user should see no products found 
 
     Scenario: no products with that category
         Given the user loads the page 
-        And the user selects a category 
+        And they select the wrong category
         And the user clicks search 
-        Then the user should see no products found 
+        Then expect user not to see the right product
 
     Scenario: no products in that price range
         Given the user loads the page   
-        And the user selects a price min and max 
-        And the user clicks search 
+        And product price is out of range
+        And the user clicks search in the side bar
         Then the user should see no products found
 
     Scenario: the user types in the wrong product name 
         Given the user loads the page
-        And the user types the wrong product name 
-        And the user clicks search
+        And the user types in the wrong product name 
+        And the user clicks search 
         Then the user should see no products found
 
+    Scenario: category search in side bar 
+        Given the user loads the page 
+        And the user selects a category in side bar
+        And the user clicks search in the side bar 
+        Then the user should see that product
     
