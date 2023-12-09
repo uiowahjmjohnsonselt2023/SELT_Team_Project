@@ -81,11 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function attachAddressButtonListeners() {
-        document.querySelectorAll('.address-button').forEach(button => {
+        const buttons = document.querySelectorAll('.address-button');
+
+        buttons.forEach(button => {
             button.addEventListener('click', function() {
                 const index = parseInt(this.getAttribute('data-index'), 10);
                 displayAddress(index);
-                document.getElementById('address_index').value = index - 1; // Adjusting the index for the server
+                document.getElementById('address_index').value = index - 1;
+
+                // Update button classes
+                buttons.forEach(btn => btn.classList.remove('bg-blue-700'));
+                this.classList.add('bg-blue-700');
             });
         });
     }
