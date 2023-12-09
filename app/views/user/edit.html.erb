@@ -10,9 +10,10 @@
   </div>
 <% end %>
 
-<div class="flex flex-wrap -mx-2 justify-around w-full">
+<!-- Main Content Wrapper -->
+<div class="flex flex-wrap justify-around w-full">
   <!-- User Info Section -->
-  <div class="px-2 w-full lg:w-1/2">
+  <div class="w-full lg:w-1/3 px-4 mb-6">
     <%= form_for(@user, :url => update_user_path(@user), html: { method: :put }) do |form| %>
       <div class="border p-4 rounded-lg shadow-md">
         <div class="mb-4">
@@ -42,7 +43,7 @@
   </div>
 
   <!-- Addresses Section -->
-  <div class="px-2 w-full lg:w-1/3">
+  <div class="w-full lg:w-1/3 px-4 mb-6">
     <%= form_tag(update_address_path, method: :post) do %>
       <div class="border p-4 rounded-lg shadow-md">
         <div class="mb-4">
@@ -78,7 +79,7 @@
   </div>
 
   <!-- Payments Section -->
-  <div class="px-2 w-full lg:w-1/2">
+  <div class="w-full lg:w-1/3 px-4 mb-6">
     <%= form_for(@user, url: update_payment_path(@user), html: { method: :put }) do |form| %>
       <div class="border p-4 rounded-lg shadow-md">
         <div class="mb-4">
