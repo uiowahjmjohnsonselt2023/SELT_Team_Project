@@ -70,6 +70,7 @@ class ApplicationController < ActionController::Base
     forget(current_user)
     session[:user_id] = nil
     session[:cart_id] = nil
+    flash[:notice] = "You have successfully logged out."
     puts "session user id: #{session[:user_id]}"
   end
 

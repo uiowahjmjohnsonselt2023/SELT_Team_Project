@@ -73,3 +73,4 @@ Then ("they should see their cart") do
     expect(page).to have_content(@user.name + "'s Cart")
 end
 
+#
