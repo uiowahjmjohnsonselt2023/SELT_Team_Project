@@ -14,13 +14,13 @@ class SessionsController < ApplicationController
         user = User.find_by(email: email, login_type: "github")
         if user&.authenticate(password)
             sign_in(user)
-            params[:remember_me] == '1' ? remember(user) : forget(user)
+            remember(user)
             redirect_to signin_success_path
         else
             @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "github", admin: false)
             if @user.save
                 sign_in(@user)
-                params[:remember_me] == '1' ? remember(@user) : forget(@user)
+                remember(@user)
                 redirect_to signup_success_path
             end
         end
@@ -34,13 +34,13 @@ class SessionsController < ApplicationController
         user = User.find_by(email: email, login_type: "google")
         if user&.authenticate(password) 
             sign_in(user)
-            params[:remember_me] == '1' ? remember(user) : forget(user)
+            remember(user)
             redirect_to signin_success_path
         else
             @user = User.new(name: name, email: email, password: password, password_confirmation: password, login_type: "google", admin: false)
             if @user.save
                 sign_in(@user)
-                params[:remember_me] == '1' ? remember(@user) : forget(@user)
+                remember(@user)
                 redirect_to signup_success_path
             end
         end
