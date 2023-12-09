@@ -60,13 +60,14 @@
       </div>
 
       <!-- Posted Products Section -->
-      <div class="posted-products-container" style="flex: 1; padding: 0 20px;"> <!-- Added padding to the sides -->
+      <div class="posted-products-container divide-y-2 divide-slate-200 border" style="flex: 1; padding: 0 20px;"> <!-- Added padding to the sides -->
         <h3>POSTED PRODUCTS</h3>
         <% if @product %>
           <% @product.each do |product| %>
             <div class="posted-product-item">
               <h3><%= product.name %></h3>
               <p class="italic"><%= product.description %></p>
+              <p>Category: <%= product.category.name %></p>
               <p>Unit Price: <%= number_to_currency(product.price) %></p>
               <% if product.discount > 0 %>
                 <p>
