@@ -11,7 +11,7 @@ class Image < ActiveRecord::Base
     validates :image, presence: true
     validate :product_or_user_present
 
-    validates_size_of :image, maximum: 2.megabytes,
+    validates_size_of :image, maximum: 150.megabytes,
                       message: "should be no more than 2 MB", if: :image_changed?
   
     validates_property :format, of: :image, in: [:jpeg, :jpg, :png, :bmp], case_sensitive: false,

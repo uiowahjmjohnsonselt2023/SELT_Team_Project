@@ -28,27 +28,22 @@ class ProductsController < ApplicationController
     end
 
     def create 
-        respond_to do |format|
             @product = Product.new(product_params)
             images = params[:product][:images]
             puts "got here"
             if @product.save and not images.nil?
                 if not @product.assign_images(images)
-                    flash.now[:warning] = "Produt not created. Images are not valid."
-                    format.html { redirect_to new_product_path }
-                    format.js 
+                    flash[:warning] = "Produt not created. Images are not valid."
+                    redirect_to new_product_path
                     return
                 end
 
-                flash.now[:notice] = "Product created"
-                format.html { redirect_to user_path(@product.user_id) }
-                format.js 
+                flash[:notice] = "Product created"
+                redirect_to user_path(@product.user_id)
             else
-                flash.now[:warning] = "Product not created. Try again."
-                format.html { redirect_to new_product_path }
-                format.js  { render :new }
+                flash[:warning] = "Product not created. Try again. #{@product.errors.full_messages}"
+                redirect_to new_product_path
             end
-        end
     end
 
     def edit
