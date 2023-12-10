@@ -19,6 +19,7 @@ gem 'bootstrap-sass'
 gem 'remotipart', '~> 1.2'
 gem 'bigdecimal', '~> 1.4'
 
+gem 'crass', '~> 1.0', '>= 1.0.6'
 gem 'omniauth-github', '~> 2.0.0'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'
