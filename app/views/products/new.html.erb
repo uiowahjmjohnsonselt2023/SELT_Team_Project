@@ -1,40 +1,56 @@
-<h1> Sell A Product!</h1>
+<div class="mt-10 max-w-2xl mx-auto">
+  <div class="flex items-center justify-between w-full mb-4">
+    <h1 class="text-6xl font-medium text-center mb-6">Sell A Product!</h1>
 
-<%= link_to "Back", root_path %>
+    <%= link_to "Back", root_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
 
-<%= form_for @product, html: { class: "container-md" }, url: products_create_path do |f|%>
+  </div>
+  <%= form_for @product, html: { class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" }, url: products_create_path do |f|%>
     <%= f.hidden_field :user_id, value: current_user.id %>
-    <div class="form-group">
-        <%= f.label :name, "Title", class: "form-label-md"%>
-        <%= f.text_field :name, required: true, class: "form-control" %>
-    </div>
-    <div class="form-group">
-        <%= f.label :description, class: "form-label"%>
-        <%= f.text_area :description, required: true, class: "form-control" %>
-    </div>
-    <div class="form-group">
-        <%= f.label :price, class: "form-label"%>
-        <%= f.number_field :price, step: 0.01, min: 0, required: true, class: "form-control"%>
-    </div>
 
-    <div class="form-group">
-        <%= f.label :quantity, class: "form-label"%>
-        <%= f.number_field :quantity, required: true, min: 0 , class: "form-control"%>
-    </div>
-    <div class="form-group">
-        <%= f.label :category_id %>
-        <%= f.collection_select :category_id, Category.all, :id, :name, include_blank: true %>
-    </div>
-    <div class="form-group">
-      <%= f.label :tag_list, "Tags (separate with commas, max 3 tags)" %>
-      <%= f.text_field :tag_list, class: 'form-control' %>
-    </div>
-    <div class="form-group">
-        <%= f.label :images %>
-            <%= f.file_field :images, multiple: true, required: true, id: "image_field", class: "form-control", data: { max_files: 5 } %>
-            <small class="text-muted" id="image_error" style="display: none;">Maximum 5 files allowed.</small>
-        <div id="image_preview">
+    <!-- Title and Description on one row -->
+    <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-full px-3 mb-6 md:mb-0">
+          <%= f.label :name, "Title", class: "block text-gray-700 text-2xl mb-2" %>
+          <%= f.text_field :name, required: true, class: "form-control" %>
         </div>
     </div>
-    <%= f.submit "List It!", class: "btn btn-primary" %>   
-<% end %>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-full px-3">
+        <%= f.label :description, class: "block text-gray-700 text-2xl mb-2" %>
+        <%= f.text_area :description, required: true, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <%= f.label :price, class: "block text-gray-700 text-2xl mb-2" %>
+        <%= f.number_field :price, step: 0.01, min: 0, required: true, class: "form-control"%>
+      </div>
+      <div class="w-full md:w-1/2 px-3">
+        <%= f.label :quantity, class: "block text-gray-700 text-2xl mb-2" %>
+        <%= f.number_field :quantity, required: true, min: 0 , class: "form-control"%>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :category_id, class: "block text-gray-700 text-2xl mb-2" %>
+      <%= f.collection_select :category_id, Category.all, :id, :name, { include_blank: true }, class: "block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+
+    <div class="mb-4">
+      <%= f.label :tag_list, "Tags (separate with commas, max 3 tags)", class: "block text-gray-700 text-2xl  mb-2" %>
+      <%= f.text_field :tag_list, class: "shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.label :images, class: "block text-gray-700 text-2xl  mb-2" %>
+      <%= f.file_field :images, multiple: true, required: true, id: "image_field", class: "block w-full text-xl text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xl file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+      <small id="image_error" class="text-red-500 hidden">Maximum 5 files allowed.</small>
+      <div id="image_preview" class="mt-2"></div>
+    </div>
+
+    <%= f.submit "Add a new product!", class: "bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" %>
+  <% end %>
+</div>

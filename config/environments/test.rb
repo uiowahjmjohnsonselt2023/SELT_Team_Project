@@ -37,6 +37,12 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Enable thread safety to ensure that the application behaves correctly in a multi-threaded environment.
+  # This is especially important in test environments where we simulate concurrent requests and actions.
+  # Thread safety helps prevent issues related to shared state and data inconsistencies that can arise
+  # in multi-threaded contexts, providing more reliable and consistent test results.
+  config.thread_safe = true
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

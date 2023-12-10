@@ -6,10 +6,13 @@ class ProductsController < ApplicationController
         @products = Product.all
         @categories = Category.all
         @product_tags = Tag.all
+        session.delete(:search_term)
     end
 
-    def show 
+    def show
         @product = Product.find_by(id: params[:id])
+        @categories = Category.all
+        session.delete(:search_term)
         if @product 
             @user = User.find(@product.user_id)
             @images = @product.images
@@ -88,10 +91,11 @@ class ProductsController < ApplicationController
         max_price = params[:max_price]
         category_id = params[:category_id]
         tag_list = params[:tag_list]
+        discounted = params[:discounted]
 
         @categories = Category.all
         @product_tags = Tag.all
-        @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list)
+        @match = Product.search(search_term, min_price: min_price, max_price: max_price, category_id: category_id, tag_list: tag_list, discounted: discounted)
         if @match.empty?
             @match = Product.all
             flash.now[:notice] = "No products found."
