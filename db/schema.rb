@@ -14,16 +14,18 @@
 ActiveRecord::Schema.define(version: 20231210033358) do
 
   create_table "addresses", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string   "address"
     t.string   "street"
     t.string   "zip"
-    t.string   "state"
     t.string   "city"
     t.string   "country"
+    t.string   "state"
     t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
+
+  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
 
   create_table "cart_items", force: :cascade do |t|
     t.integer  "product_id"

@@ -9,7 +9,6 @@ class Address < ActiveRecord::Base
   validates :country, presence: true, format: { with: /\A[a-zA-Z\s]+\z/, message: "Invalid country format" }
 
   private
-
   def validate_user_address_limit
     if user.addresses.count >= 3
       errors.add(:user, "can only have up to 3 addresses.")
