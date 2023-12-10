@@ -24,6 +24,8 @@ class Product < ApplicationRecord
     before_save :price_format
     before_save :name_format
 
+    before_save { self.archived = true if self.quantity <= 0 }
+
     def total_quantity
         quantity
     end
@@ -80,14 +82,12 @@ class Product < ApplicationRecord
         match
     end
 
-
     def assign_images(images)
         images.each do |image|
             img = Image.new(image: image, user_id: self.user_id, product_id: self.id)
             if img.valid?
                 self.images << img
             else
-                puts "#{img.errors.full_messages}}"
                 return false
             end
         end
@@ -95,6 +95,19 @@ class Product < ApplicationRecord
         return true
     end
     
+    def state
+        threshold = 10
+        if self.archived
+            :archived
+        elsif self.quantity == 0
+            :out_of_stock
+        elsif self.quantity > threshold
+            :available
+        else
+            :low_stock
+        end
+    end
+
     private
     def default_quantity # default quantity to 1
         self.quantity ||= 1

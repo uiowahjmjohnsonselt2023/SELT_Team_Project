@@ -48,14 +48,10 @@
       <!-- Recent Orders Section -->
       <div class="recent-orders-container" style="flex: 1; padding: 0 20px;"> <!-- Added padding to the sides -->
         <h3>Recent Orders</h3>
-        <% if @recent_purchases %>
-          <% @recent_purchases.each do |purchase| %>
+        <% if @orders %>
+          <% @orders.each do |order| %>
             <div class="recent-order-item">
-              <h3><%= purchase.product.name %></h3>
-              <p><%= purchase.product.description %></p>
-              <p>Unit Price: <%= number_to_currency(purchase.product.price) %></p>
-              <p>Time Purchased: <%= purchase.created_at.to_date.to_s(:long) %></p>
-              <%= link_to "More info", {controller: "products", action: "show", id: purchase.product.id}, method: :get %>
+              <%= render order %>
             </div>
           <% end %>
         <% else %>

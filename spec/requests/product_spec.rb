@@ -9,7 +9,7 @@ RSpec.describe "Products", type: :request do
 
     it "assigns all products to @products" do
       get products_path
-      expect(assigns(:products)).to eq(Product.all)
+      expect(assigns(:products)).to eq(Product.where(archived: false))
     end
   end
 
@@ -23,7 +23,6 @@ RSpec.describe "Products", type: :request do
     context "when user is logged in" do
       before(:all) do
         @user = FactoryBot.create(:user)
-
         post sessions_path, email: @user.email, password: 'password'
       end
 
@@ -171,8 +170,7 @@ RSpec.describe "Products", type: :request do
 
         it "redirects to the users profile page" do
           post products_path, { product: @valid_params }
-          expect(response).to have_http_status(:success)
-          # expect(response).to redirect_to(@user)
+          expect(response).to redirect_to(user_path(@user))
         end
       end
 
@@ -288,7 +286,7 @@ RSpec.describe "Products", type: :request do
         it "deletes the product" do
           expect {
             delete product_path(@product)
-          }.to change(Product, :count).by(-1)
+          }.to change(Product.where(archived: false), :count).by(-1)
         end
 
         it "redirects to the user\'s show page" do
