@@ -82,14 +82,12 @@ class Product < ApplicationRecord
         match
     end
 
-
     def assign_images(images)
         images.each do |image|
             img = Image.new(image: image, user_id: self.user_id, product_id: self.id)
             if img.valid?
                 self.images << img
             else
-                puts "#{img.errors.full_messages}}"
                 return false
             end
         end

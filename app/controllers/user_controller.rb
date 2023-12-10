@@ -85,6 +85,11 @@ class UserController < ApplicationController
     @best_tag = key_tag
     @best_cat = key_cat
 
+    if Order.count == 0
+      @averageOrderSize = 0
+    else
+      @averageOrderSize = RecentPurchase.sum(:quantity) / Order.count 
+    end
   end
 
   #this is the method that allows people to be promoted to an admin on the admin page.
@@ -97,7 +102,6 @@ class UserController < ApplicationController
     else
       flash[:notice] = "#{@promotion.name} has not been made an admin"
       redirect_to admin_path(current_user.id)
-      puts("Promotion failed. See log file for more information.")
       Rails.logger.info("Promotion failed.")
       Rails.logger.info(@promotion.errors.messages.inspect)
     end

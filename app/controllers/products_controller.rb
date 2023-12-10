@@ -30,7 +30,6 @@ class ProductsController < ApplicationController
     def create 
             @product = Product.new(product_params)
             images = params[:product][:images]
-            puts "got here"
             if @product.save and not images.nil?
                 if not @product.assign_images(images)
                     flash[:warning] = "Produt not created. Images are not valid."

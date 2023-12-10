@@ -170,8 +170,7 @@ RSpec.describe "Products", type: :request do
 
         it "redirects to the users profile page" do
           post products_path, { product: @valid_params }
-          expect(response).to have_http_status(:success)
-          # expect(response).to redirect_to(@user)
+          expect(response).to redirect_to(user_path(@user))
         end
       end
 
