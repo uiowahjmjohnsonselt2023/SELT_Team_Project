@@ -15,13 +15,15 @@
 require 'factory_bot_rails'
 
 User.destroy_all
+# Product.destroy_all
 puts "#{User.count} users in the database"
 puts "#{Product.count} products in the database"
 
 puts "Creating users..."
 # Create some categories
-admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password")
-admin = FactoryBot.create(:user, name: "Garfield", email: "garf@test.com", password: "garfpassword", password_confirmation: "garfpassword", admin: true)
+admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password", admin: true, login_type: "standard")
+admin = FactoryBot.create(:user, name: "Garfield", email: "garf@test.com", password: "garfpassword", password_confirmation: "garfpassword", admin: true, login_type: "standard")
+
 categories = Category.create([
                                { name: 'Food' },
                                { name: 'Electronics' },
@@ -40,4 +42,3 @@ categories = Category.create([
                                             quantity: Faker::Number.number(digits: 2), 
                                             category_id: category.id, user_id: admin.id)
 end
-# RecentPurchase.create(user_id: 1, product_id: 1)

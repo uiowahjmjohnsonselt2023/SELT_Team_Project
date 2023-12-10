@@ -14,7 +14,8 @@ class User < ApplicationRecord
     has_one :cart, dependent: :destroy
     has_many :addresses, dependent: :destroy
     has_many :recent_purchases, dependent: :destroy
-
+    has_many :orders, dependent: :destroy
+    
     #image attribute
     has_one :image, dependent: :destroy
     accepts_nested_attributes_for :image

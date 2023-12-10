@@ -1,30 +1,36 @@
-<div class="card half-width-card mb-4">
-    <div class="card-body">
-        <% item = cart_item.product %>
-        <h3 class="card-text font-serif font-bold text-blue-600"><%= item.name %></h3>
-        <p class="card-text font-mono ml-8"><%= item.description %></p>
-        <div class="card-text mb-2">
-          <span class="text-gray-700 text-2xl font-sans font-bold">Unit Price: </span>
-          <span class="text-gray-600"><%= number_to_currency(item.price) %></span>
+<% item = cart_item.product %>
+<tr id="item_<%=cart_item.id%>"class="grid grid-cols-4 gap-4 p-4 m-4">
+  <td class="col-span-1 text-center text-lg flex items-center justify-center">
+    <div class="flex flex-col items-center justify-center">
+     <div class="product-thumbnail-container">
+        <div class="relative">
+          <% if not item.images.empty? %>
+            <%= image_tag item.images.first.image.thumb("150x150").url, class: "product-image", loading: "lazy", id: "thumbnail" %>     
+          <% else %>
+              <%= image_tag "https://via.placeholder.com/150", class: "product-image", loading: "lazy", id: "thumbnail"%>
+          <% end %>
+          <%= link_to 'X', cart_path(product_id: item.id, quantity: item.quantity), id: "Remove", remote: true, method: :delete, class: "absolute top-0 right-0 p-2 bg-red-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline", title: "Delete item" %>        
         </div>
-        <% if item.discount > 0 %>
-        <div class="card-text mb-2">
-          <span class="text-red-500 text-2xl font-sans font-bold">Discount: </span>
-          <span class="text-red-500"><%= item.discount %>%</span>
-        </div>
-        <div class="card-text mb-2">
-          <span class="text-gray-700 text-2xl font-sans font-bold">Discounted price per item: </span>
-          <span class="text-gray-600"><%= number_to_currency(item.price * (1 - item.discount / 100.0)) %></span>
-        </div>
-        <% end %>
-        <div class="card-text mb-2">
-          <span class="text-gray-700 text-2xl font-sans font-bold">Quantity: </span>
-          <span class="text-gray-600"><%= cart_item.quantity %></span>
-        </div>
-        <div class="card-text mb-2">
-          <span class="text-gray-700 text-3xl font-sans font-semibold">Total Item Price: </span>
-          <span class="text-gray-600"><%= number_to_currency(cart_item.total_price) %></span>
-        </div>
-        <%= link_to "Remove", cart_path(cart_id: @cart.id, product_id: item.id, quantity: 1), method: :delete, class: "btn btn-danger" %>
+      </div>
+      <%= item.name %> <br>
+      <%= item.tag_list %>
     </div>
-</div>
+  </td>
+  <td class="col-span-1 text-center flex items-center justify-center"><%= number_to_currency(item.price)%></td>
+  <td class="col-span-1 text-center flex items-center justify-center">
+    <div class="flex flex-row justify-center">
+      <div class="flex flex-row justify-center items-center">
+      <% if item.quantity > 10 %>
+        <%= link_to '-', update_cart_path(product_id: item.id, quantity: (cart_item.quantity - 1)), remote: false, method: :put, class: "p-2 m-4 bg-red-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline text-white", title: "Decrease quantity" %>
+        <span id="item-<%=cart_item.id%>" class="text-center"><%= cart_item.quantity %></span>
+        <%= link_to '+', update_cart_path(product_id: item.id, quantity: (cart_item.quantity + 1)), remote: false, method: :put, class: "p-2 m-4 bg-green-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline text-white", title: "Increase quantity" %> 
+      <% else %>
+        <div class="flex flex-col">
+          <span id="item-<%=cart_item.id%>" class="text-center"><%= cart_item.quantity %></span>
+          <p title="low-stock" class="italic"> Low stock</p>
+        </div>
+      <% end %>
+    </div>
+  </td>
+  <td class="col-span-1 text-center flex items-center justify-center"><%= number_to_currency(cart_item.total_price) %></td>
+</tr>

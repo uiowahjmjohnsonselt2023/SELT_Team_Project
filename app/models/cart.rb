@@ -23,4 +23,8 @@ class Cart < ApplicationRecord
     def total_quantity              # calculate total quantity of all items in cart
         cart_items.to_a.sum { |item| item.quantity }
     end
+
+    def empty? 
+        cart_items.empty?
+    end
 end

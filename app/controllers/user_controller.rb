@@ -13,7 +13,7 @@ class UserController < ApplicationController
     @user = User.find(params[:id])
     @address = @user.addresses
     @product = @user.products
-    @recent_purchases = @user.recent_purchases
+    @orders = @user.orders
     @image = @user.image
   end
 
@@ -22,20 +22,17 @@ class UserController < ApplicationController
     @user = User.new
     @user.cart = Cart.new
   end
-
   # meant to be used to search for users on the admin page, or for any other implementation we want?
   # not sure if this will be our final version of this.
   def search
-    email_search = params[:search]
-    @search_res = User.where(email: email_search)
-    if @search_res.empty?
-      flash[:warning] = "No Matches found"
-    end
-
-    # render :partial => "user/search"
-    # redirect_to admin_path(current_user.id)
-
+    @email_search = params[:search]
+    @search_res = User.where(email: @email_search)
+   
     respond_to do |format|
+      if @search_res.empty?
+        flash.now[:warning] = "No Matches found"
+        format.js { render 'search_fail' }
+      end
       format.html { render 'admin'}
       format.js
     end
@@ -85,6 +82,11 @@ class UserController < ApplicationController
     @best_tag = key_tag
     @best_cat = key_cat
 
+    if Order.count == 0
+      @averageOrderSize = 0
+    else
+      @averageOrderSize = RecentPurchase.sum(:quantity) / Order.count 
+    end
   end
 
   #this is the method that allows people to be promoted to an admin on the admin page.
@@ -92,10 +94,11 @@ class UserController < ApplicationController
     @promotion = User.find_by(id: params[:id])
     user_update = {admin: true}
     if @promotion.update(user_update)
-      redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has been made an admin"
+      flash[:notice] = "#{@promotion.name} has been made an admin"
+      redirect_to admin_path(current_user.id)
     else
-      redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has not been made an admin"
-      puts("Promotion failed. See log file for more information.")
+      flash[:notice] = "#{@promotion.name} has not been made an admin"
+      redirect_to admin_path(current_user.id)
       Rails.logger.info("Promotion failed.")
       Rails.logger.info(@promotion.errors.messages.inspect)
     end
@@ -111,6 +114,7 @@ class UserController < ApplicationController
   # Function to update users after selecting the edit page
   def update
     @user = User.find(params[:id])
+
     # Select only the parameters that are not blank
     updated_params = user_params.select { |key, value| value.present? }
     if @user.login_type == "standard"
@@ -137,11 +141,11 @@ class UserController < ApplicationController
         redirect_to edit_user_path(@user), notice: "Profile picture updated successfully."
       else
         # Pass the errors to the view
-        flash.now[:alert] = errors.join(', ')
+        flash.now[:notice] = errors.join(', ')
         render 'edit'
       end
     else
-      redirect_to edit_user_path(@user), alert: "No image file provided."
+      redirect_to edit_user_path(@user), notice: "No image file provided."
     end
   end
 
@@ -220,12 +224,9 @@ class UserController < ApplicationController
       redirect_to root_path
     end
     # :nocov:
-
     if current_user.id != @user.id
         flash[:warning] = "You do not have permission to edit this user. Please login to the correct account."
         redirect_to root_path   # TODO: either redirect to current users path, or redirect to root path
     end
-
-end
-
+  end
 end

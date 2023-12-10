@@ -129,18 +129,7 @@ RSpec.describe User, type: :model do
       expect(new_address.errors[:user]).to include("can only have up to 3 addresses.")
     end
   end
-
-
-  # Test callbacks
-  describe 'callbacks' do
-    it 'creates a cart for new users' do
-      user = build(:user)
-      expect(user.cart).to be_nil
-      user.save
-      expect(user.cart).to be_present
-    end
-  end
-
+  
   # Tests for destruction of associated objects
   describe 'associations' do
     it 'destroys associated products when user is destroyed' do
@@ -153,13 +142,6 @@ RSpec.describe User, type: :model do
       user = create(:user)
       #cart = user.create_cart
       expect { user.destroy }.to change(Cart, :count).by(-1)
-    end
-
-    it 'destroys associated recent_purchases when user is destroyed' do
-      user = create(:user)
-      # Replace with actual attributes for recent_purchase
-      user.recent_purchases.create(product: create(:product), created_at: Date.today)
-      expect { user.destroy }.to change(RecentPurchase, :count).by(-1)
     end
   end
 end

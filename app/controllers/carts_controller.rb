@@ -12,6 +12,7 @@ class CartsController < ApplicationController
         else
             @cart_items = @cart.cart_items
         end
+        @order = Order.new 
     end
 
     def add
@@ -19,36 +20,70 @@ class CartsController < ApplicationController
         cart = Cart.find_by(id: session[:cart_id])
         
         quantity = params[:quantity].to_i
-
-        current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
-
-        if current_item.valid?
-            flash[:notice] = "Product added to cart"
-        else
-            flash[:warning] = "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart."
+        respond_to do |format|   
+            current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
+            if current_item.valid?
+                if request.env["HTTP_REFERER"].present? 
+                    format.html { redirect_to :back, notice: "Added #{quantity} #{current_item.product.name}(s) to your cart" }
+                else 
+                    format.html { redirect_to root_path, notice: "Added #{quantity} #{current_item.product.name}(s) to your cart" }
+                end
+                format.js
+            else
+                if request.env["HTTP_REFERER"].present?
+                    format.html { redirect_to :back, warning: "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart." }
+                else 
+                    format.html { redirect_to root_path, warning: "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart." }
+                end
+                format.js { render 'add_error' }
+            end
         end
-      
-        redirect_to :back
+    end
+
+    def update 
+        new_quantity = params[:quantity].to_i
+        if params[:quantity].to_i < 1 
+            redirect_to :back
+            return
+        end
+
+        @cart = Cart.find_by(id: session[:cart_id])
+        @current_item = @cart.cart_items.find_by(product_id: params[:product_id])
+
+        total_quantity = @current_item.product.quantity
+        @item_id = @current_item.id
+
+        if new_quantity > total_quantity 
+            new_quantity = total_quantity
+        end
+
+        @current_item.quantity = new_quantity
+        @current_item.save
+
+        redirect_to :back , notice: "Updated quantity of #{@current_item.product.name} to #{new_quantity}"
     end
 
     def destroy 
         @cart = Cart.find_by(id: session[:cart_id])
-        current_item = @cart.cart_items.find_by(product_id: params[:product_id])
+        @current_item = @cart.cart_items.find_by(product_id: params[:product_id])
+
         remove_quantity = params[:quantity].to_i
-        total_quantity = current_item.quantity
+        total_quantity = @current_item.quantity
+        @item_id = @current_item.id
 
-        if remove_quantity >= total_quantity # if the number of items to remove is greater than the total numbers of unit items. Destroy the cart item
-            current_item.destroy
-            current_item.product.quantity += 1
-            flash[:notice] = "#{current_item.product.name} removed from your cart"
-        else 
-            current_item.quantity -= remove_quantity
-            current_item.product.quantity += remove_quantity
-            current_item.save
-            flash[:notice] = "Removed #{remove_quantity} #{current_item.product.name}(s) from your cart" #TODO: dynamic pluralization of product name
+        respond_to do |format|
+            if remove_quantity > total_quantity
+                remove_quantity = total_quantity
+            end
+            @current_item.quantity -= remove_quantity
+            @current_item.save
+            if @current_item.quantity == 0
+                @current_item.destroy
+            end
+            
+            format.html { redirect_to :back , notice: "Removed #{remove_quantity} #{@current_item.product.name}(s) from your cart" }
+            format.js 
         end
-
-        redirect_to :back
     end
 
     private 
@@ -63,4 +98,6 @@ class CartsController < ApplicationController
             redirect_to root_path
         end
     end 
+
+
 end
