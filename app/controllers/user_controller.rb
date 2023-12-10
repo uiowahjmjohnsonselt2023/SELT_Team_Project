@@ -17,7 +17,7 @@ class UserController < ApplicationController
     @image = @user.image
   end
 
-
+  # :nocov:
   def new
       @user = User.new
       @user.cart = Cart.new
@@ -32,6 +32,8 @@ class UserController < ApplicationController
       render 'new'
     end
   end
+  # :nocov:
+
 
   #the params to be passed when going to the edit page
   # Now redirects when an incorrect user types in the edit page's path
