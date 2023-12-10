@@ -49,6 +49,8 @@
       <%= text_field_tag :search, params[:search] ||= '', :class => "search_users", placeholder: "Search for a user by email" %>
       <%= submit_tag "Search" %>
     <%end%>
+    <div id="search-notif">
+    </div>
     <div id = 'search_res'>
       <%= render partial: "search" %>
     </div>

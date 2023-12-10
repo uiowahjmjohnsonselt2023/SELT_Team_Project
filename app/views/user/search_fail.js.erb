@@ -1,0 +1,7 @@
+
+const searchNotif = document.querySelector('#search-notif');
+const warningSpan = document.createElement('span');
+warningSpan.textContent = '<%= @email_search %> not found';
+warningSpan.style.backgroundColor = 'red';
+warningSpan.style.color = 'white';
+searchNotif.appendChild(warningSpan);
