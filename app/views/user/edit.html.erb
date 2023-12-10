@@ -1,13 +1,7 @@
 <body data-user-id="<%= @user.id %>">
-<% if @user.errors.any? %>
-  <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-    <strong class="font-bold">Oops!</strong>
-    <span class="block sm:inline"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</span>
-    <ul class="list-disc list-inside">
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+<% if flash.now[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash.now[:alert] %>
   </div>
 <% end %>
 

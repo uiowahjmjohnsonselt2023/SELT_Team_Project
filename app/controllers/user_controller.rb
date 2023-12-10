@@ -66,10 +66,10 @@ class UserController < ApplicationController
         redirect_to edit_user_path(@user), notice: "User info updated successfully."
       else
         # Render the form again with error messages
-        redirect_to edit_user_path(@user), notice: "Error updating info."
+        redirect_to edit_user_path(@user), alert: "Error updating info."
       end
     else
-      redirect_to edit_user_path(@user),  notice: "Can not change userinfo when logged in from google/github."
+      redirect_to edit_user_path(@user),  alert: "Can not change userinfo when logged in from google/github."
     end
 
   end
@@ -79,15 +79,19 @@ class UserController < ApplicationController
     image_file = profile_picture_upload[:image]
 
     if image_file
-      if @user.assign_image(image_file)
+      errors = @user.assign_image(image_file)
+      if errors.empty?
         redirect_to edit_user_path(@user), notice: "Profile picture updated successfully."
       else
-        redirect_to edit_user_path(@user), notice: "Profile picture could not be updated."
+        # Pass the errors to the view
+        flash.now[:alert] = errors.join(', ')
+        render 'edit'
       end
     else
-      redirect_to edit_user_path(@user), notice: "No image file provided."
+      redirect_to edit_user_path(@user), alert: "No image file provided."
     end
   end
+
 
   def update_password
     @user = User.find(params[:id])
@@ -97,10 +101,10 @@ class UserController < ApplicationController
         redirect_to edit_user_path(@user), notice: "password updated successfully."
       else
         # Render the form again with error messages
-        redirect_to edit_user_path(@user),  notice: "password could not be updated successfully."
+        redirect_to edit_user_path(@user),  alert: "password could not be updated successfully."
       end
     else
-      redirect_to edit_user_path(@user),  notice: "Can not change userinfo when logged in from google/github."
+      redirect_to edit_user_path(@user),  alert: "Can not change userinfo when logged in from google/github."
     end
   end
 
@@ -118,7 +122,7 @@ class UserController < ApplicationController
     if address.save
       redirect_to edit_user_path(@user), notice: "Address updated/created successfully."
     else
-      redirect_to edit_user_path(@user), notice: "Error updating/creating address."
+      redirect_to edit_user_path(@user), alert: "Error updating/creating address."
     end
   end
 
@@ -151,7 +155,7 @@ class UserController < ApplicationController
   def payment_params
     params.require(:user).permit(:cc_number, :cc_expr, :cc_name_on_card)
   end
-  # :nocov:
+
 
   def ensure_correct_user
     @user = User.find_by(id: params[:id])
@@ -159,7 +163,7 @@ class UserController < ApplicationController
       flash[:warning] = "User not found"
       redirect_to root_path
     end
-
+    # :nocov:
 
     if current_user.id != @user.id
         flash[:warning] = "You do not have permission to edit this user. Please login to the correct account."
