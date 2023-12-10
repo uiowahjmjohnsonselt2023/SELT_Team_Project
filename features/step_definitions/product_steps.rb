@@ -3,7 +3,7 @@ Given ("a product is created") do
 end
 
 When ("the user clicks on more info") do
-    click_link "More Info"
+    click_link "More info"
 end
 
 When ("the user clicks on add to cart") do
@@ -11,7 +11,7 @@ When ("the user clicks on add to cart") do
 end
 
 Then ("they should see added to cart") do
-    expect(page).to have_content("Product added to cart")
+    expect(page).to have_content("#{@product.name}(s) to your cart")
 end
 
 Then ("they click back") do

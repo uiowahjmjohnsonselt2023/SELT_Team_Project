@@ -1,4 +1,4 @@
-<%= link_to product_path(product), class: "no-underline hover:no-underline" do %>
+<%= link_to product_path(product), id: "More info", class: "no-underline hover:no-underline" do %>
   <div id="product_<%=product.id%>" class="shadow-lg rounded-lg p-4 m-4 w-1/4 flex flex-col no-underline">
     <div class="flex justify-center">
       <% if not product.images.empty? %>
