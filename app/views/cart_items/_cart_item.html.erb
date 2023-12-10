@@ -5,7 +5,7 @@
      <div class="product-thumbnail-container">
         <div class="relative">
           <% if not item.images.empty? %>
-            <%= image_tag product.images.first.image.thumb("150x150").url, class: "product-image", loading: "lazy", id: "thumbnail" %>     
+            <%= image_tag item.images.first.image.thumb("150x150").url, class: "product-image", loading: "lazy", id: "thumbnail" %>     
           <% else %>
               <%= image_tag "https://via.placeholder.com/150", class: "product-image", loading: "lazy", id: "thumbnail"%>
           <% end %>
@@ -19,25 +19,17 @@
   <td class="col-span-1 text-center flex items-center justify-center"><%= number_to_currency(item.price)%></td>
   <td class="col-span-1 text-center flex items-center justify-center">
     <div class="flex flex-row justify-center">
-      <div class="flex flex-col justify-center items-center">
-        <%
-=begin%>
- <%= link_to '-', cart_path(product_id: item.id, quantity: item.quantity - 1), remote: true, method: :put, class: "p-2 bg-red-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline", title: "Decrease quantity" %> 
-<%
-=end%>
+      <div class="flex flex-row justify-center items-center">
+      <% if item.quantity > 10 %>
+        <%= link_to '-', update_cart_path(product_id: item.id, quantity: (cart_item.quantity - 1)), remote: false, method: :put, class: "p-2 m-4 bg-red-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline text-white", title: "Decrease quantity" %>
         <span id="item-<%=cart_item.id%>" class="text-center"><%= cart_item.quantity %></span>
-        <%
-=begin%>
- <%= link_to '+', cart_path(product_id: item.id, quantity: item.quantity + 1), remote: true, method: :put, class: "p-2 bg-green-500 hover:text-green-500 hover:bg-white no-underline hover:no-underline", title: "Increase quantity" %> 
-<%
-=end%>
-      <%
-=begin%>
- <%= form_for cart_item, remote: true do |f|%>
-        <%= f.number_field :quantity, id: "item-#{cart_item.id}", class: "max-w-xs"%>
-      <% end %> 
-<%
-=end%>
+        <%= link_to '+', update_cart_path(product_id: item.id, quantity: (cart_item.quantity + 1)), remote: false, method: :put, class: "p-2 m-4 bg-green-500 hover:text-red-500 hover:bg-white no-underline hover:no-underline text-white", title: "Increase quantity" %> 
+      <% else %>
+        <div class="flex flex-col">
+          <span id="item-<%=cart_item.id%>" class="text-center"><%= cart_item.quantity %></span>
+          <p title="low-stock" class="italic"> Low stock</p>
+        </div>
+      <% end %>
     </div>
   </td>
   <td class="col-span-1 text-center flex items-center justify-center"><%= number_to_currency(cart_item.total_price) %></td>

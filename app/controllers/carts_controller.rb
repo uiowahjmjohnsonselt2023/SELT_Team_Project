@@ -23,15 +23,39 @@ class CartsController < ApplicationController
         respond_to do |format|   
             current_item = cart.add_product(product.id, quantity)   # add product determines if the input params are valid
             if current_item.valid?
-                format.html { redirect_to :back, notice: "Added #{quantity} #{current_item.product.name}(s) to your cart" }
+                if request.env["HTTP_REFERER"].present? 
+                    format.html { redirect_to :back, notice: "Added #{quantity} #{current_item.product.name}(s) to your cart" }
+                else 
+                    format.html { redirect_to root_path, notice: "Added #{quantity} #{current_item.product.name}(s) to your cart" }
+                end
                 format.js
             else
-                format.html { redirect_to :back, warning: "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart." }
+                if request.env["HTTP_REFERER"].present?
+                    format.html { redirect_to :back, warning: "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart." }
+                else 
+                    format.html { redirect_to root_path, warning: "Sorry, you can only add up to #{current_item.product.quantity} of #{current_item.product.name} to your cart." }
+                end
                 format.js { render 'add_error' }
             end
-            
-           
         end
+    end
+
+    def update 
+        @cart = Cart.find_by(id: session[:cart_id])
+        @current_item = @cart.cart_items.find_by(product_id: params[:product_id])
+
+        new_quantity = params[:quantity].to_i
+        total_quantity = @current_item.product.quantity
+        @item_id = @current_item.id
+
+        if new_quantity > total_quantity 
+            new_quantity = total_quantity
+        end
+
+        @current_item.quantity = new_quantity
+        @current_item.save
+
+        redirect_to :back , notice: "Updated quantity of #{@item_id} to #{new_quantity}"
     end
 
     def destroy 
@@ -51,14 +75,11 @@ class CartsController < ApplicationController
             if @current_item.quantity == 0
                 @current_item.destroy
             end
-        
+            
             format.html { redirect_to :back , notice: "Removed #{remove_quantity} #{@current_item.product.name}(s) from your cart" }
             format.js 
         end
     end
-
-    def checkout 
-    end 
 
     private 
     def ensure_cart_owner
@@ -72,4 +93,6 @@ class CartsController < ApplicationController
             redirect_to root_path
         end
     end 
+
+
 end

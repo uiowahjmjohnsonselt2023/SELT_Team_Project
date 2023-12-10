@@ -11,6 +11,7 @@ class ProductsController < ApplicationController
     def show 
         @product = Product.find_by(id: params[:id])
         @categories = Category.all
+        @state = @product.state
         if @product 
             @user = User.find(@product.user_id)
             @images = @product.images

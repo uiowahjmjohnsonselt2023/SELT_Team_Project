@@ -23,6 +23,6 @@ class OrdersController < ApplicationController
         end
 
         @cart.cart_items.destroy_all
-        redirect_to order_path(@order)
+        redirect_to order_path(@order), notice: "Order placed successfully. Sellers will be contacting you soon."
     end 
 end

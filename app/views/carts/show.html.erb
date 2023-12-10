@@ -32,25 +32,23 @@
         <div class="field">
             <!-- First Row: First Name and Last Name -->
           <div class="flex flex-row mb-4">
-            <%= f.text_field :first_name, class: "w-full border rounded-md px-3 py-2 mt-1", required: true, placeholder: "Enter your first name" %>
-            
-            <%= f.text_field :last_name, class: "w-full border rounded-md px-3 py-2 mt-1", required: true, placeholder: "Enter your last name" %>
+            <%= f.text_field :first_name, class: "w-full border rounded-md px-3 py-2 mt-1", required: true, pattern: "[a-zA-Z-]+", placeholder: "Enter your first name" %>
+            <%= f.text_field :last_name, class: "w-full border rounded-md px-3 py-2 mt-1", required: true, pattern: "[a-zA-Z-]+", placeholder: "Enter your last name" %>
           </div>
-          
           <!-- Second Row: Credit Card Number, Expiry Date, and CVV -->
           <div class="mb-4">
-            <%= f.text_field :card_number, class: "w-full border rounded-md px-3 py-2 mt-1", required: true, placeholder: "Credit Card Number", id: "card-number" %>
+            <%= f.text_field :card_number, class: "w-full border rounded-md px-3 py-2 mt-1", pattern: "[0-9]{14-15}", required: true, placeholder: "Credit Card Number", maxlength: 16, id: "card-number" %>
             <span id="card-number-error" class="text-red-500"></span>
             <div class="flex">
               <div class="w-1/2 mr-2">
                 <%= f.label :card_expiration, "Expiration Date:", class: "block text-gray-700 mt-4" %>
-                <%= f.text_field :card_expiration, pattern: "(0[1-9]|10|11|12)/[0-9]{2}$", placeholder: "MM/YY", class: "w-full border rounded-md px-3 py-2 mt-1", required: true %>
+                <%= f.text_field :card_expiration, pattern: "(0[1-9]|10|11|12)/[0-9]{2}$", placeholder: "MM/YY", class: "w-full border rounded-md px-3 py-2 mt-1", maxlength: 5, required: true %>
               </div>
               
               <div class="w-1/2 ml-2">
                 <%= f.label :card_cvv, "CVV:", class: "block text-gray-700 mt-4" %>
-                <%= f.text_field :card_cvv, pattern: "[0-9]{3}", class: "w-full border rounded-md px-3 py-2 mt-1", required: true %>
-              </div>
+                <%= f.password_field :card_cvv, pattern: "[0-9]{3}", class: "w-full border rounded-md px-3 py-2 mt-1", maxlength: 3, required: true %>
+                </div>
             </div>
           </div>
         </div>

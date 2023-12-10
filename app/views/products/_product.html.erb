@@ -9,20 +9,19 @@
         <%= image_tag "https://via.placeholder.com/150", loading: "lazy", id: "thumbnail"%>
       <% end %>
     </div>
-    <h4 class="text-4xl mx-auto font-serif"><%= product.name %></h4>
+    <h4 class="text-4xl mx-auto font-serif text-center select-none"><%= product.name %></h4>
     <% if product.discount.present? && product.discount > 0 %>
-      <p class="text-xl">
+      <h5 class="text-xl text-center text-color-black">
         Was <del><%= number_to_currency(product.price) %></del>
-      </p>
-      <p class="text-2xl">
+      </h5>
+      <h4 class="text-2xl text-center">
         Now: <span class="text-red-500"><%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></span>
         <span>(<%= product.discount %>% off)</span>
-      </p>
+      </h4>
     <% else %>
-      <p class="text-2xl">Price: <%= number_to_currency(product.price) %></p>
+        <h4 class="text-center text-green-500"><%= number_to_currency(product.price) %></h4>
     <% end %>
     <p class="text-lg"> <%= pluralize(product.user.reviews, 'Review')  %></p>
-      
-    <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "w-full bg-blue-500 text-white py-2 px-4 rounded-md text-center r-0 b-0 no-underline"%>
+      <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "w-full bg-blue-500 text-white py-2 mb-0 px-4 rounded-md text-center r-0 b-0 hover:no-underline hover:bg-blue-800"%>
   </div>
 <% end %>

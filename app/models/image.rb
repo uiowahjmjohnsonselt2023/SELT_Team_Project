@@ -4,6 +4,7 @@ class Image < ActiveRecord::Base
         { path: "images/#{SecureRandom.uuid}.#{image.format}" }   # Path where the images are stored
       end
     end
+    
     belongs_to :product
     belongs_to :user
 

@@ -95,6 +95,17 @@ class Product < ApplicationRecord
         return true
     end
     
+    def state
+        threshold = 10
+        if self.quantity > threshold
+            :available
+        else
+            :low_stock
+        end
+    end
+
+
+
     private
     def default_quantity # default quantity to 1
         self.quantity ||= 1
