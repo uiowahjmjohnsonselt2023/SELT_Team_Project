@@ -42,7 +42,7 @@
           <% if current_user.present? %>
             <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
             <% if current_user.admin == true %>
-              <%= link_to 'Admin', admin_path(current_user.id) %>
+              <%= link_to 'Admin', admin_path(current_user.id),class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium" %>
             <% end %>
             <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
             <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
