@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
       end
     
       timeout_period = 60.minutes
+
+      return true unless last_access_time # If last_access_time is nil, return true to indicate the sess
     
       (Time.now - last_access_time) > timeout_period
     end
@@ -42,6 +44,7 @@ class ApplicationController < ActionController::Base
   def ensure_registration
     redirect_to signup_path unless current_user
   end
+
   
   def user_signed_in?
     current_user.present?
