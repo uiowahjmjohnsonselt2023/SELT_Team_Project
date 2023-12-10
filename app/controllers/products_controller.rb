@@ -11,8 +11,8 @@ class ProductsController < ApplicationController
     def show 
         @product = Product.find_by(id: params[:id])
         @categories = Category.all
-        @state = @product.state
         if @product 
+            @state = @product.state
             @user = User.find(@product.user_id)
             @images = @product.images
         else 
@@ -72,6 +72,7 @@ class ProductsController < ApplicationController
     def destroy  # TODO: implement check for user_id before destroying product
         @product = Product.find_by(id: params[:id])
         @product.archived = true
+        @product.save 
         flash[:notice] = "Product deleted"
         redirect_to user_path(current_user.id)
     end

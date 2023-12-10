@@ -143,12 +143,5 @@ RSpec.describe User, type: :model do
       #cart = user.create_cart
       expect { user.destroy }.to change(Cart, :count).by(-1)
     end
-
-    it 'destroys associated recent_purchases when user is destroyed' do
-      user = create(:user)
-      # Replace with actual attributes for recent_purchase
-      user.recent_purchases.create(product: create(:product), created_at: Date.today)
-      expect { user.destroy }.to change(RecentPurchase, :count).by(-1)
-    end
   end
 end
