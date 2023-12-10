@@ -18,7 +18,16 @@
 //= require chartkick
 //= require Chart.bundle
 
-
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('sidebar-toggle').addEventListener('click', function () {
+        var sidebar = document.getElementById('default-sidebar');
+        if (sidebar.style.transform === "translateX(0px)") {
+            sidebar.style.transform = "translateX(-100%)";
+        } else {
+            sidebar.style.transform = "translateX(0px)";
+        }
+    });
+});
 
 
 
