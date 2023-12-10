@@ -36,3 +36,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    var discountField = document.getElementById('discount_field');
+
+    discountField.addEventListener('input', function() {
+        var value = this.value;
+        if (value > 100) {
+            this.value = 100;
+        } else if (value < 0) {
+            this.value = 0;
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    function updateFinalPrice() {
+        var price = parseFloat(document.getElementById('price_field').value) || 0;
+        var discount = parseFloat(document.getElementById('discount_field').value) || 0;
+        var finalPrice = price - (price * (discount / 100));
+        document.getElementById('final_price_field').value = finalPrice.toFixed(2);
+    }
+
+    document.getElementById('price_field').addEventListener('input', updateFinalPrice);
+    document.getElementById('discount_field').addEventListener('input', updateFinalPrice);
+
+    updateFinalPrice(); // Update on load
+});

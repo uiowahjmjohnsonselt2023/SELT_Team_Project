@@ -1,3 +1,63 @@
 // Place all the styles related to the user controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+// Styles for the flex container
+.recent-orders-wrapper, .posted-products-wrapper {
+  flex: 1;
+  margin: 0 10px; // Adds a little space between the sections
+}
+
+// Styles for the Recent Orders container
+.recent-orders-container {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+// Styles for the Posted Products container
+.posted-products-container {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+// Styles for the User Info Box
+.user-info-wrapper {
+  border: 1px solid #ddd; // Light grey border
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle shadow effect
+  padding: 20px; // Inner spacing
+  margin-bottom: 20px; // Space below the box
+  background-color: white; // White background
+}
+
+// Additional styling for each order item
+.recent-order-item {
+  margin-bottom: 10px;
+}
+
+// Additional styling for each product item
+.posted-product-item {
+  margin-bottom: 10px;
+}
+
+// Responsive design adjustments
+@media (min-width: 600px) {
+  .recent-orders-container, .posted-products-container {
+    width: 50%; // Half width on larger screens
+  }
+}
+
+@media (min-width: 1000px) {
+  .recent-orders-container, .posted-products-container {
+    width: 400px; // Fixed width on even larger screens
+  }
+}
+
+.profile-divider {
+  height: 2px;
+  background-color: #ccc;
+  width: 100%;
+  margin: 20px 0; // Optional: add some vertical space around the divider
+}

@@ -3,6 +3,7 @@ class Product < ApplicationRecord
     has_many :carts, through: :cart_items
     has_many :product_tags
     has_many :tags, through: :product_tags
+    has_many :recent_purchases
     belongs_to :user   
 
     has_many :reviews
@@ -15,6 +16,7 @@ class Product < ApplicationRecord
     validates :price, numericality: { greater_than: 0}
     validates :quantity, presence: true
     validates :description, presence: true, length: {minimum: 10, maximum: 300}
+    validates :discount, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
     
     before_save :default_quantity
     before_save :default_description
@@ -39,19 +41,32 @@ class Product < ApplicationRecord
         self.tags = new_or_found_tags
     end
 
-    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil, tag_list: nil)
+    def discounted_price
+        price - (price * discount / 100)
+    end
+
+    def self.search(search_term, min_price: nil, max_price: nil, category_id: nil, tag_list: nil, discounted: nil)
         match = all
         # Filter by category
         match = match.where(category_id: category_id) if category_id.present?
-        # Filter by price
-        match = match.where('price >= ?', min_price.to_f) if min_price.present?
-        match = match.where('price <= ?', max_price.to_f) if max_price.present?
 
         # Filter by tags if tag_list is present
         if tag_list.present?
             # Convert tag_list to lowercase and split into an array
             tags = tag_list.downcase.split(',').map(&:strip).reject(&:empty?).uniq
-            match = match.joins(:tags).where(tags: { name: tags }).distinct
+            match = match.joins(:tags).where('lower(tags.name) IN (?)', tags).distinct
+        end
+
+        # Filter by discount
+        match = match.where('discount > 0') if discounted.present?
+
+        # Filter by price
+        if min_price.present? || max_price.present?
+            match = match.to_a.select do |product|
+                discounted_price = product.discounted_price
+                (min_price.to_f <= discounted_price || min_price.blank?) &&
+                  (discounted_price <= max_price.to_f || max_price.blank?)
+            end
         end
 
         # If a search term is provided, filter the results using Levenshtein distance
@@ -72,9 +87,11 @@ class Product < ApplicationRecord
             if img.valid?
                 self.images << img
             else
+                puts "#{img.errors.full_messages}}"
                 return false
             end
         end
+
         return true
     end
     

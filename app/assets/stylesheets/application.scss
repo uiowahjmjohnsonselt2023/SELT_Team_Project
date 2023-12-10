@@ -125,3 +125,12 @@
     border-radius: 4px;
     font-size: 14px;
 }
+
+#sidebar-toggle:checked + label + #default-sidebar {
+    transform: translateX(0);
+}
+
+#default-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}

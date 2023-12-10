@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231122195338) do
+ActiveRecord::Schema.define(version: 20231209212842) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.string   "state"
     t.string   "city"
     t.string   "country"
+    t.integer  "user_id"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -59,6 +60,22 @@ ActiveRecord::Schema.define(version: 20231122195338) do
   add_index "images", ["product_id"], name: "index_images_on_product_id"
   add_index "images", ["user_id"], name: "index_images_on_user_id"
 
+  create_table "orders", force: :cascade do |t|
+    t.integer  "recent_purchase_id"
+    t.integer  "user_id"
+    t.string   "card_number"
+    t.string   "card_expiration"
+    t.string   "card_cvv"
+    t.string   "card_zip"
+    t.string   "card_state"
+    t.string   "card_city"
+    t.string   "card_country"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
   create_table "product_tags", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "tag_id"
@@ -74,19 +91,39 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.string   "description"
     t.decimal  "price"
     t.integer  "quantity"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.integer  "user_id"
     t.integer  "category_id"
+    t.integer  "discount",    default: 0
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id"
+
+  create_table "recent_purchases", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "quantity"
+    t.integer  "order_id"
+  end
 
   create_table "tags", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "user_images", force: :cascade do |t|
+    t.integer  "image_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_images", ["image_id"], name: "index_user_images_on_image_id"
+  add_index "user_images", ["user_id"], name: "index_user_images_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -97,6 +134,11 @@ ActiveRecord::Schema.define(version: 20231122195338) do
     t.boolean  "admin"
     t.integer  "rating"
     t.boolean  "verified_seller"
+    t.string   "phone_number"
+    t.integer  "reviews"
+    t.string   "login_type"
+    t.string   "remember_digest"
+    t.boolean  "loggedIn"
   end
 
 end

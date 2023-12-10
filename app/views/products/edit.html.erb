@@ -1,4 +1,12 @@
-<h1>Edit Product</h1>
+<div class="flex items-center justify-between w-full mb-4">
+  <div>
+    <%= link_to 'Back', user_path(@product.user_id), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+  </div>
+  <h1 class="text-6xl text-center">Edit Product</h1>
+  <div>
+    <%= link_to 'Delete', product_path(@product), method: :delete, data: { confirm: 'Are you sure?' }, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+  </div>
+</div>
 
 <%= form_for @product do |f| %>
     <% if @product.errors.any? %>
@@ -12,37 +20,94 @@
             </ul>
         </div>
     <% end %>
+  <div class="field mb-16"></div>
+  <div class="field mb-4">
+    <%= f.label :name, class: "font-medium block text-gray-700 text-3xl mb-2" %>
+    <%= f.text_field :name, class: "shadow appearance-none border rounded w-1/2 py-2 px-3 text-2xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+  </div>
 
-    <div class="field">
-        <%= f.label :name %>
-        <%= f.text_field :name %>
+  <div class="field mb-4">
+    <%= f.label :description, class: "font-medium block text-gray-700 text-3xl mb-2" %>
+    <%= f.text_area :description, class: "shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+  </div>
+
+  <div class="flex justify-between space-x-4 mb-4">
+    <!-- Price Field -->
+    <div class="field flex-1">
+      <%= f.label :price, class: "font-medium block text-gray-700 text-3xl mb-2" %>
+      <%= f.number_field :price, id: 'price_field', step: 0.01, min: 0, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
-    <div class="field">
-        <%= f.label :description %>
-        <%= f.text_area :description %>
+    <!-- Discount Field -->
+    <div class="field flex-1">
+      <%= f.label :discount, "Add discount (%)", class: "font-medium block text-gray-700 text-3xl mb-2" %>
+      <%= f.number_field :discount, id: 'discount_field', max: 100, step: "any", class: "shadow appearance-none border rounded w-full py-2 px-3 text-green-500 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
-    <div class="field">
-        <%= f.label :price %>
-        <%= f.number_field :price %>
+    <div class="field flex-1">
+      <%= label_tag :final_price, "Price after discount", class: "font-medium block text-gray-700 text-3xl  mb-2" %>
+      <%= text_field_tag :final_price, nil, readonly: true, id: 'final_price_field', class: "opacity-75 bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-red-400 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
+  </div>
 
-    <div class="field">
-        <%= f.label :category_id, "Category" %>
-        <%= f.collection_select :category_id, @categories, :id, :name, { prompt: "Select a Category" } %>
-    </div>
+  <div class="field mb-4">
+    <%= f.label :category_id, "Category", class: "font-medium block text-gray-700 text-3xl  mb-2" %>
+    <%= f.collection_select :category_id, @categories, :id, :name, { prompt: "Select a Category" }, class: "shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+  </div>
 
-    <div class="field">
-        <%= f.label :tag_list, "Tags (separate with commas)" %>
-        <%= f.text_field :tag_list, value: @product.tag_list, class: 'form-control' %>
-    </div>
+  <div class="field mb-4">
+    <%= f.label :tag_list, "Tags (separate with commas)", class: "font-medium block text-gray-700 text-3xl  mb-2" %>
+    <%= f.text_field :tag_list, value: @product.tag_list, class: 'shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' %>
+  </div>
 
-    <div class="actions">
-        <%= f.submit %>
-    </div>
+  <div class="mt-32"></div>
+
+  <div class="flex justify-center space-x-8">
+    <%= f.submit class: "bg-blue-500 hover:bg-blue-700 text-white font-bold mb-12 py-4 px-4 rounded focus:outline-none focus:shadow-outline" %>
+  </div>
 <% end %>
 
-<%= link_to 'Delete', product_path(@product), method: :delete, data: { confirm: 'Are you sure?' } %>
-<%= link_to 'Back', user_path(@product.user_id) %>
+
+<!--    <div class="field">-->
+        <%#= f.label :name %>
+        <%#= f.text_field :name %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+        <%#= f.label :description %>
+        <%#= f.text_area :description %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+        <%#= f.label :price %>
+        <%#= f.number_field :price, id: 'price_field', min: 0 %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+        <%#= f.label :discount, "Add discount (%)" %>
+        <%#= f.number_field :discount, id: 'discount_field', max: 100, step: "any" %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+        <%#= label_tag :final_price, "Price after discount" %>
+        <%#= text_field_tag :final_price, nil, readonly: true, id: 'final_price_field' %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+        <%#= f.label :category_id, "Category" %>
+        <%#= f.collection_select :category_id, @categories, :id, :name, { prompt: "Select a Category" } %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+        <%#= f.label :tag_list, "Tags (separate with commas)" %>
+        <%#= f.text_field :tag_list, value: @product.tag_list, class: 'form-control' %>
+<!--    </div>-->
+
+<!--    <div class="actions">-->
+        <%#= f.submit %>
+<!--    </div>-->
+<%# end %>
+
+<%#= link_to 'Delete', product_path(@product), method: :delete, data: { confirm: 'Are you sure?' } %>
+<%#= link_to 'Back', user_path(@product.user_id) %>
 
