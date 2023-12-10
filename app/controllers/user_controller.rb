@@ -98,17 +98,20 @@ class UserController < ApplicationController
   def update_password
     @user = User.find(params[:id])
     if @user.login_type == "standard"
-      if @user.update(password_params)
-        # Redirect to a success page
-        redirect_to edit_user_path(@user), notice: "password updated successfully."
+      if password_params[:password].present? && password_params[:password_confirmation].present?
+        if @user.update(password_params)
+          redirect_to edit_user_path(@user), notice: "password updated successfully."
+        else
+          redirect_to edit_user_path(@user), alert: "password could not be updated successfully."
+        end
       else
-        # Render the form again with error messages
-        redirect_to edit_user_path(@user),  alert: "password could not be updated successfully."
+        redirect_to edit_user_path(@user), alert: "password and confirmation can't be blank."
       end
     else
-      redirect_to edit_user_path(@user),  alert: "Can not change userinfo when logged in from google/github."
+      redirect_to edit_user_path(@user), alert: "cannot change password for users logged in from Google/GitHub."
     end
   end
+
 
   def update_or_create_address
     @user = User.find(params[:id]) # Ensure you have the user's ID
@@ -131,7 +134,7 @@ class UserController < ApplicationController
   # :nocov:
   def update_payment
     @user = User.find(params[:id]) # Ensure you have the user's ID
-    redirect_to edit_user_path(@user), notice: "You tried to update payment lol."
+    redirect_to edit_user_path(@user), notice: "This feature is not currently implemented yet."
   end
   # :nocov:
 
