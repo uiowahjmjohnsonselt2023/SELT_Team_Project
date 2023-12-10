@@ -24,6 +24,8 @@ class Product < ApplicationRecord
     before_save :price_format
     before_save :name_format
 
+    before_save { self.archived = true if self.quantity <= 0 }
+
     def total_quantity
         quantity
     end
@@ -97,14 +99,16 @@ class Product < ApplicationRecord
     
     def state
         threshold = 10
-        if self.quantity > threshold
+        if self.archived
+            :archived
+        elsif self.quantity == 0
+            :out_of_stock
+        elsif self.quantity > threshold
             :available
         else
             :low_stock
         end
     end
-
-
 
     private
     def default_quantity # default quantity to 1

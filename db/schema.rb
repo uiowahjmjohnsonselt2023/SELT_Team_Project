@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231209212842) do
+ActiveRecord::Schema.define(version: 20231210033358) do
 
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -91,11 +91,12 @@ ActiveRecord::Schema.define(version: 20231209212842) do
     t.string   "description"
     t.decimal  "price"
     t.integer  "quantity"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "user_id"
     t.integer  "category_id"
     t.integer  "discount",    default: 0
+    t.boolean  "archived",    default: false
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id"

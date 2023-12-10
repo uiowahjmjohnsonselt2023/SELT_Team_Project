@@ -3,15 +3,20 @@
     <thead>
         <tr>
             <th class="py-2 px-4 bg-gray-200">Product</th>
-            <th class="py-2 px-4 bg-gray-200">Price</th>
-            <th class="py-2 px-4 bg-gray-200">Product Page</th>
+            <th class="py-2 px-4 bg-gray-200">Quanity</th>
+            <th class="py-2 px-4 bg-gray-200">Unit Price</th>
+            <th class="py-2 px-4 bg-gray-200">Total Price</th>
+            <th class="py-2 px-4 bg-gray-200"></th>
         </tr>
     </thead>
     <tbody>
-        <% @order.products.each do |product| %>
+        <% @purchases.each do |purchase| %>
+            <% product = purchase.product %>
             <tr>
                 <td class="py-2 px-4 border"><%= product.name %></td>
+                <td class="py-2 px-4 border"><%= purchase.quantity %></td>
                 <td class="py-2 px-4 border"> <%= number_to_currency(product.price) %> </td>
+                <td class="py-2 px-4 border"><%= purchase.total %></td>
                 <td class="py-2 px-4 border"> <%= link_to "Product Page", product_path(product.id) %> </td>
             </tr>
         <% end %>

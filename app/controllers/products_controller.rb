@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
     before_action :ensure_correct_user, only: [:edit, :destroy, :update]
     
     def index 
-        @products = Product.all
+        @products = Product.where(archived: false)
         @categories = Category.all
         @product_tags = Tag.all
     end
@@ -71,7 +71,7 @@ class ProductsController < ApplicationController
 
     def destroy  # TODO: implement check for user_id before destroying product
         @product = Product.find_by(id: params[:id])
-        @product.destroy 
+        @product.archived = true
         flash[:notice] = "Product deleted"
         redirect_to user_path(current_user.id)
     end

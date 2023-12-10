@@ -41,10 +41,15 @@ class CartsController < ApplicationController
     end
 
     def update 
+        new_quantity = params[:quantity].to_i
+        if params[:quantity].to_i < 1 
+            redirect_to :back
+            return
+        end
+
         @cart = Cart.find_by(id: session[:cart_id])
         @current_item = @cart.cart_items.find_by(product_id: params[:product_id])
 
-        new_quantity = params[:quantity].to_i
         total_quantity = @current_item.product.quantity
         @item_id = @current_item.id
 
@@ -55,7 +60,7 @@ class CartsController < ApplicationController
         @current_item.quantity = new_quantity
         @current_item.save
 
-        redirect_to :back , notice: "Updated quantity of #{@item_id} to #{new_quantity}"
+        redirect_to :back , notice: "Updated quantity of #{@current_item.product.name} to #{new_quantity}"
     end
 
     def destroy 
