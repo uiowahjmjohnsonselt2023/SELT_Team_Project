@@ -26,6 +26,9 @@ gem 'omniauth-google-oauth2'
 gem 'factory_bot_rails'
 gem 'faker'
 
+gem "chartkick"
+
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

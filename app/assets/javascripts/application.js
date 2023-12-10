@@ -15,6 +15,8 @@
 //= require_tree .
 //= require bootstrap
 //= require jquery.remotipart
+//= require chartkick
+//= require Chart.bundle
 window.addEventListener("beforeunload", function (e) {
     // Perform an AJAX request to log out the user
     // Example using jQuery:
@@ -24,10 +26,9 @@ window.addEventListener("beforeunload", function (e) {
       async: false, // Use synchronous request to ensure it completes before page unload
     });
   });
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
