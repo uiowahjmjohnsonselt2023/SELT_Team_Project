@@ -15,6 +15,10 @@ class User < ApplicationRecord
     has_many :addresses, dependent: :destroy
     has_many :recent_purchases, dependent: :destroy
 
+    #image attribute
+    has_one :image, dependent: :destroy
+    accepts_nested_attributes_for :image
+
 
     before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }
 
@@ -32,6 +36,23 @@ class User < ApplicationRecord
     end
 
     validate :validate_addresses_limit
+
+    def assign_image(image_file)
+        if self.image.present?
+            self.image.image = image_file
+            self.image.save
+        else
+            new_image = build_image(image: image_file)
+            unless new_image.valid?
+                return new_image.errors.full_messages
+            end
+            new_image.save
+        end
+
+        return []
+    end
+
+
     private
 
     #method not used atm but im going to leave it here for now just in case
