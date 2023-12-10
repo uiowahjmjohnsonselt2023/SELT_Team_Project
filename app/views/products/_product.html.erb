@@ -8,18 +8,29 @@
             <%= image_tag "https://via.placeholder.com/150", class: "product-image", loading: "lazy", id: "thumbnail"%>
         <% end %>
     </div>
-    <h4><%= product.name %></h4>
+    <h4 class="text-4xl font-serif"><%= product.name %></h4>
 
     <div class="product-details container-sm">
         <div class="row">
             <div class="col">
-                <p> <%= number_to_currency(product.price) %>
-                <%= link_to product.user.name %> - <%= product.user.email %>
+              <% if product.discount.present? && product.discount > 0 %>
+                <p class="text-xl">
+                  Was <del><%= number_to_currency(product.price) %></del>
+                </p>
+                <p class="text-2xl">
+                  Now: <span style="color: red;"><%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></span>
+                  <span>(<%= product.discount %>% off)</span>
+                </p>
+              <% else %>
+                <p class="text-2xl">Price: <%= number_to_currency(product.price) %></p>
+              <% end %>
+              <%= link_to product.user.name, user_path(product.user.id) %> - <%= product.user.email %>
             </div>
-            
         </div>
-       
-        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post%>
-        <%= link_to "More info", product_path(id: product.id), method: :get%>
+      <div class="mt-6 space-x-6">
+        <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out" %>
+        <%= link_to "More info", product_path(id: product.id), method: :get, class: "bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out" %>
+      </div>
+
     </div>
 </div>

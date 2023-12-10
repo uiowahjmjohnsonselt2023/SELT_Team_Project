@@ -1,73 +1,101 @@
-
 <div style="display: flex; flex-direction: column; align-items: center;">
   <div style="text-align: center;">
     <!-- User profile header -->
-    <img src="path_to_profile_photo.jpg" alt="User Profile Photo" style="width: 100px; height: 100px; border-radius: 50%;"> <!-- Placeholder for profile photo -->
+    <% if @user.image.present? %>
+      <%= image_tag @user.image.image.url, alt: "User Profile Photo", class: "rounded-full", style: "width: 100px; height: 100px;" %>
+    <% else %>
+      <%= image_tag "https://via.placeholder.com/150", alt: "User Profile Photo", class: "rounded-full", style: "width: 100px; height: 100px;" %>
+    <% end %>
     <h4><%= @user.name %></h4>
     <div id="userRating"></div> <!-- Dynamic star rating -->
-<!--    <p><%#= @user.name %> - <%#= pluralize(@user.reviews.count, 'Review') %></p> <!-- Dynamic reviews count -->-->
+    <p><%= pluralize(@user.reviews, 'Review') %></p> <!-- Dynamic reviews count -->
   </div>
-
+  <div class="profile-divider"></div> <!-- This adds the styled divider using a class -->
+  
   <% if @user.id == session[:user_id] %>
-    <div style="display: flex; justify-content: space-between; width: 100%;">
-      <!-- Left column for user info and previous orders -->
-      <div style="flex: 1;">
+    <!-- Main container for user info, recent orders, and posted products -->
+    <div style="display: flex; justify-content: space-around; width: 100%; padding: 20px 0;"> <!-- Added padding to the top and bottom -->
+      <!-- User Info Section -->
+      <div style="flex: 1; padding: 0 20px;"> <!-- Added padding to the sides -->
         <div class="user-info-wrapper">
           <h2>Profile</h2>
           <div class="user-info">
             <!-- User info details -->
             <h4><%= @user.name %></h4>
             <% if @address %>
-              <p>Street: <%= @address.street %></p>
+              <% @address.each do |address| %>
+                <p><%= address.street %>, <%= address.city %>, <%= address.state %>, <%= address.zip %>, <%= address.country %></p>
+              <% end %>
             <% else %>
               <p>No address on file.</p>
             <% end %>
-            <h4><%= @user.email %></h4>
-            <%# if @user.phone_number %>
-            <!--            <p>Phone: <%#= @user.phone_number %></p>-->
-            <%# else %>
-            <!--            <p>No phone number on file.</p>-->
-            <%# end %>
-            <p>No phone number on file.</p>
-            <h4><%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get %></h4>
+            <p>Email: <%= @user.email %></p>
+            <% if @user.phone_number %>
+              <p>Phone: <%= @user.phone_number %></p>
+            <% else %>
+              <p>No phone number on file.</p>
+            <% end %>
+            <div style="margin-top: 20px">
+              <%= link_to "Edit user settings", {controller: "user", action: "edit", id: session[:user_id]}, method: :get, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+            </div>
+            <div style="margin-top: 20px">
+              <%= link_to "Add new product", {controller: 'products', action: 'new'}, method: :get, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Recent Orders Section -->
+      <div class="recent-orders-container" style="flex: 1; padding: 0 20px;"> <!-- Added padding to the sides -->
+        <h3>Recent Orders</h3>
+        <% if @recent_purchases %>
+          <% @recent_purchases.each do |purchase| %>
+            <div class="recent-order-item">
+              <h3><%= purchase.product.name %></h3>
+              <p><%= purchase.product.description %></p>
+              <p>Unit Price: <%= number_to_currency(purchase.product.price) %></p>
+              <p>Time Purchased: <%= purchase.created_at.to_date.to_s(:long) %></p>
+              <%= link_to "More info", {controller: "products", action: "show", id: purchase.product.id}, method: :get %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No recent orders, buy something!</p>
+        <% end %>
+      </div>
+
+      <!-- Posted Products Section -->
+      <div class="posted-products-container divide-y-2 divide-slate-200 border" style="flex: 1; padding: 0 20px;"> <!-- Added padding to the sides -->
+        <h3>POSTED PRODUCTS</h3>
+        <% if @product %>
+          <% @product.each do |product| %>
+            <div class="posted-product-item">
+              <h3><%= product.name %></h3>
+              <p class="italic"><%= product.description %></p>
+              <p>Category: <%= product.category.name %></p>
+              <p>Unit Price: <%= number_to_currency(product.price) %></p>
+              <% if product.discount > 0 %>
+                <p>
+                  <span class="text-red-500 font-bold">Discount: </span>
+                  <span class="text-red-500"><%= product.discount %>%</span>
+                </p>
+                <p>Discounted price per item: <%= number_to_currency(product.price * (1 - product.discount / 100.0)) %></p>
+              <% end %>
+              <%= link_to "More info", {controller: "products", action: "show", id: product.id}, method: :get, class: "mr-6 bg-gray-500 hover:bg-bray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+              <%= link_to "Edit", {controller: 'products', action: 'edit', id: product.id}, method: :get, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No posted products.</p>
+        <% end %>
+      </div>
+    </div>
   <% end %>
 
-        <!--      <div class="Most-Recent-orders-wrapper">-->
-      <!--         <%# prod = Product.first %> -->
-      <!--        <h3>Recent Order</h3>-->
-      <!--        <!-- Previous orders listed here -->-->
-      <!--        <h4><%#= prod.name %></h4>-->
-      <!--        <p><%#= prod.description %></p>-->
-      <!--        <p>$<%#= prod.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--      </div>-->
-      <!--    </div>-->
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var userRating = <%= @user.rating %>; // get the rating from Rails
+          document.getElementById('userRating').innerHTML = updateUserRating(userRating);
+      });
+  </script>
 
-
-      <!--    <!-- Right column for current postings -->-->
-      <!--    <div style="flex: 1;">-->
-      <!--      <div class="current-postings-wrapper">-->
-      <!--        <h3>Current Postings</h3>-->
-      <%# prod_two = Product.first %>
-      <!--        <div class="product">-->
-      <!--          <!-- Current posting details -->-->
-      <!--          <h4><%#= prod_two.name %></h4>-->
-      <!--          <p><%#= prod.description %></p>-->
-      <!--          <p>$<%#= prod_two.price %></p>-->
-      <%#= link_to "More info" %>
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-      <script>
-          document.addEventListener('DOMContentLoaded', function() {
-              var userRating = <%= @user.rating %>; // get the rating from Rails
-              document.getElementById('userRating').innerHTML = updateUserRating(userRating);
-          });
-      </script>
-
-    </div>
-  </div>
 </div>

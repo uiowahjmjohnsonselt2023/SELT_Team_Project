@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 # Copy gems from a gem-cache build stage if specified, otherwise install them
 FROM base AS gems
 COPY --from=gem-cache /usr/local/bundle /usr/local/bundle
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile* ./
 # ensure we're using the correct platform
 
 RUN bundle config force_ruby_platform true  
@@ -32,9 +32,8 @@ FROM base AS deploy
 COPY --from=gems /usr/local/bundle /usr/local/bundle
 COPY . .
 
-RUN bundle exec rake db:migrate
 RUN bundle exec rake assets:precompile
 
-CMD bundle exec puma -C config/puma.rb
+# CMD bundle exec puma -C config/puma.rb
 
-EXPOSE 3000
+EXPOSE $PORT

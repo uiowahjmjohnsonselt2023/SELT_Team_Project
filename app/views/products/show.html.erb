@@ -1,19 +1,24 @@
-<%= link_to "Back to main page", root_path %> <br>
-<h1><%= @product.name %></h1>
-<p><%= @product.description %></p>
-<p>Price: <%= number_to_currency(@product.price) %></p>
-<p>Quantity: <%= @product.quantity %></p>
-<p>Seller: <%= @user.name %> </p>
-<p>Category: <%= @product.category.name %></p>
-<p>Tags: <%= @product.tag_list %></p>
+<div class="mt-8">
+  <%= link_to 'Back', root_path, class: "bg-gray-300 hover:bg-grey-100 text-black py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+</div>
+<h1 class="text-6xl font-medium justify-center"><%= @product.name %></h1>
 
-<%= link_to "Add to Cart", add_to_cart_path(product_id: @product.id, quantity: 1), method: :post%>
-
+<div class="text-3xl ml-16 mt-8">
+  <p class="text-purple-400"><%= @product.description %></p>
+  <p><strong>Price: </strong><%= number_to_currency(@product.price) %></p>
+  <p><strong>Quantity: </strong><%= @product.quantity %></p>
+  <p><strong>Seller: </strong><%= @user.name %> </p>
+  <p><strong>Category: </strong><%= @product.category.name %></p>
+  <p><strong>Tags: </strong><%= @product.tag_list %></p>
+  <br>
+  <%= link_to "Add to Cart", add_to_cart_path(product_id: @product.id, quantity: 1), method: :post, class: "text-l bg-blue-500 hover:bg-blue-300 text-white py-2 px-4 rounded" %>
+</div>
 <br>
-<h1>Photos</h1>
+
+<h1 class="mt-16">Photos</h1>
 <% if @product.images.present? %>
   <ul class="row" id="photos-list">
-    <%= render @product.images %>
+    <%= render partial: 'images/image', collection: @product.images, cached: true %>
   </ul>
 <%end%>
 
