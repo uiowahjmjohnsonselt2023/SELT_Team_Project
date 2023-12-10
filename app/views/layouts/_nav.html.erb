@@ -17,7 +17,7 @@
         <% if current_user.present? %>
             <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
             <% if current_user.admin == true %>
-              <%= link_to 'Admin', admin_path(current_user.id) %>
+              <%= link_to 'Admin', admin_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
             <% end %>
             <%= link_to cart_path(current_user.cart.id), class: "relative bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" do %>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8">

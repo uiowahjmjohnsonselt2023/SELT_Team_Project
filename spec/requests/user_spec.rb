@@ -248,7 +248,7 @@ RSpec.describe "Users", type: :request do
         it "does not update the profile picture and redirects" do
           updated_image = {user: { image: nil }}
           put update_picture_path(@user), updated_image
-          expect(flash[:alert]).to eq("No image file provided.")
+          expect(flash[:notice]).to eq("No image file provided.")
           expect(response).to redirect_to(edit_user_path(@user))
         end
       end
