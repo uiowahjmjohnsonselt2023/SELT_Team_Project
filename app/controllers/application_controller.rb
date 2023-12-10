@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
   def check_session_expiry
     if session_expired?
       sign_out
-      flash[:warning] = "Your session has expired. Please sign in again."
       redirect_to new_session_path
+      flash[:warning] = "Your session has expired. Please sign in again."
     end
   end
   def session_expired?
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
         last_access_time = last_access_time.to_time rescue nil
       end
     
-      timeout_period = 60.minutes
+      timeout_period = 1.minutes
 
       return true unless last_access_time # If last_access_time is nil, return true to indicate the sess
     
@@ -71,6 +71,7 @@ class ApplicationController < ActionController::Base
     forget(current_user)
     session[:user_id] = nil
     session[:cart_id] = nil
+
     flash[:notice] = "You have successfully logged out."
   end
 
