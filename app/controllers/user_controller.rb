@@ -29,7 +29,7 @@ class UserController < ApplicationController
     email_search = params[:search]
     @search_res = User.where(email: email_search)
     if @search_res.empty?
-      flash[:warning] = "No Matches found"
+      flash[:warning].now = "No Matches found"
     end
 
     # render :partial => "user/search"
@@ -92,9 +92,11 @@ class UserController < ApplicationController
     @promotion = User.find_by(id: params[:id])
     user_update = {admin: true}
     if @promotion.update(user_update)
-      redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has been made an admin"
+      flash[:notice] = "#{@promotion.name} has been made an admin"
+      redirect_to admin_path(current_user.id)
     else
-      redirect_to admin_path(current_user.id), notice: "#{@promotion.name} has not been made an admin"
+      flash[:notice] = "#{@promotion.name} has not been made an admin"
+      redirect_to admin_path(current_user.id)
       puts("Promotion failed. See log file for more information.")
       Rails.logger.info("Promotion failed.")
       Rails.logger.info(@promotion.errors.messages.inspect)
