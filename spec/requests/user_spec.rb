@@ -54,6 +54,7 @@ RSpec.describe "Users", type: :request do
       @admin = FactoryBot.create(:user, :admin)
       @user = User.create(name: "test", email: "test@test.com", password: "password", password_confirmation: "password", admin: false)
       sign_in_user(@admin)
+      sign_in_user(@user)
     end
     context "When an admin is logged in with multiple users" do
       it "assigns the results to search_res" do
@@ -70,11 +71,16 @@ RSpec.describe "Users", type: :request do
     before do
       @admin = FactoryBot.create(:user, :admin)
       @user = User.create(name: "test", email: "test@test.com", password: "password", password_confirmation: "password", admin: false)
+      Rails.logger.info(@user)
+      Rails.logger.info(@user.id)
       sign_in_user(@admin)
+
     end
     context "When an admin is logged in with multiple users" do
       it "a regular user can be promoted" do
-        put promote_path, params: {id: @user.id}
+        id_test = @user.id
+        Rails.logger.info(id_test)
+        put promote_path, params: {id: id_test}
         @user.reload
         expect(@user.admin).to eq(true)
       end
