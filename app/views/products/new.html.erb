@@ -18,7 +18,7 @@
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-full px-3">
         <%= f.label :description, class: "block text-gray-700 text-2xl mb-2" %>
-        <%= f.text_area :description, required: true, class: "form-control" %>
+        <%= f.text_area :description, required: true, minlength: 10, class: "form-control" %>
       </div>
     </div>
 
