@@ -41,6 +41,9 @@
           <%= link_to 'About', about_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium" %>
           <% if current_user.present? %>
             <%= link_to 'Profile', user_path(current_user.id), class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
+            <% if current_user.admin == true %>
+              <%= link_to 'Admin', admin_path(current_user.id) %>
+            <% end %>
             <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
             <%#= link_to "Cart (#{current_user.cart.total_quantity})", cart_path(current_user.cart.id), :method => "get", class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate"%>
             <!--                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="file: mt-4 h-6 w-6">-->
@@ -60,6 +63,7 @@
               <% end %>
               <%#= "Cart (#{current_user.cart.total_quantity})" %>
             <% end %>
+
 
             <%= link_to 'Log Out', logout_path, class: "bg-gray-300 hover:bg-gray-400 hover:text-white rounded-md px-3 py-2 text-2xl font-medium block truncate" %>
             <div class="text-gray-300 rounded-md px-3 py-2 text-2xl font-medium truncate">

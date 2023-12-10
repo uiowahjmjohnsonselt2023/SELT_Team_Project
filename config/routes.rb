@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
 
+  root :to => redirect('/products')
+
   root 'products#index'
 
   # cart routes
@@ -35,6 +37,13 @@ Rails.application.routes.draw do
   get '/users' => 'user#index', as: 'users'
 
   get '/users/edit' => 'user#edit', as:'edit'
+
+  get 'users/:id/admin' => 'user#admin', as:'admin'
+
+  put 'users/promote' => 'user#promote', as: 'promote'
+
+  post '/user_search', to: 'user#search', as: 'user_search'
+
 
   put '/users/:id/update' => 'user#update', as: 'update_user'
   put '/users/:id/update_picture' => 'user#update_picture', as: 'update_picture'
