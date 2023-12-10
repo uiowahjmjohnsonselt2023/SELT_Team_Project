@@ -22,7 +22,11 @@
         <h4 class="text-center text-green-500"><%= number_to_currency(product.price) %></h4>
         <span> <%= product.quantity %> </span>
     <% end %>
-    <p class="text-lg"> <%= pluralize(product.user.reviews, 'Review')  %></p>
-      <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "w-full bg-blue-500 text-white py-2 mb-0 px-4 rounded-md text-center r-0 b-0 hover:no-underline hover:bg-blue-800"%>
+    <p class="text-lg"> 
+      <%= pluralize(product.user.reviews, 'Review')  %>
+      <%= link_to product.user.name, user_path(product.user) %>
+    </p>
+    
+    <%= link_to "Add to Cart", add_to_cart_path(product_id: product.id, quantity: 1), method: :post, class: "w-full bg-blue-500 text-white py-2 mb-0 px-4 rounded-md text-center r-0 b-0 hover:no-underline hover:bg-blue-800"%>
   </div>
 <% end %>

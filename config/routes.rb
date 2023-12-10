@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :signup, only: %i[new create]
   resources :sessions, only: %i[new create]
   resources :orders, only: %i[show new create] 
-
+  
   root 'products#index'
 
   # cart routes
@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   # about page route
   get 'about', to: 'pages#about'
 
+  # Additional route for user addresses
+  get '/users/:id/addresses', to: 'user#addresses', as: 'user_addresses'
+
   # User routes
   get 'signup' => 'signup#new'
   get 'signup_succes', to: 'pages#signup_success', as: :signup_success
@@ -36,13 +39,19 @@ Rails.application.routes.draw do
 
   get '/users/edit' => 'user#edit', as:'edit'
 
+  get 'users/:id/admin' => 'user#admin', as:'admin'
+
+  put 'users/promote' => 'user#promote', as: 'promote'
+
+  post '/user_search', to: 'user#search', as: 'user_search'
+
+
   put '/users/:id/update' => 'user#update', as: 'update_user'
+  put '/users/:id/update_picture' => 'user#update_picture', as: 'update_picture'
   put '/users/:id/update_password' => 'user#update_password', as: 'update_password'
   put 'users/:id/update_payment' => 'user#update_payment', as: 'update_payment'
   post '/users/:id' => 'user#update_or_create_address', as: 'update_address'
 
   get 'auth/github/callback', to: 'sessions#github'
   get 'auth/google_oauth2/callback', to: 'sessions#google'
-
-  post '/logout' => 'sessions#destroy'
 end

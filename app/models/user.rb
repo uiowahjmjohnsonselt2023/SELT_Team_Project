@@ -16,14 +16,21 @@ class User < ApplicationRecord
     has_many :recent_purchases, dependent: :destroy
     has_many :orders, dependent: :destroy
     
+    #image attribute
+    has_one :image, dependent: :destroy
+    accepts_nested_attributes_for :image
+
+
     before_save { self.cart = Cart.create(user_id: self.id) if self.cart.nil? }
 
     def remember
-        self.remember_token = User.new_token
-        update_attribute(:remember_digest, User.digest(remember_token))
+        if self.remember_digest.nil?
+            self.remember_token = User.new_token
+            update_attribute(:remember_digest, User.digest(remember_token))
+        end
     end
 
-    def forget 
+    def forget
         update_attribute(:remember_digest, nil)
     end
 
@@ -32,6 +39,23 @@ class User < ApplicationRecord
     end
 
     validate :validate_addresses_limit
+
+    def assign_image(image_file)
+        if self.image.present?
+            self.image.image = image_file
+            self.image.save
+        else
+            new_image = build_image(image: image_file)
+            unless new_image.valid?
+                return new_image.errors.full_messages
+            end
+            new_image.save
+        end
+
+        return []
+    end
+
+
     private
 
     #method not used atm but im going to leave it here for now just in case

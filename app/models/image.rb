@@ -9,8 +9,7 @@ class Image < ActiveRecord::Base
     belongs_to :user
 
     validates :image, presence: true
-    validates :product_id, presence: true
-    validates :user_id, presence: true
+    validate :product_or_user_present
 
     validates_size_of :image, maximum: 2.megabytes,
                       message: "should be no more than 2 MB", if: :image_changed?
@@ -23,5 +22,11 @@ class Image < ActiveRecord::Base
     private 
     def set_image_name
         self.image_name = self.image.path.split("/").last   # sets the name of the image to the renamed image.
+    end
+
+    def product_or_user_present
+      unless product_id.present? || user_id.present?
+        errors.add(:base, "Either product_id or user_id must be present")
+      end
     end
   end

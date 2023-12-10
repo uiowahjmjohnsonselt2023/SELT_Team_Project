@@ -20,8 +20,10 @@ puts "#{User.count} users in the database"
 puts "#{Product.count} products in the database"
 
 puts "Creating users..."
+# Create some categories
 admin = FactoryBot.create(:user, name: "Admin", email: "admin@test.com", password: "password", password_confirmation: "password", admin: true)
-# # Create some categories
+admin = FactoryBot.create(:user, name: "Garfield", email: "garf@test.com", password: "garfpassword", password_confirmation: "garfpassword", admin: true)
+
 categories = Category.create([
                                { name: 'Food' },
                                { name: 'Electronics' },
